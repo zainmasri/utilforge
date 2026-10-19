@@ -180,12 +180,12 @@
     }
   },
   {
-    "checkedAt": "2026-10-19T05:23:29.059Z",
+    "checkedAt": "2026-10-19T09:21:42.696Z",
     "date": "2026-10-19",
     "siteHealth": {
       "domain": "https://utilforge.pages.dev",
       "homeStatus": 200,
-      "homeLatencyMs": 830,
+      "homeLatencyMs": 810,
       "totalStaticPages": 373,
       "utilityToolsCount": 40,
       "comparisonCalculatorsCount": 292,
