@@ -1,0 +1,7 @@
+name = "utilforge"
+pages_build_output_dir = "dist"
+compatibility_date = "2024-11-01"
+
+[[kv_namespaces]]
+binding = "UTILFORGE_REVENUE_KV"
+id = "110e9364667548f6813a8a00ee6b24b1"

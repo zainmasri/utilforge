@@ -1,0 +1,76 @@
+{
+  "version": "1.1.0",
+  "lastUpdated": "2026-10-18",
+  "upcomingHighRpmTools": [
+    {
+      "id": "stripe-paypal-fee-calculator",
+      "slug": "stripe-paypal-fee-calculator",
+      "name": "Stripe vs PayPal vs Lemon Squeezy Net Payout & Fee Calculator",
+      "shortName": "Stripe Fee Calculator",
+      "category": "Fintech & Business",
+      "engine": "stripeFeeEngine",
+      "estMonthlySearches": "195,000",
+      "estRpmUsd": "$42 – $74",
+      "status": "deployed",
+      "deployedDate": "2026-10-18"
+    },
+    {
+      "id": "aws-s3-vs-cloudflare-r2-egress-calculator",
+      "slug": "aws-s3-vs-cloudflare-r2-egress-calculator",
+      "name": "AWS S3 vs Cloudflare R2 Storage & Egress Bandwidth Calculator",
+      "shortName": "S3 vs R2 Egress Calculator",
+      "category": "DevOps & Cloud",
+      "engine": "storageEgressEngine",
+      "estMonthlySearches": "88,000",
+      "estRpmUsd": "$38 – $64",
+      "status": "deployed",
+      "deployedDate": "2026-10-18"
+    },
+    {
+      "id": "rag-vector-db-cost-estimator",
+      "slug": "rag-vector-db-cost-estimator",
+      "name": "Vector Database & Embedding Cost Calculator (Pinecone vs Supabase vs Qdrant vs Vectorize)",
+      "shortName": "Vector DB & RAG Cost Estimator",
+      "category": "Data & Analytics",
+      "engine": "vectorDbCostEngine",
+      "estMonthlySearches": "74,000",
+      "estRpmUsd": "$36 – $62",
+      "status": "deployed",
+      "deployedDate": "2026-10-19"
+    },
+    {
+      "id": "startup-equity-dilution-calculator",
+      "slug": "startup-equity-dilution-calculator",
+      "name": "SAFE Note & Seed Round Founder Equity Dilution Calculator",
+      "shortName": "SAFE & Equity Dilution Calculator",
+      "category": "Fintech & Business",
+      "engine": "equityDilutionEngine",
+      "estMonthlySearches": "112,000",
+      "estRpmUsd": "$48 – $82",
+      "status": "deployed",
+      "deployedDate": "2026-10-19"
+    },
+    {
+      "id": "openai-o3-vs-deepseek-r1-calculator",
+      "slug": "openai-o3-vs-deepseek-r1-calculator",
+      "name": "OpenAI o3-mini vs DeepSeek R1 Reasoning Token & Inference Cost Calculator",
+      "shortName": "o3 vs DeepSeek R1 Calc",
+      "category": "Fintech & AI Economics",
+      "engine": "llmTokenEstimatorEngine",
+      "estMonthlySearches": "145,000",
+      "estRpmUsd": "$45 – $80",
+      "status": "queued"
+    },
+    {
+      "id": "nextjs-vs-cloudflare-worker-cost-estimator",
+      "slug": "nextjs-vs-cloudflare-worker-cost-estimator",
+      "name": "Next.js on Vercel vs Cloudflare Workers Compute & Bandwidth Cost Calculator",
+      "shortName": "Vercel vs Cloudflare Workers Calc",
+      "category": "DevOps & Cloud",
+      "engine": "saasMetricsEngine",
+      "estMonthlySearches": "82,000",
+      "estRpmUsd": "$35 – $65",
+      "status": "queued"
+    }
+  ]
+}

@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Developer Boilerplates, MCP Servers & AI Workflows Marketplace | UtilForge</title>
+  <meta name="description" content="Curated marketplace of 26 production SaaS boilerplates, Model Context Protocol (MCP) servers, n8n/Make AI workflows, and UI kits." />
+  <link rel="canonical" href="https://utilforge.pages.dev/marketplace/" />
+  <link rel="icon" type="image/png" href="../assets/logo.png" />
+  <link rel="apple-touch-icon" href="../assets/logo.png" />
+  <meta name="google-site-verification" content="q6d7AlSO70-ncnnDetb_B0LnYl7s38H-QTcz5Tq29t8" />
+  <meta name="google-adsense-account" content="ca-pub-3462180264458803" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3462180264458803" crossorigin="anonymous"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/styles.css" />
+</head>
+<body>
+  
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="../index.html" class="brand-link" id="nav-brand-home">
+        <span class="brand-mark">UF</span>
+        <span>UtilForge</span>
+        <span class="brand-sub">373 PAGES LIVE</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary Tool Navigation">
+        <a href="../index.html" class="nav-pill " id="nav-hub-home">Utilities (40)</a>
+        <a href="../compare/index.html" class="nav-pill " id="nav-compare-hub">X vs Y (292)</a>
+        <a href="../marketplace/index.html" class="nav-pill active" id="nav-marketplace-hub">Marketplace (26)</a>
+        <a href="../json-to-csv/index.html" class="nav-pill " id="nav-tool-json-to-csv">JSON ↔ CSV Converter</a><a href="../image-compressor/index.html" class="nav-pill " id="nav-tool-image-compressor">Image Compressor &amp; WebP</a><a href="../regex-tester/index.html" class="nav-pill " id="nav-tool-regex-tester">Regex Tester &amp; Debugger</a>
+      </nav>
+      <div class="header-actions" style="display:flex;align-items:center;gap:0.5rem;">
+        <button type="button" class="btn btn-primary" id="btn-open-global-checkout" style="padding:0.36rem 0.75rem;font-size:0.75rem;">
+          ⚡ Sponsor / License
+        </button>
+        <button type="button" class="ad-mode-toggle" id="btn-toggle-ad-slots" title="Toggle Zero-CLS Ad Placement Blueprint">
+          <span class="ad-mode-dot"></span>
+          <span id="ad-toggle-label">Ad Blueprint: ON</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <section class="hub-hero">
+      <div>
+        <div style="font-family:var(--font-mono);font-size:0.76rem;font-weight:700;color:var(--accent-primary);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.45rem;">
+          Zero-Escrow Passive Marketplace • Sponsored Slots + 30%–45% Affiliate Routing
+        </div>
+        <h1>Boilerplates, MCP Servers & AI Workflows Marketplace</h1>
+        <p>
+          Explore 26 production SaaS boilerplates, Model Context Protocol (MCP) servers, n8n/Make AI automation workflows, and UI design systems—each featuring an interactive <strong>Build-vs-Buy Engineering ROI Calculator</strong> and copyable config blueprint.
+        </p>
+        <div style="display:flex;gap:0.65rem;flex-wrap:wrap;">
+          <a href="#marketplace-directory" class="btn btn-primary" id="mkt-hero-browse">Browse 26 Verified Listings</a>
+          <a href="#submit-listing" class="btn btn-secondary" id="mkt-hero-sponsor">⚡ Sponsor a Slot ($99/mo) or Submit Listing</a>
+        </div>
+      </div>
+
+      <div class="hub-kpis">
+        <div class="kpi-tile">
+          <div class="kpi-tile-val">26 Listings</div>
+          <div class="kpi-tile-label">7 Active Sponsored Slots ($99/mo each)</div>
+        </div>
+        <div class="kpi-tile">
+          <div class="kpi-tile-val">$15 – $75</div>
+          <div class="kpi-tile-label">Affiliate Commission Per Checkout</div>
+        </div>
+        <div class="kpi-tile">
+          <div class="kpi-tile-val">$0 Escrow</div>
+          <div class="kpi-tile-label">Merchant-of-Record Handles Tax & Support</div>
+        </div>
+        <div class="kpi-tile">
+          <div class="kpi-tile-val">30%–45%</div>
+          <div class="kpi-tile-label">Creator Affiliate Revenue Split</div>
+        </div>
+      </div>
+    </section>
+
+    
+  <aside class="ad-slot ad-slot-leaderboard" id="ad-container-6685420663" aria-label="Advertisement">
+    <ins class="adsbygoogle"
+         style="display:block;width:100%;"
+         data-ad-client="ca-pub-3462180264458803"
+         data-ad-slot="6685420663"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </aside>
+
+    <section id="marketplace-directory">
+      <div class="filter-bar">
+        <div class="category-tabs" role="tablist">
+          <button type="button" class="cat-tab active" data-cat-filter="ALL" id="mkt-cat-tab-0">ALL</button><button type="button" class="cat-tab " data-cat-filter="SaaS Boilerplates" id="mkt-cat-tab-1">SaaS Boilerplates</button><button type="button" class="cat-tab " data-cat-filter="MCP Servers &amp; Agent Skills" id="mkt-cat-tab-2">MCP Servers &amp; Agent Skills</button><button type="button" class="cat-tab " data-cat-filter="n8n / Make AI Workflows" id="mkt-cat-tab-3">n8n / Make AI Workflows</button><button type="button" class="cat-tab " data-cat-filter="UI &amp; Design Systems" id="mkt-cat-tab-4">UI &amp; Design Systems</button>
+        </div>
+        <div>
+          <input type="search" id="hub-search-input" class="control-input" placeholder="Search boilerplates, MCP servers, n8n workflows..." style="min-width:290px;" aria-label="Search marketplace" />
+        </div>
+      </div>
+
+      <div class="tools-grid">
+        
+          <article class="tool-card is-sponsored" data-tool-card data-category="SaaS Boilerplates">
+            <div>
+              <div class="tool-card-top">
+                <span class="sponsored-pill">★ SPONSORED • #1 SaaS Starter</span>
+                <span class="affiliate-payout-pill">$199 Lifetime</span>
+              </div>
+              <h2><a href="./shipfast-nextjs-saas/index.html" id="mkt-card-link-shipfast-nextjs-saas">ShipStack Pro — Next.js 15 + Stripe + Supabase AI SaaS Boilerplate</a></h2>
+              <div class="marketplace-stack-line">Next.js • TypeScript • Supabase • Stripe</div>
+              <p>Production-ready authentication, Stripe Checkout &amp; Webhooks, Lemon Squeezy MoR support, transactional emails, SEO blog, and multi-provider LLM streaming.</p>
+            </div>
+            <div>
+              <div class="tool-card-metrics">
+                <span>★ 4.9 (342) • Saves 118h</span>
+                <span style="color:var(--accent-emerald);font-weight:700;">ROI Calculator</span>
+              </div>
+              <div style="margin-top:0.85rem;display:flex;gap:0.5rem;">
+                <a href="./shipfast-nextjs-saas/index.html" class="btn btn-primary" style="flex:1;" id="mkt-open-shipfast-nextjs-saas">
+                  Live Preview & ROI Calc →
+                </a>
+              </div>
+            </div>
+          </article>
+          <article class="tool-card is-sponsored" data-tool-card data-category="SaaS Boilerplates">
+            <div>
+              <div class="tool-card-top">
+                <span class="sponsored-pill">★ SPONSORED • Zero-Egress Stack</span>
+                <span class="affiliate-payout-pill">$149 Lifetime</span>
+              </div>
+              <h2><a href="./cloudflare-edge-saas-kit/index.html" id="mkt-card-link-cloudflare-edge-saas-kit">EdgeFlare Kit — Cloudflare Workers + D1 + R2 Zero-Server Bill Boilerplate</a></h2>
+              <div class="marketplace-stack-line">Cloudflare Workers • Hono • D1 SQLite • R2</div>
+              <p>Built on Hono, Drizzle ORM, Cloudflare D1 SQLite, R2 zero-egress object storage, and Queues for sub-10ms global response times.</p>
+            </div>
+            <div>
+              <div class="tool-card-metrics">
+                <span>★ 4.9 (215) • Saves 96h</span>
+                <span style="color:var(--accent-emerald);font-weight:700;">ROI Calculator</span>
+              </div>
+              <div style="margin-top:0.85rem;display:flex;gap:0.5rem;">
+                <a href="./cloudflare-edge-saas-kit/index.html" class="btn btn-primary" style="flex:1;" id="mkt-open-cloudflare-edge-saas-kit">
+                  Live Preview & ROI Calc →
+                </a>
+              </div>
+            </div>
+          </article>
+          <article class="tool-card " data-tool-card data-category="SaaS Boilerplates">
+            <div>
+              <div class="tool-card-top">
+                <span class="tool-cat-tag">SaaS Boilerplates</span>
+                <span class="affiliate-payout-pill">$249 Lifetime</span>
+              </div>
+              <h2><a href="./fastapi-nextjs-ai-agent-starter/index.html" id="mkt-card-link-fastapi-nextjs-ai-agent-starter">AgentForge — FastAPI + LangGraph + Next.js Multi-Agent SaaS Starter</a></h2>
+              <div class="marketplace-stack-line">Python FastAPI • PostgreSQL pgvector • Next.js</div>
+              <p>Combines async Python FastAPI, Celery/Redis background workers, PostgreSQL pgvector hybrid search, and a streaming React chat UI.</p>
+            </div>
+            <div>
+              <div class="tool-card-metrics">
+                <span>★ 4.8 (189) • Saves 140h</span>
+                <span style="color:var(--accent-emerald);font-weight:700;">ROI Calculator</span>
+              </div>
+              <div style="margin-top:0.85rem;display:flex;gap:0.5rem;">
+                <a href="./fastapi-nextjs-ai-agent-starter/index.html" class="btn btn-primary" style="flex:1;" id="mkt-open-fastapi-nextjs-ai-agent-starter">
+                  Live Preview & ROI Calc →
+                </a>
+              </div>
+            </div>
+          </article>
+          <article class="tool-card " data-tool-card data-category="SaaS Boilerplates">
+            <div>
+              <div class="tool-card-top">
+                <span class="tool-cat-tag">SaaS Boilerplates</span>
+                <span class="affiliate-payout-pill">$129 Lifetime</span>
+              </div>
+              <h2><a href="./chrome-extension-monetization-kit/index.html" id="mkt-card-link-chrome-extension-monetization-kit">ExtPay Studio — Manifest V3 Chrome Extension + Stripe Licensing Kit</a></h2>
+              <div class="marketplace-stack-line">Manifest V3 • TypeScript • Vite • Stripe</div>
+              <p>Includes Shadow-DOM content script injection, side-panel UI, background service worker messaging, and serverless license key verification.</p>
+            </div>
+            <div>
+              <div class="tool-card-metrics">
+                <span>★ 4.9 (276) • Saves 84h</span>
+                <span style="color:var(--accent-emerald);font-weight:700;">ROI Calculator</span>
+              </div>
+              <div style="margin-top:0.85rem;display:flex;gap:0.5rem;">
+                <a href="./chrome-extension-monetization-kit/index.html" class="btn btn-primary" style="flex:1;" id="mkt-open-chrome-extension-monetization-kit">
+                  Live Preview & ROI Calc →
+                </a>
+              </div>
+            </div>
+          </article>
+          <article class="tool-card " data-tool-card data-category="SaaS Boilerplates">
+            <div>
+              <div class="tool-card-top">
+                <span class="tool-cat-tag">SaaS Boilerplates</span>
+                <span class="affiliate-payout-pill">$119 Lifetime</span>
+              </div>
+              <h2><a href="./astro-programmatic-seo-directory-kit/index.html" id="mkt-card-link-astro-programmatic-seo-directory-kit">DirectoryEngine — Astro 5 Programmatic SEO Directory &amp; Job Board Starter</a></h2>
+              <div class="marketplace-stack-line">Astro 5 • Markdown/JSON • Stripe Links</div>
+              <p>100/100 Lighthouse performance, automatic category/location combination pages, Sponsored Pin badges, and Stripe paid submission webhooks.</p>
+            </div>
+            <div>
+              <div class="tool-card-metrics">
+                <span>★ 4.8 (164) • Saves 72h</span>
+                <span style="color:var(--accent-emerald);font-weight:700;">ROI Calculator</span>
+              </div>
+              <div style="margin-top:0.85rem;display:flex;gap:0.5rem;">
+                <a href="./astro-programmatic-seo-directory-kit/index.html" class="btn btn-primary" style="flex:1;" id="mkt-open-astro-programmatic-seo-directory-kit">
+                  Live Preview & ROI Calc →
+                </a>
+              </div>
+            </div>
+          </article>
+          <article class="tool-card " data-tool-card data-category="SaaS Boilerplates">
+            <div>
+              <div class="tool-card-top">
+                <span class="tool-cat-tag">SaaS Boilerplates</span>
+                <span class="affiliate-payout-pill">$99 Lifetime</span>
+              </div>
+              <h2><a href="./sveltekit-pocketbase-micro-saas/index.html" id="mkt-card-link-sveltekit-pocketbase-micro-saas">PocketSaaS — SvelteKit 5 + PocketBase Single-Binary SaaS Starter</a></h2>
+              <div class="marketplace-stack-line">SvelteKit 5 • PocketBase (Go/SQLite) • Stripe</div>
+              <p>Zero complex cloud bills. Single Go binary with embedded SQLite in WAL mode, realtime subscriptions, S3 backups, and Stripe Checkout.</p>
+            </div>
+            <div>
+              <div class="tool-card-metrics">
+                <span>★ 4.9 (138) • Saves 68h</span>
+                <span style="color:var(--accent-emerald);font-weight:700;">ROI Calculator</span>
+              </div>
+              <div style="margin-top:0.85rem;display:flex;gap:0.5rem;">
+                <a href="./sveltekit-pocketbase-micro-saas/index.html" class="btn btn-primary" style="flex:1;" id="mkt-open-sveltekit-pocketbase-micro-saas">
+                  Live Preview & ROI Calc →
+                </a>
+              </div>
+            </div>
+          </article>
+          <article class="tool-card is-sponsored" data-tool-card data-category="MCP Servers &amp; Agent Skills">
+            <div>
+              <div class="tool-card-top">
+                <span class="sponsored-pill">★ SPONSORED • Verified MCP</span>
+                <span class="affiliate-payout-pill">Free OSS / $49 Pro Cloud</span>
+              </div>
+              <h2><a href="./postgres-readonly-audit-mcp/index.html" id="mkt-card-link-postgres-readonly-audit-mcp">PgGuard MCP — Safe Read-Only PostgreSQL &amp; Schema Introspection MCP Server</a></h2>
+              <div class="marketplace-stack-line">TypeScript • Model Context Protocol • PostgreSQL</div>
+              <p>Enforces read-only transactions, row-count caps, PII column masking, and automatic ER-diagram schema discovery over stdio or SSE.</p>
+            </div>
+            <div>
+              <div class="tool-card-metrics">
+                <span>★ 4.9 (412) • Saves 42h</span>
+                <span style="color:var(--accent-emerald);font-weight:700;">ROI Calculator</span>
+              </div>
+              <div style="margin-top:0.85rem;display:flex;gap:0.5rem;">
+                <a href="./postgres-readonly-audit-mcp/index.html" class="btn btn-primary" style="flex:1;" id="mkt-open-postgres-readonly-audit-mcp">
+                  Live Preview & ROI Calc →
+                </a>
+              </div>
+            </div>
+          </article>
+          <article class="tool-card " data-tool-card data-category="MCP Servers &amp; Agent Skills">
+            <div>
+              <div class="tool-card-top">
+                <span class="tool-cat-tag">MCP Servers &amp; Agent Skills</span>
+                <span class="affiliate-payout-pill">$59 Pro License</span>
+              </div>
+              <h2><a href="./stripe-revenue-analytics-mcp/index.html" id="mkt-card-link-stripe-revenue-analytics-mcp">StripePulse MCP — MRR, Churn, Cohort &amp; Refund Triage MCP Server</a></h2>
+              <div class="marketplace-stack-line">Node.js • Stripe SDK • MCP Protocol</div>
+              <p>Scoped to restricted read-only Stripe API keys (`rk_live_*`). Ask your AI agent to diagnose involuntary churn or audit webhook failures.</p>
+            </div>
+            <div>
+              <div class="tool-card-metrics">
+                <span>★ 4.8 (198) • Saves 36h</span>
+                <span style="color:var(--accent-emerald);font-weight:700;">ROI Calculator</span>
+              </div>
+              <div style="margin-top:0.85rem;display:flex;gap:0.5rem;">
+                <a href="./stripe-revenue-analytics-mcp/index.html" class="btn btn-primary" style="flex:1;" id="mkt-open-stripe-revenue-analytics-mcp">
+                  Live Preview & ROI Calc →
+                </a>
+              </div>
+            </div>
+          </article>
+          <article class="tool-card " data-tool-card data-category="MCP Servers &amp; Agent Skills">
+            <div>
+              <div class="tool-card-top">
+                <span class="tool-cat-tag">MCP Servers &amp; Agent Skills</span>
+                <span class="affiliate-payout-pill">Free OSS / $49 Team Pack</span>
+              </div>
+              <h2><a href="./cloudflare-ops-wrangler-mcp/index.html" id="mkt-card-link-cloudflare-ops-wrangler-mcp">CloudflareOps MCP — Workers, DNS, KV, D1 &amp; WAF Log Inspector Server</a></h2>
+              <div class="marketplace-stack-line">TypeScript • Cloudflare API • MCP</div>
+              <p>Connect your coding agent directly to Cloudflare’s GraphQL Analytics API, D1 databases, and DNS records with granular API token scopes.</p>
+            </div>
+            <div>
+              <div class="tool-card-metrics">
+                <span>★ 4.9 (267) • Saves 45h</span>
+                <span style="color:var(--accent-emerald);font-weight:700;">ROI Calculator</span>
+              </div>
+              <div style="margin-top:0.85rem;display:flex;gap:0.5rem;">
+                <a href="./cloudflare-ops-wrangler-mcp/index.html" class="btn btn-primary" style="flex:1;" id="mkt-open-cloudflare-ops-wrangler-mcp">
+                  Live Preview & ROI Calc →
+                </a>
+              </div>
+            </div>
+          </article>
+          <article class="tool-card " data-tool-card data-category="MCP Servers &amp; Agent Skills">
+            <div>
+              <div class="tool-card-top">
+                <span class="tool-cat-tag">MCP Servers &amp; Agent Skills</span>
+                <span class="affiliate-payout-pill">$69 Pro Suite</span>
+              </div>
+              <h2><a href="./playwright-visual-qa-mcp/index.html" id="mkt-card-link-playwright-visual-qa-mcp">VisualQA MCP — Headless Playwright Accessibility, Console &amp; CLS Auditor</a></h2>
+              <div class="marketplace-stack-line">Playwright • Axe-Core • MCP Server</div>
+              <p>Captures 375px, 768px, and 1440px DOM snapshots, extracts console errors, measures Cumulative Layout Shift, and runs axe-core WCAG 2.1 checks.</p>
+            </div>
+            <div>
+              <div class="tool-card-metrics">
+                <span>★ 4.9 (310) • Saves 54h</span>
+                <span style="color:var(--accent-emerald);font-weight:700;">ROI Calculator</span>
+              </div>
+              <div style="margin-top:0.85rem;display:flex;gap:0.5rem;">
+                <a href="./playwright-visual-qa-mcp/index.html" class="btn btn-primary" style="flex:1;" id="mkt-open-playwright-visual-qa-mcp">
+                  Live Preview & ROI Calc →
+                </a>
+              </div>
+            </div>
+          </article>
+          <article class="tool-card " data-tool-card data-category="MCP Servers &amp; Agent Skills">
+            <div>
+              <div class="tool-card-top">
+                <span class="tool-cat-tag">MCP Servers &amp; Agent Skills</span>
+                <span class="affiliate-payout-pill">$39 Team License</span>
+              </div>
+              <h2><a href="./github-pr-security-review-skill/index.html" id="mkt-card-link-github-pr-security-review-skill">SecReview Skill Pack — OWASP Top 10, Secret Leak &amp; SQLi Agent Ruleset</a></h2>
+              <div class="marketplace-stack-line">SKILL.md • Cursor Rules • Semgrep AST</div>
+              <p>Structured SKILL.md + .cursorrules bundle that trains coding agents to catch IDOR, SSRF, unescaped SQL, and missing webhook signature checks.</p>
+            </div>
+            <div>
+              <div class="tool-card-metrics">
+                <span>★ 4.8 (154) • Saves 38h</span>
+                <span style="color:var(--accent-emerald);font-weight:700;">ROI Calculator</span>
+              </div>
+              <div style="margin-top:0.85rem;display:flex;gap:0.5rem;">
+                <a href="./github-pr-security-review-skill/index.html" class="btn btn-primary" style="flex:1;" id="mkt-open-github-pr-security-review-skill">
+                  Live Preview & ROI Calc →
+                </a>
+              </div>
+            </div>
+          </article>
+          <article class="tool-card " data-tool-card data-category="MCP Servers &amp; Agent Skills">
+            <div>
+              <div class="tool-card-top">
+                <span class="tool-cat-tag">MCP Servers &amp; Agent Skills</span>
+                <span class="affiliate-payout-pill">$79 Enterprise Seat</span>
+              </div>
+              <h2><a href="./bigquery-duckdb-finops-mcp/index.html" id="mkt-card-link-bigquery-duckdb-finops-mcp">QueryGuard MCP — BigQuery Dry-Run Cost Estimator &amp; Local DuckDB Bridge</a></h2>
+              <div class="marketplace-stack-line">Python • DuckDB • BigQuery API • MCP</div>
+              <p>Runs a mandatory dry-run byte estimate before executing any warehouse query, blocks full-table scans above your threshold, and caches results in DuckDB.</p>
+            </div>
+            <div>
+              <div class="tool-card-metrics">
+                <span>★ 4.9 (129) • Saves 62h</span>
+                <span style="color:var(--accent-emerald);font-weight:700;">ROI Calculator</span>
+              </div>
+              <div style="margin-top:0.85rem;display:flex;gap:0.5rem;">
+                <a href="./bigquery-duckdb-finops-mcp/index.html" class="btn btn-primary" style="flex:1;" id="mkt-open-bigquery-duckdb-finops-mcp">
+                  Live Preview & ROI Calc →
+                </a>
+              </div>
+            </div>
+          </article>
+          <article class="tool-card is-sponsored" data-tool-card data-category="n8n / Make AI Workflows">
+            <div>
+              <div class="tool-card-top">
+                <span class="sponsored-pill">★ SPONSORED • Top Workflow</span>
+                <span class="affiliate-payout-pill">$79 Workflow Pack</span>
+              </div>
+              <h2><a href="./n8n-programmatic-seo-content-pipeline/index.html" id="mkt-card-link-n8n-programmatic-seo-content-pipeline">AutoRank n8n Blueprint — Search Console Low-Hanging Keyword → Fact-Checked PR</a></h2>
+              <div class="marketplace-stack-line">n8n JSON • Google Search Console • Claude 3.5 • GitHub API</div>
+              <p>Weekly n8n workflow that queries Google Search Console for high-impression striking-distance keywords, enriches data, and opens a reviewable GitHub PR.</p>
+            </div>
+            <div>
+              <div class="tool-card-metrics">
+                <span>★ 4.9 (388) • Saves 52h</span>
+                <span style="color:var(--accent-emerald);font-weight:700;">ROI Calculator</span>
+              </div>
+              <div style="margin-top:0.85rem;display:flex;gap:0.5rem;">
+                <a href="./n8n-programmatic-seo-content-pipeline/index.html" class="btn btn-primary" style="flex:1;" id="mkt-open-n8n-programmatic-seo-content-pipeline">
+                  Live Preview & ROI Calc →
+                </a>
+              </div>
+            </div>
+          </article>
+          <article class="tool-card " data-tool-card data-category="n8n / Make AI Workflows">
+            <div>
+              <div class="tool-card-top">
+                <span class="tool-cat-tag">n8n / Make AI Workflows</span>
+                <span class="affiliate-payout-pill">$69 Workflow Pack</span>
+              </div>
+              <h2><a href="./n8n-stripe-churn-recovery-concierge/index.html" id="mkt-card-link-n8n-stripe-churn-recovery-concierge">ChurnShield n8n — Failed Payment &amp; Cancellation Recovery Automation</a></h2>
+              <div class="marketplace-stack-line">n8n JSON • Stripe Webhooks • Resend • Slack</div>
+              <p>Self-hosted n8n workflow triggered by `invoice.payment_failed` and `customer.subscription.Updated` with personalized 1-click pause or discount links.</p>
+            </div>
+            <div>
+              <div class="tool-card-metrics">
+                <span>★ 4.8 (214) • Saves 40h</span>
+                <span style="color:var(--accent-emerald);font-weight:700;">ROI Calculator</span>
+              </div>
+              <div style="margin-top:0.85rem;display:flex;gap:0.5rem;">
+                <a href="./n8n-stripe-churn-recovery-concierge/index.html" class="btn btn-primary" style="flex:1;" id="mkt-open-n8n-stripe-churn-recovery-concierge">
+                  Live Preview & ROI Calc →
+                </a>
+              </div>
+            </div>
+          </article>
+          <article class="tool-card " data-tool-card data-category="n8n / Make AI Workflows">
+            <div>
+              <div class="tool-card-top">
+                <span class="tool-cat-tag">n8n / Make AI Workflows</span>
+                <span class="affiliate-payout-pill">$59 Workflow Pack</span>
+              </div>
+              <h2><a href="./n8n-b2b-lead-enrichment-router/index.html" id="mkt-card-link-n8n-b2b-lead-enrichment-router">LeadPulse n8n — Zero-Clearbit Signup Enrichment, Scoring &amp; CRM Router</a></h2>
+              <div class="marketplace-stack-line">n8n JSON • DNS/WHOIS • LinkedIn/Web Scraper • HubSpot/Attio</div>
+              <p>Replaces $800/mo enrichment subscriptions by combining lightweight domain metadata, public company pages, and structured LLM extraction.</p>
+            </div>
+            <div>
+              <div class="tool-card-metrics">
+                <span>★ 4.9 (176) • Saves 35h</span>
+                <span style="color:var(--accent-emerald);font-weight:700;">ROI Calculator</span>
+              </div>
+              <div style="margin-top:0.85rem;display:flex;gap:0.5rem;">
+                <a href="./n8n-b2b-lead-enrichment-router/index.html" class="btn btn-primary" style="flex:1;" id="mkt-open-n8n-b2b-lead-enrichment-router">
+                  Live Preview & ROI Calc →
+                </a>
+              </div>
+            </div>
+          </article>
+          <article class="tool-card " data-tool-card data-category="n8n / Make AI Workflows">
+            <div>
+              <div class="tool-card-top">
+                <span class="tool-cat-tag">n8n / Make AI Workflows</span>
+                <span class="affiliate-payout-pill">$49 Blueprint Bundle</span>
+              </div>
+              <h2><a href="./make-youtube-podcast-repurposing-engine/index.html" id="mkt-card-link-make-youtube-podcast-repurposing-engine">ClipCast Make + n8n — Long-Form Video/Podcast to 12 Social &amp; Blog Assets</a></h2>
+              <div class="marketplace-stack-line">n8n + Make.com Blueprint • Whisper • Claude 3.5</div>
+              <p>Extracts timestamped chapters, key quotes, Markdown blog posts with FAQ schema, and LinkedIn/X threads automatically.</p>
+            </div>
+            <div>
+              <div class="tool-card-metrics">
+                <span>★ 4.8 (295) • Saves 30h</span>
+                <span style="color:var(--accent-emerald);font-weight:700;">ROI Calculator</span>
+              </div>
+              <div style="margin-top:0.85rem;display:flex;gap:0.5rem;">
+                <a href="./make-youtube-podcast-repurposing-engine/index.html" class="btn btn-primary" style="flex:1;" id="mkt-open-make-youtube-podcast-repurposing-engine">
+                  Live Preview & ROI Calc →
+                </a>
+              </div>
+            </div>
+          </article>
+          <article class="tool-card " data-tool-card data-category="n8n / Make AI Workflows">
+            <div>
+              <div class="tool-card-top">
+                <span class="tool-cat-tag">n8n / Make AI Workflows</span>
+                <span class="affiliate-payout-pill">$39 Workflow Pack</span>
+              </div>
+              <h2><a href="./n8n-github-release-changelog-publisher/index.html" id="mkt-card-link-n8n-github-release-changelog-publisher">ShipNotes n8n — Git Commits &amp; Merged PRs to Customer Changelog &amp; Email</a></h2>
+              <div class="marketplace-stack-line">n8n JSON • GitHub Webhooks • Linear • Resend</div>
+              <p>Groups merged PRs into New Features, Performance Improvements, and Bug Fixes, strips internal jargon, and creates a draft newsletter.</p>
+            </div>
+            <div>
+              <div class="tool-card-metrics">
+                <span>★ 4.9 (142) • Saves 28h</span>
+                <span style="color:var(--accent-emerald);font-weight:700;">ROI Calculator</span>
+              </div>
+              <div style="margin-top:0.85rem;display:flex;gap:0.5rem;">
+                <a href="./n8n-github-release-changelog-publisher/index.html" class="btn btn-primary" style="flex:1;" id="mkt-open-n8n-github-release-changelog-publisher">
+                  Live Preview & ROI Calc →
+                </a>
+              </div>
+            </div>
+          </article>
+          <article class="tool-card " data-tool-card data-category="n8n / Make AI Workflows">
+            <div>
+              <div class="tool-card-top">
+                <span class="tool-cat-tag">n8n / Make AI Workflows</span>
+                <span class="affiliate-payout-pill">$59 Workflow Pack</span>
+              </div>
+              <h2><a href="./n8n-invoice-receipt-ocr-bookkeeper/index.html" id="mkt-card-link-n8n-invoice-receipt-ocr-bookkeeper">LedgerBot n8n — Email Receipt &amp; PDF Invoice Extractor to Google Sheets / CSV</a></h2>
+              <div class="marketplace-stack-line">n8n JSON • Gmail API • Vision LLM • Google Sheets</div>
+              <p>Watches your `billing@` or `receipts@` inbox, extracts structured JSON from PDF attachments, normalizes FX rates, and appends to your tax spreadsheet.</p>
+            </div>
+            <div>
+              <div class="tool-card-metrics">
+                <span>★ 4.9 (231) • Saves 44h</span>
+                <span style="color:var(--accent-emerald);font-weight:700;">ROI Calculator</span>
+              </div>
+              <div style="margin-top:0.85rem;display:flex;gap:0.5rem;">
+                <a href="./n8n-invoice-receipt-ocr-bookkeeper/index.html" class="btn btn-primary" style="flex:1;" id="mkt-open-n8n-invoice-receipt-ocr-bookkeeper">
+                  Live Preview & ROI Calc →
+                </a>
+              </div>
+            </div>
+          </article>
+          <article class="tool-card is-sponsored" data-tool-card data-category="UI &amp; Design Systems">
+            <div>
+              <div class="tool-card-top">
+                <span class="sponsored-pill">★ SPONSORED • Featured UI Kit</span>
+                <span class="affiliate-payout-pill">$89 Unlimited Sites</span>
+              </div>
+              <h2><a href="./swiss-utility-design-system-pro/index.html" id="mkt-card-link-swiss-utility-design-system-pro">SwissGrid UI — High-Contrast Editorial &amp; Technical Tool Component Library</a></h2>
+              <div class="marketplace-stack-line">Vanilla CSS + React + Astro + Figma Variables</div>
+              <p>Designed specifically for high-viewability utility sites: split-pane code workbenches, interactive sliders, comparison matrices, and zero-CLS ad containers.</p>
+            </div>
+            <div>
+              <div class="tool-card-metrics">
+                <span>★ 4.9 (204) • Saves 64h</span>
+                <span style="color:var(--accent-emerald);font-weight:700;">ROI Calculator</span>
+              </div>
+              <div style="margin-top:0.85rem;display:flex;gap:0.5rem;">
+                <a href="./swiss-utility-design-system-pro/index.html" class="btn btn-primary" style="flex:1;" id="mkt-open-swiss-utility-design-system-pro">
+                  Live Preview & ROI Calc →
+                </a>
+              </div>
+            </div>
+          </article>
+          <article class="tool-card " data-tool-card data-category="UI &amp; Design Systems">
+            <div>
+              <div class="tool-card-top">
+                <span class="tool-cat-tag">UI &amp; Design Systems</span>
+                <span class="affiliate-payout-pill">$69 Lifetime</span>
+              </div>
+              <h2><a href="./b2b-pricing-page-conversion-kit/index.html" id="mkt-card-link-b2b-pricing-page-conversion-kit">PriceConvert Pro — 18 Interactive SaaS Pricing Tables, Sliders &amp; ROI Calculators</a></h2>
+              <div class="marketplace-stack-line">HTML / React / Vue / Tailwind &amp; Vanilla CSS</div>
+              <p>Includes monthly/annual billing toggles, multi-currency switchers, seat/token usage sliders, feature comparison matrices, and enterprise quote drawers.</p>
+            </div>
+            <div>
+              <div class="tool-card-metrics">
+                <span>★ 4.8 (167) • Saves 46h</span>
+                <span style="color:var(--accent-emerald);font-weight:700;">ROI Calculator</span>
+              </div>
+              <div style="margin-top:0.85rem;display:flex;gap:0.5rem;">
+                <a href="./b2b-pricing-page-conversion-kit/index.html" class="btn btn-primary" style="flex:1;" id="mkt-open-b2b-pricing-page-conversion-kit">
+                  Live Preview & ROI Calc →
+                </a>
+              </div>
+            </div>
+          </article>
+          <article class="tool-card " data-tool-card data-category="UI &amp; Design Systems">
+            <div>
+              <div class="tool-card-top">
+                <span class="tool-cat-tag">UI &amp; Design Systems</span>
+                <span class="affiliate-payout-pill">$79 Unlimited License</span>
+              </div>
+              <h2><a href="./data-story-chart-components/index.html" id="mkt-card-link-data-story-chart-components">MetricCanvas — Lightweight Zero-ChartJS SVG Sparklines, Heatmaps &amp; Scorecards</a></h2>
+              <div class="marketplace-stack-line">Zero-Dependency SVG • TypeScript • Web Components</div>
+              <p>Pure SVG and Canvas Web Components (`&lt;metric-sparkline&gt;`, `&lt;metric-waterfall&gt;`, `&lt;metric-heatmap&gt;`) that render instantaneously with zero layout shift.</p>
+            </div>
+            <div>
+              <div class="tool-card-metrics">
+                <span>★ 4.9 (149) • Saves 58h</span>
+                <span style="color:var(--accent-emerald);font-weight:700;">ROI Calculator</span>
+              </div>
+              <div style="margin-top:0.85rem;display:flex;gap:0.5rem;">
+                <a href="./data-story-chart-components/index.html" class="btn btn-primary" style="flex:1;" id="mkt-open-data-story-chart-components">
+                  Live Preview & ROI Calc →
+                </a>
+              </div>
+            </div>
+          </article>
+          <article class="tool-card " data-tool-card data-category="UI &amp; Design Systems">
+            <div>
+              <div class="tool-card-top">
+                <span class="tool-cat-tag">UI &amp; Design Systems</span>
+                <span class="affiliate-payout-pill">$99 Unlimited APIs</span>
+              </div>
+              <h2><a href="./docs-openapi-interactive-portal/index.html" id="mkt-card-link-docs-openapi-interactive-portal">ApiDocs Studio — Static OpenAPI 3.1 Reference &amp; Interactive cURL/SDK Playground</a></h2>
+              <div class="marketplace-stack-line">OpenAPI 3.1 • Static HTML Compiler • Vanilla JS</div>
+              <p>Zero recurring SaaS fees. Generates a lightning-fast static API reference with live request builder and copy-paste snippets in cURL, TypeScript, Python, Go, and Rust.</p>
+            </div>
+            <div>
+              <div class="tool-card-metrics">
+                <span>★ 4.9 (183) • Saves 76h</span>
+                <span style="color:var(--accent-emerald);font-weight:700;">ROI Calculator</span>
+              </div>
+              <div style="margin-top:0.85rem;display:flex;gap:0.5rem;">
+                <a href="./docs-openapi-interactive-portal/index.html" class="btn btn-primary" style="flex:1;" id="mkt-open-docs-openapi-interactive-portal">
+                  Live Preview & ROI Calc →
+                </a>
+              </div>
+            </div>
+          </article>
+          <article class="tool-card " data-tool-card data-category="UI &amp; Design Systems">
+            <div>
+              <div class="tool-card-top">
+                <span class="tool-cat-tag">UI &amp; Design Systems</span>
+                <span class="affiliate-payout-pill">$59 Lifetime</span>
+              </div>
+              <h2><a href="./waitlist-viral-referral-kit/index.html" id="mkt-card-link-waitlist-viral-referral-kit">LaunchLoop — Viral Referral Waitlist, Milestone Rewards &amp; Leaderboard Kit</a></h2>
+              <div class="marketplace-stack-line">Cloudflare Workers / Supabase • HTML/React</div>
+              <p>Unique referral codes, anti-fraud email verification, position-jump leaderboard, and automated milestone reward unlocks.</p>
+            </div>
+            <div>
+              <div class="tool-card-metrics">
+                <span>★ 4.8 (221) • Saves 40h</span>
+                <span style="color:var(--accent-emerald);font-weight:700;">ROI Calculator</span>
+              </div>
+              <div style="margin-top:0.85rem;display:flex;gap:0.5rem;">
+                <a href="./waitlist-viral-referral-kit/index.html" class="btn btn-primary" style="flex:1;" id="mkt-open-waitlist-viral-referral-kit">
+                  Live Preview & ROI Calc →
+                </a>
+              </div>
+            </div>
+          </article>
+          <article class="tool-card " data-tool-card data-category="UI &amp; Design Systems">
+            <div>
+              <div class="tool-card-top">
+                <span class="tool-cat-tag">UI &amp; Design Systems</span>
+                <span class="affiliate-payout-pill">$69 Lifetime</span>
+              </div>
+              <h2><a href="./changelog-roadmap-feedback-board/index.html" id="mkt-card-link-changelog-roadmap-feedback-board">PulseBoard — Embeddable Public Roadmap, Upvote Board &amp; Changelog Widget</a></h2>
+              <div class="marketplace-stack-line">SQLite / Supabase • Web Component • Static SSG</div>
+              <p>Collect user feature requests, let paying customers vote weighted by MRR, and announce shipped releases with an in-app notification badge.</p>
+            </div>
+            <div>
+              <div class="tool-card-metrics">
+                <span>★ 4.9 (158) • Saves 50h</span>
+                <span style="color:var(--accent-emerald);font-weight:700;">ROI Calculator</span>
+              </div>
+              <div style="margin-top:0.85rem;display:flex;gap:0.5rem;">
+                <a href="./changelog-roadmap-feedback-board/index.html" class="btn btn-primary" style="flex:1;" id="mkt-open-changelog-roadmap-feedback-board">
+                  Live Preview & ROI Calc →
+                </a>
+              </div>
+            </div>
+          </article>
+          <article class="tool-card is-sponsored" data-tool-card data-category="SaaS Boilerplates">
+            <div>
+              <div class="tool-card-top">
+                <span class="sponsored-pill">★ OFFICIAL • UtilForge Core Engine</span>
+                <span class="affiliate-payout-pill">$149 Lifetime</span>
+              </div>
+              <h2><a href="./utilforge-programmatic-seo-factory/index.html" id="mkt-card-link-utilforge-programmatic-seo-factory">UtilForge Factory — 300-Page Zero-Server Programmatic SEO &amp; Micro-Tool Compiler</a></h2>
+              <div class="marketplace-stack-line">Node.js SSG • Cloudflare Pages + KV • Zero Dependencies</div>
+              <p>The exact zero-dependency compiler powering UtilForge: declarative tool registries, combinatorial C(N,2) comparison calculators, zero-CLS AdSense slots, IndexNow auto-pinger, and Cloudflare KV telemetry.</p>
+            </div>
+            <div>
+              <div class="tool-card-metrics">
+                <span>★ 5 (84) • Saves 160h</span>
+                <span style="color:var(--accent-emerald);font-weight:700;">ROI Calculator</span>
+              </div>
+              <div style="margin-top:0.85rem;display:flex;gap:0.5rem;">
+                <a href="./utilforge-programmatic-seo-factory/index.html" class="btn btn-primary" style="flex:1;" id="mkt-open-utilforge-programmatic-seo-factory">
+                  Live Preview & ROI Calc →
+                </a>
+              </div>
+            </div>
+          </article>
+          <article class="tool-card is-sponsored" data-tool-card data-category="MCP Servers &amp; Agent Skills">
+            <div>
+              <div class="tool-card-top">
+                <span class="sponsored-pill">★ FINOPS BESTSELLER • Save 95% on Egress</span>
+                <span class="affiliate-payout-pill">$49 One-Time</span>
+              </div>
+              <h2><a href="./cloudflare-r2-zero-egress-migrator-mcp/index.html" id="mkt-card-link-cloudflare-r2-zero-egress-migrator-mcp">R2FinOps MCP — AWS S3 to Cloudflare R2 Zero-Egress Migrator &amp; Cost Auditor</a></h2>
+              <div class="marketplace-stack-line">TypeScript • MCP SDK • AWS S3 / Cloudflare R2 API</div>
+              <p>Connects directly to AWS Cost Explorer and S3 bucket metrics to quantify egress waste, provision Cloudflare R2 buckets, and configure zero-downtime Sippy incremental sync.</p>
+            </div>
+            <div>
+              <div class="tool-card-metrics">
+                <span>★ 4.9 (119) • Saves 42h</span>
+                <span style="color:var(--accent-emerald);font-weight:700;">ROI Calculator</span>
+              </div>
+              <div style="margin-top:0.85rem;display:flex;gap:0.5rem;">
+                <a href="./cloudflare-r2-zero-egress-migrator-mcp/index.html" class="btn btn-primary" style="flex:1;" id="mkt-open-cloudflare-r2-zero-egress-migrator-mcp">
+                  Live Preview & ROI Calc →
+                </a>
+              </div>
+            </div>
+          </article>
+      </div>
+    </section>
+
+    <section class="factory-studio-panel" id="submit-listing">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
+        <div>
+          <div style="font-family:var(--font-mono);font-size:0.75rem;font-weight:700;color:var(--accent-primary);text-transform:uppercase;">
+            Marketplace Monetization & Self-Serve Submission Studio
+          </div>
+          <h2 style="font-size:1.45rem;font-weight:800;letter-spacing:-0.025em;">
+            Sponsored Slot + Affiliate Revenue Simulator & Listing Scaffolder
+          </h2>
+        </div>
+      </div>
+
+      <div class="studio-grid">
+        <div class="rail-card" style="background:var(--bg-elevated);">
+          <h3>1. Marketplace Sponsored + Affiliate Income Simulator</h3>
+          <p style="font-size:0.86rem;color:var(--text-secondary);margin-bottom:1rem;">
+            Combine recurring <strong>$99/mo Sponsored Category Pins</strong> with <strong>30%–45% affiliate checkout splits</strong> (~$38 avg payout per boilerplate/workflow sale).
+          </p>
+
+          <div style="display:flex;flex-direction:column;gap:0.9rem;">
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:0.82rem;font-weight:700;margin-bottom:0.25rem;">
+                <label for="mkt-sim-slots">Active $99/mo Sponsored Slots Sold</label>
+                <span id="mkt-sim-slots-val" style="font-family:var(--font-mono);">6 slots ($594/mo)</span>
+              </div>
+              <input type="range" id="mkt-sim-slots" min="0" max="25" step="1" value="6" style="width:100%;" />
+            </div>
+
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:0.82rem;font-weight:700;margin-bottom:0.25rem;">
+                <label for="mkt-sim-visitors">Monthly Marketplace Visitors</label>
+                <span id="mkt-sim-visitors-val" style="font-family:var(--font-mono);">12,000</span>
+              </div>
+              <input type="range" id="mkt-sim-visitors" min="1000" max="100000" step="1000" value="12000" style="width:100%;" />
+            </div>
+
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:0.82rem;font-weight:700;margin-bottom:0.25rem;">
+                <label for="mkt-sim-conv">Affiliate Checkout Conversion Rate (%)</label>
+                <span id="mkt-sim-conv-val" style="font-family:var(--font-mono);">1.5% (180 sales/mo)</span>
+              </div>
+              <input type="range" id="mkt-sim-conv" min="0.2" max="5.0" step="0.1" value="1.5" style="width:100%;" />
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-top:0.5rem;">
+              <div class="kpi-tile" style="background:var(--bg-surface);">
+                <div style="font-size:0.72rem;color:var(--text-muted);text-transform:uppercase;font-weight:700;">Est. Monthly Net</div>
+                <div id="mkt-sim-monthly-out" class="kpi-tile-val" style="color:var(--accent-emerald);">$7,434/mo</div>
+              </div>
+              <div class="kpi-tile" style="background:var(--bg-surface);">
+                <div style="font-size:0.72rem;color:var(--text-muted);text-transform:uppercase;font-weight:700;">Est. Annual Net</div>
+                <div id="mkt-sim-annual-out" class="kpi-tile-val">$89,208/yr</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="rail-card" style="background:var(--bg-elevated);">
+          <h3>2. Submit or Sponsor a New Listing</h3>
+          <p style="font-size:0.86rem;color:var(--text-secondary);margin-bottom:0.85rem;">
+            Generate a ready-to-paste product entry for <code style="font-family:var(--font-mono);">src/registry/marketplace.js</code> with automatic affiliate link tagging.
+          </p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.65rem;margin-bottom:0.75rem;">
+            <div>
+              <label for="mkt-sub-title" style="display:block;font-size:0.75rem;font-weight:700;margin-bottom:0.2rem;">Product Name</label>
+              <input type="text" id="mkt-sub-title" class="control-input" style="width:100%;" value="StripeSync MCP Server" />
+            </div>
+            <div>
+              <label for="mkt-sub-cat" style="display:block;font-size:0.75rem;font-weight:700;margin-bottom:0.2rem;">Category</label>
+              <select id="mkt-sub-cat" class="control-select" style="width:100%;">
+                <option value="MCP Servers & Agent Skills">MCP Servers & Agent Skills</option>
+                <option value="SaaS Boilerplates">SaaS Boilerplates</option>
+                <option value="n8n / Make AI Workflows">n8n / Make AI Workflows</option>
+                <option value="UI & Design Systems">UI & Design Systems</option>
+              </select>
+            </div>
+            <div>
+              <label for="mkt-sub-price" style="display:block;font-size:0.75rem;font-weight:700;margin-bottom:0.2rem;">Price ($ USD)</label>
+              <input type="number" id="mkt-sub-price" class="control-input" style="width:100%;" value="79" />
+            </div>
+            <div>
+              <label for="mkt-sub-comm" style="display:block;font-size:0.75rem;font-weight:700;margin-bottom:0.2rem;">Affiliate Split (%)</label>
+              <input type="number" id="mkt-sub-comm" class="control-input" style="width:100%;" value="35" />
+            </div>
+          </div>
+          <div style="margin-bottom:0.75rem;">
+            <label for="mkt-sub-url" style="display:block;font-size:0.75rem;font-weight:700;margin-bottom:0.2rem;">Creator Checkout URL (Lemon Squeezy / Polar / Gumroad)</label>
+            <input type="url" id="mkt-sub-url" class="control-input" style="width:100%;" value="https://www.lemonsqueezy.com/" />
+          </div>
+          <button type="button" class="btn btn-primary" id="btn-generate-mkt-listing" style="width:100%;margin-bottom:0.75rem;">
+            Generate Marketplace Listing JSON
+          </button>
+          <pre id="mkt-sub-output" style="background:var(--bg-code);color:var(--text-on-dark);padding:0.75rem;border-radius:6px;font-family:var(--font-mono);font-size:0.74rem;max-height:135px;overflow:auto;">Click "Generate Marketplace Listing JSON" above...</pre>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  
+  <div id="global-checkout-modal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(15,23,42,0.72);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:1rem;">
+    <div style="background:var(--bg-surface);border:1px solid var(--accent-primary);border-radius:12px;max-width:520px;width:100%;padding:1.5rem;box-shadow:0 20px 50px rgba(0,0,0,0.35);position:relative;">
+      <button type="button" id="btn-close-global-checkout" aria-label="Close modal" style="position:absolute;top:0.85rem;right:0.85rem;background:transparent;border:none;font-size:1.25rem;cursor:pointer;color:var(--text-secondary);">✕</button>
+      <div style="font-family:var(--font-mono);font-size:0.7rem;font-weight:700;color:var(--accent-emerald);text-transform:uppercase;margin-bottom:0.3rem;">
+        INSTANT DIRECT CHECKOUT • 100% COMMERCIAL LICENSE
+      </div>
+      <h3 style="font-size:1.2rem;font-weight:800;margin-bottom:0.4rem;color:var(--text-primary);">
+        Sponsor UtilForge or License the Full 373-Page Factory
+      </h3>
+      <p style="font-size:0.84rem;color:var(--text-secondary);margin-bottom:1rem;">
+        Reserve a high-intent developer ad slot across all 373 pages or get immediate Git repository access to the full UtilForge static compiler, 40 tool engines, and 26 boilerplates.
+      </p>
+      <form id="global-checkout-form" style="display:flex;flex-direction:column;gap:0.75rem;">
+        <div>
+          <label for="global-checkout-pkg" style="display:block;font-size:0.76rem;font-weight:700;margin-bottom:0.25rem;">Select Package or Sponsorship Tier</label>
+          <select id="global-checkout-pkg" class="control-select" style="width:100%;">
+            <option value="Full UtilForge 373-Page Factory + 40 Engines Source Code ($149 Lifetime)">Full UtilForge 373-Page Factory Source Code ($149 Lifetime)</option>
+            <option value="Sitewide Leaderboard / Sticky Sidebar Sponsor Slot ($99/mo)">Sitewide Leaderboard / Sticky Sidebar Sponsor Slot ($99/mo)</option>
+            <option value="Featured Marketplace Pin + Newsletter Blast ($49 One-Time)">Featured Marketplace Listing Pin ($49 One-Time)</option>
+            <option value="All 26 SaaS Boilerplates, MCP Servers & n8n Workflows Bundle ($249)">All 26 Boilerplates, MCP Servers & Workflows Bundle ($249)</option>
+          </select>
+        </div>
+        <div>
+          <label for="global-checkout-email" style="display:block;font-size:0.76rem;font-weight:700;margin-bottom:0.25rem;">Your Work or Founder Email</label>
+          <input type="email" id="global-checkout-email" class="control-input" required placeholder="founder@company.com" style="width:100%;" />
+        </div>
+        <button type="submit" class="btn btn-primary" id="btn-submit-global-checkout" style="width:100%;padding:0.75rem;font-size:0.92rem;">
+          Send Instant Payment Link &amp; Repo Access →
+        </button>
+        <div id="global-checkout-status" style="display:none;font-size:0.8rem;font-weight:700;color:var(--accent-emerald);text-align:center;margin-top:0.25rem;"></div>
+      </form>
+    </div>
+  </div>
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <strong>UtilForge</strong> — 40 Utilities + 292 "X vs. Y" Calculators + 26 Marketplace Listings (373 Static Pages). Zero server uploads.
+      </div>
+      <div style="display:flex;gap:1.15rem;flex-wrap:wrap;font-family:var(--font-mono);font-size:0.76rem;">
+        <a href="../marketplace/index.html" id="footer-mkt-link">Marketplace (26)</a>
+        <a href="../compare/index.html" id="footer-matrix-link">X vs Y Matrix (292)</a>
+        <a href="../about/index.html" id="footer-about-link">About &amp; Contact</a>
+        <a href="../privacy/index.html" id="footer-privacy-link">Privacy Policy</a>
+        <a href="../terms/index.html" id="footer-terms-link">Terms of Use</a>
+        <a href="../sitemap.xml" id="footer-sitemap-link">sitemap.xml</a>
+        <a href="../robots.txt" id="footer-robots-link">robots.txt</a>
+        <a href="../ads.txt" id="footer-ads-link">ads.txt</a>
+      </div>
+    </div>
+  </footer>
+  <script src="../assets/engines.js" defer></script>
+</body>
+</html>

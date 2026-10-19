@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Redirecting to Supabase Managed Postgres | UtilForge</title>
+  <link rel="stylesheet" href="../../assets/styles.css" />
+</head>
+<body class="ads-hidden">
+  <main class="main-container" style="max-width:560px;margin:5rem auto;text-align:center;">
+    <section class="content-card" style="padding:2rem;">
+      <span class="hero-badge" style="margin-bottom:0.85rem;">Verified Partner Redirect • Open-Source DB + pgvector</span>
+      <h1 style="font-size:1.35rem;margin-bottom:0.5rem;">Connecting to Supabase Managed Postgres…</h1>
+      <p style="font-size:0.9rem;color:var(--text-secondary);margin-bottom:1.25rem;">
+        Applying your UtilForge partner offer. If you are not redirected automatically within 1 second, click below:
+      </p>
+      <a href="https://supabase.com/?utm_source=utilforge&amp;utm_medium=affiliate_rail" rel="noopener sponsored" class="action-btn primary" style="display:inline-flex;padding:0.65rem 1.25rem;text-decoration:none;">
+        Continue to Supabase Managed Postgres →
+      </a>
+    </section>
+  </main>
+  <script>
+    (function () {
+      var dest = "https://supabase.com/?utm_source=utilforge&utm_medium=affiliate_rail";
+      var slug = "supabase-postgres";
+      var payload = JSON.stringify({
+        type: 'affiliate_click',
+        partner: "Supabase Managed Postgres",
+        page: window.location.pathname
+      });
+      try {
+        if (navigator.sendBeacon) {
+          navigator.sendBeacon('/api/telemetry', new Blob([payload], { type: 'application/json' }));
+        } else {
+          fetch('/api/telemetry', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: payload,
+            keepalive: true
+          }).catch(function () {});
+        }
+      } catch (_e) {}
+
+      var redirected = false;
+      function goNow(url) {
+        if (redirected) return;
+        redirected = true;
+        window.location.replace(url || dest);
+      }
+
+      fetch('/api/telemetry?go=' + encodeURIComponent(slug))
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          goNow(data && data.destinationUrl ? data.destinationUrl : dest);
+        })
+        .catch(function () {
+          goNow(dest);
+        });
+
+      setTimeout(function () {
+        goNow(dest);
+      }, 280);
+    })();
+  </script>
+</body>
+</html>

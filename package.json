@@ -1,0 +1,12 @@
+{
+  "name": "utilforge-micro-tool-factory",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Zero-dependency declarative static site factory for client-side utility tools",
+  "scripts": {
+    "build": "node build.js",
+    "dev": "node build.js && node server.js",
+    "deploy:cf": "node build.js && npx wrangler pages deploy dist --project-name=utilforge"
+  }
+}

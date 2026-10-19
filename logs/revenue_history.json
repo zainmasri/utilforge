@@ -1,0 +1,307 @@
+[
+  {
+    "checkedAt": "2026-10-17T14:28:53.416Z",
+    "date": "2026-10-17",
+    "siteHealth": {
+      "domain": "https://utilforge.pages.dev",
+      "homeStatus": 200,
+      "homeLatencyMs": 649,
+      "totalStaticPages": 295,
+      "utilityToolsCount": 36,
+      "comparisonCalculatorsCount": 229,
+      "marketplaceListingsCount": 24,
+      "sitemapUrlsCount": 295
+    },
+    "monetizationHealth": {
+      "publisherId": "ca-pub-3462180264458803",
+      "adsTxtValid": true,
+      "allThreeSlotsVerifiedOnDom": true,
+      "slots": {
+        "topLeaderboard": "6685420663",
+        "inContentNative": "1032357475",
+        "stickySidebar": "5261667519"
+      },
+      "googleAdsenseServingStatus": "ACTIVE_SERVING_ADS (200 OK — Monetizing Live Impressions)",
+      "telemetryKvActive": true
+    },
+    "revenueMetrics": {
+      "today": {
+        "pageviews": 2,
+        "adImpressionsFilled": 0,
+        "affiliateClicks": 0,
+        "estAdsenseRevenueUsd": 0,
+        "estAffiliateRevenueUsd": 0,
+        "totalRevenueUsd": 0
+      },
+      "allTime": {
+        "pageviews": 2,
+        "adImpressionsFilled": 0,
+        "affiliateClicks": 0,
+        "estAdsenseRevenueUsd": 0,
+        "estAffiliateRevenueUsd": 0,
+        "totalRevenueUsd": 0,
+        "byPartner": {}
+      },
+      "topPages": [
+        {
+          "page": "/",
+          "pageviews": 2,
+          "toolUses": 0,
+          "adFilled": 0,
+          "affiliateClicks": 0,
+          "estRevenueUsd": 0
+        }
+      ]
+    }
+  },
+  {
+    "checkedAt": "2026-10-18T11:35:27.924Z",
+    "date": "2026-10-18",
+    "siteHealth": {
+      "domain": "https://utilforge.pages.dev",
+      "homeStatus": 200,
+      "homeLatencyMs": 907,
+      "totalStaticPages": 371,
+      "utilityToolsCount": 38,
+      "comparisonCalculatorsCount": 292,
+      "marketplaceListingsCount": 26,
+      "sitemapUrlsCount": 362
+    },
+    "monetizationHealth": {
+      "publisherId": "ca-pub-3462180264458803",
+      "adsTxtValid": true,
+      "allThreeSlotsVerifiedOnDom": true,
+      "slots": {
+        "topLeaderboard": "6685420663",
+        "inContentNative": "1032357475",
+        "stickySidebar": "5261667519"
+      },
+      "googleAdsenseServingStatus": "READY_NO_CREATIVE_FILL (HTTP 200 Blank — AdSense tags & ads.txt verified; 0 live auction fills yet)",
+      "adsenseReportingApiStatus": "NOT_AUTHENTICATED (Set ADSENSE_ACCESS_TOKEN or ADSENSE_REFRESH_TOKEN to pull official AdSense API earnings)",
+      "telemetryKvActive": true
+    },
+    "revenueMetrics": {
+      "today": {
+        "pageviews": 0,
+        "adImpressionsFilled": 0,
+        "adsenseClicks": 0,
+        "affiliateClicks": 0,
+        "estAdsenseRevenueUsd": 0,
+        "estAffiliateRevenueUsd": 0,
+        "totalRevenueUsd": 0
+      },
+      "allTime": {
+        "pageviews": 22,
+        "adImpressionsFilled": 0,
+        "adsenseClicks": 0,
+        "affiliateClicks": 3,
+        "estAdsenseRevenueUsd": 0,
+        "estAffiliateRevenueUsd": 0,
+        "totalRevenueUsd": 0,
+        "byPartner": {
+          "OpenAI GPT-4o Mini": 1,
+          "Supabase Managed Postgres": 2
+        }
+      },
+      "topPages": [
+        {
+          "page": "/",
+          "pageviews": 12,
+          "toolUses": 0,
+          "adFilled": 0,
+          "affiliateClicks": 0,
+          "verifiedAdsenseRevenueUsd": 0
+        },
+        {
+          "page": "/marketplace/stripe-revenue-analytics-mcp/",
+          "pageviews": 2,
+          "toolUses": 0,
+          "adFilled": 0,
+          "affiliateClicks": 1,
+          "verifiedAdsenseRevenueUsd": 0
+        },
+        {
+          "page": "/regex-tester/",
+          "pageviews": 2,
+          "toolUses": 0,
+          "adFilled": 0,
+          "affiliateClicks": 0,
+          "verifiedAdsenseRevenueUsd": 0
+        },
+        {
+          "page": "/marketplace/",
+          "pageviews": 2,
+          "toolUses": 0,
+          "adFilled": 0,
+          "affiliateClicks": 0,
+          "verifiedAdsenseRevenueUsd": 0
+        },
+        {
+          "page": "/compare/gpt-4o-vs-gpt-4o-mini/",
+          "pageviews": 1,
+          "toolUses": 0,
+          "adFilled": 0,
+          "affiliateClicks": 1,
+          "verifiedAdsenseRevenueUsd": 0
+        },
+        {
+          "page": "/compare/",
+          "pageviews": 1,
+          "toolUses": 0,
+          "adFilled": 0,
+          "affiliateClicks": 0,
+          "verifiedAdsenseRevenueUsd": 0
+        },
+        {
+          "page": "/image-compressor/",
+          "pageviews": 1,
+          "toolUses": 0,
+          "adFilled": 0,
+          "affiliateClicks": 0,
+          "verifiedAdsenseRevenueUsd": 0
+        },
+        {
+          "page": "/marketplace/cloudflare-edge-saas-kit/",
+          "pageviews": 1,
+          "toolUses": 0,
+          "adFilled": 0,
+          "affiliateClicks": 0,
+          "verifiedAdsenseRevenueUsd": 0
+        },
+        {
+          "page": "/go/supabase-postgres/",
+          "pageviews": 0,
+          "toolUses": 0,
+          "adFilled": 0,
+          "affiliateClicks": 1,
+          "verifiedAdsenseRevenueUsd": 0
+        }
+      ]
+    }
+  },
+  {
+    "checkedAt": "2026-10-19T05:23:29.059Z",
+    "date": "2026-10-19",
+    "siteHealth": {
+      "domain": "https://utilforge.pages.dev",
+      "homeStatus": 200,
+      "homeLatencyMs": 830,
+      "totalStaticPages": 373,
+      "utilityToolsCount": 40,
+      "comparisonCalculatorsCount": 292,
+      "marketplaceListingsCount": 26,
+      "sitemapUrlsCount": 364
+    },
+    "monetizationHealth": {
+      "publisherId": "ca-pub-3462180264458803",
+      "adsTxtValid": true,
+      "allThreeSlotsVerifiedOnDom": true,
+      "slots": {
+        "topLeaderboard": "6685420663",
+        "inContentNative": "1032357475",
+        "stickySidebar": "5261667519"
+      },
+      "googleAdsenseServingStatus": "READY_NO_CREATIVE_FILL (HTTP 200 Blank — AdSense tags & ads.txt verified; 0 live auction fills yet)",
+      "adsenseReportingApiStatus": "NOT_AUTHENTICATED (Set ADSENSE_ACCESS_TOKEN or ADSENSE_REFRESH_TOKEN to pull official AdSense API earnings)",
+      "telemetryKvActive": true
+    },
+    "revenueMetrics": {
+      "today": {
+        "pageviews": 0,
+        "adImpressionsFilled": 0,
+        "adsenseClicks": 0,
+        "affiliateClicks": 0,
+        "estAdsenseRevenueUsd": 0,
+        "estAffiliateRevenueUsd": 0,
+        "totalRevenueUsd": 0
+      },
+      "allTime": {
+        "pageviews": 23,
+        "adImpressionsFilled": 0,
+        "adsenseClicks": 0,
+        "affiliateClicks": 3,
+        "estAdsenseRevenueUsd": 0,
+        "estAffiliateRevenueUsd": 0,
+        "totalRevenueUsd": 0,
+        "byPartner": {
+          "OpenAI GPT-4o Mini": 1,
+          "Supabase Managed Postgres": 2
+        }
+      },
+      "topPages": [
+        {
+          "page": "/",
+          "pageviews": 13,
+          "toolUses": 0,
+          "adFilled": 0,
+          "affiliateClicks": 0,
+          "verifiedAdsenseRevenueUsd": 0
+        },
+        {
+          "page": "/marketplace/stripe-revenue-analytics-mcp/",
+          "pageviews": 2,
+          "toolUses": 0,
+          "adFilled": 0,
+          "affiliateClicks": 1,
+          "verifiedAdsenseRevenueUsd": 0
+        },
+        {
+          "page": "/regex-tester/",
+          "pageviews": 2,
+          "toolUses": 0,
+          "adFilled": 0,
+          "affiliateClicks": 0,
+          "verifiedAdsenseRevenueUsd": 0
+        },
+        {
+          "page": "/marketplace/",
+          "pageviews": 2,
+          "toolUses": 0,
+          "adFilled": 0,
+          "affiliateClicks": 0,
+          "verifiedAdsenseRevenueUsd": 0
+        },
+        {
+          "page": "/compare/gpt-4o-vs-gpt-4o-mini/",
+          "pageviews": 1,
+          "toolUses": 0,
+          "adFilled": 0,
+          "affiliateClicks": 1,
+          "verifiedAdsenseRevenueUsd": 0
+        },
+        {
+          "page": "/compare/",
+          "pageviews": 1,
+          "toolUses": 0,
+          "adFilled": 0,
+          "affiliateClicks": 0,
+          "verifiedAdsenseRevenueUsd": 0
+        },
+        {
+          "page": "/image-compressor/",
+          "pageviews": 1,
+          "toolUses": 0,
+          "adFilled": 0,
+          "affiliateClicks": 0,
+          "verifiedAdsenseRevenueUsd": 0
+        },
+        {
+          "page": "/marketplace/cloudflare-edge-saas-kit/",
+          "pageviews": 1,
+          "toolUses": 0,
+          "adFilled": 0,
+          "affiliateClicks": 0,
+          "verifiedAdsenseRevenueUsd": 0
+        },
+        {
+          "page": "/go/supabase-postgres/",
+          "pageviews": 0,
+          "toolUses": 0,
+          "adFilled": 0,
+          "affiliateClicks": 1,
+          "verifiedAdsenseRevenueUsd": 0
+        }
+      ]
+    }
+  }
+]

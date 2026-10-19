@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Linux Chmod Octal (755 / 644) &amp; Symbolic Permission Calculator — Free Online Tool | UtilForge</title>
+  <meta name="description" content="Interactive Linux chmod permission calculator. Convert octal modes (755, 644, 600, 777) to symbolic rwxr-xr-x strings with security warnings." />
+  <link rel="canonical" href="https://utilforge.pages.dev/chmod-calculator/" />
+  <meta property="og:title" content="Linux Chmod Octal (755 / 644) &amp; Symbolic Permission Calculator" />
+  <meta property="og:description" content="Interactive Linux chmod permission calculator. Convert octal modes (755, 644, 600, 777) to symbolic rwxr-xr-x strings with security warnings." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://utilforge.pages.dev/chmod-calculator/" />
+  <link rel="icon" type="image/png" href="../assets/logo.png" />
+  <link rel="apple-touch-icon" href="../assets/logo.png" />
+  <meta name="google-site-verification" content="q6d7AlSO70-ncnnDetb_B0LnYl7s38H-QTcz5Tq29t8" />
+  <meta name="google-adsense-account" content="ca-pub-3462180264458803" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3462180264458803" crossorigin="anonymous"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <script type="application/ld+json">[{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Linux Chmod Octal (755 / 644) & Symbolic Permission Calculator","applicationCategory":"DeveloperApplication","operatingSystem":"Any (Browser Client-Side)","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Interactive Linux chmod permission calculator. Convert octal modes (755, 644, 600, 777) to symbolic rwxr-xr-x strings with security warnings.","url":"https://utilforge.pages.dev/chmod-calculator/"},{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the difference between chmod 755 and chmod 644?","acceptedAnswer":{"@type":"Answer","text":"Mode 755 (rwxr-xr-x) grants execute permission to everyone and is used for directories and executable scripts. Mode 644 (rw-r--r--) omits execute bits and is standard for static files."}}]}]</script>
+</head>
+<body>
+  
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="../index.html" class="brand-link" id="nav-brand-home">
+        <span class="brand-mark">UF</span>
+        <span>UtilForge</span>
+        <span class="brand-sub">373 PAGES LIVE</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary Tool Navigation">
+        <a href="../index.html" class="nav-pill " id="nav-hub-home">Utilities (40)</a>
+        <a href="../compare/index.html" class="nav-pill " id="nav-compare-hub">X vs Y (292)</a>
+        <a href="../marketplace/index.html" class="nav-pill " id="nav-marketplace-hub">Marketplace (26)</a>
+        <a href="../json-to-csv/index.html" class="nav-pill " id="nav-tool-json-to-csv">JSON ↔ CSV Converter</a><a href="../image-compressor/index.html" class="nav-pill " id="nav-tool-image-compressor">Image Compressor &amp; WebP</a><a href="../regex-tester/index.html" class="nav-pill " id="nav-tool-regex-tester">Regex Tester &amp; Debugger</a>
+      </nav>
+      <div class="header-actions" style="display:flex;align-items:center;gap:0.5rem;">
+        <button type="button" class="btn btn-primary" id="btn-open-global-checkout" style="padding:0.36rem 0.75rem;font-size:0.75rem;">
+          ⚡ Sponsor / License
+        </button>
+        <button type="button" class="ad-mode-toggle" id="btn-toggle-ad-slots" title="Toggle Zero-CLS Ad Placement Blueprint">
+          <span class="ad-mode-dot"></span>
+          <span id="ad-toggle-label">Ad Blueprint: ON</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    
+  <aside class="ad-slot ad-slot-leaderboard" id="ad-container-6685420663" aria-label="Advertisement">
+    <ins class="adsbygoogle"
+         style="display:block;width:100%;"
+         data-ad-client="ca-pub-3462180264458803"
+         data-ad-slot="6685420663"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </aside>
+
+    <div class="tool-layout-grid">
+      <div class="tool-main-col">
+        <section class="tool-hero">
+          <div class="tool-breadcrumb">
+            <a href="../index.html" id="breadcrumb-home">All Utilities (40)</a>
+            <span>/</span>
+            <span>DevOps &amp; Cloud</span>
+            <span>/</span>
+            <span>Linux Chmod Calculator</span>
+          </div>
+          <h1>Translate Linux Octal Permissions (755, 644, 600) to Symbolic rwx</h1>
+          <p>Convert 3-digit octal modes or 9-character symbolic strings into Owner, Group, and Public read/write/execute matrices and ready-to-run shell commands.</p>
+          <div class="trust-bar">
+            <span class="trust-chip">✓ POSIX Permission Matrix</span>
+            <span class="trust-chip neutral">Target Keyword: "chmod calculator online" (130,000/mo)</span>
+            <span class="trust-chip neutral">Est. Ad RPM: $15 – $23</span>
+          </div>
+        </section>
+
+        <section class="workbench-card" id="tool-workbench" data-engine="chmodCalculatorEngine" data-slug="chmod-calculator">
+          <div class="workbench-toolbar">
+            <div class="toolbar-controls">
+              
+      <div class="control-group">
+        <label for="opt-presetMode">Common Mode Preset</label>
+        <select id="opt-presetMode" data-tool-opt="presetMode" class="control-select">
+          <option value="custom" selected>Use Input Below</option><option value="755" >755 (rwxr-xr-x — Web Directories / Scripts)</option><option value="644" >644 (rw-r--r-- — Standard Config / HTML Files)</option><option value="600" >600 (rw------- — Private SSH Keys / Secrets)</option><option value="700" >700 (rwx------ — Private Owner Directory)</option>
+        </select>
+      </div>
+            </div>
+            <div class="toolbar-actions">
+              <button type="button" class="btn btn-secondary" id="btn-share-permalink" title="Copy shareable URL with your current input &amp; settings">🔗 Share Link</button>
+              <button type="button" class="btn btn-secondary" id="btn-embed-widget" title="Copy HTML iframe embed snippet + backlink for your blog or docs">&lt;/&gt; Embed</button>
+              <button type="button" class="btn btn-secondary" id="btn-copy-output">Copy Output</button>
+              <button type="button" class="btn btn-primary" id="btn-download-output">Download Result</button>
+            </div>
+          </div>
+
+          <div class="workbench-panes">
+            <div class="pane pane-input">
+              
+      <div class="pane-header">
+        <span>INPUT SOURCE</span>
+        <span id="input-char-count">3 chars</span>
+      </div>
+      <textarea id="workbench-input" class="code-textarea" spellcheck="false" aria-label="Tool Input">755</textarea>
+            </div>
+            <div class="pane pane-output">
+              <div class="pane-header">
+                <span>LIVE PROCESSED OUTPUT</span>
+                <span>UTF-8 • CLIENT-SIDE</span>
+              </div>
+              <pre id="workbench-output" class="code-output-pre" aria-live="polite">Processing...</pre>
+            </div>
+          </div>
+
+          <div id="workbench-extra" class="workbench-extra" style="display:none;"></div>
+
+          
+    <div style="padding:0.65rem 1rem;background:var(--bg-elevated);border-top:1px solid var(--border-subtle);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.65rem;">
+      <div style="display:flex;align-items:center;gap:0.55rem;flex-wrap:wrap;font-size:0.8rem;">
+        <span class="tool-rpm-tag" style="font-size:0.65rem;background:var(--accent-emerald-soft);color:var(--accent-emerald);font-weight:700;">VERIFIED PARTNER PERK • Free Edge Tier</span>
+        <strong style="color:var(--text-primary);">Cloudflare Workers &amp; Pages:</strong>
+        <span style="color:var(--text-secondary);">Deploy Static &amp; Edge Apps Free</span>
+      </div>
+      <a href="/go/cloudflare-workers/" target="_blank" rel="noopener sponsored" data-affiliate-partner="Cloudflare Workers &amp; Pages" class="btn btn-primary" style="padding:0.35rem 0.75rem;font-size:0.76rem;">
+        Deploy Static &amp; Edge Apps Free →
+      </a>
+    </div>
+
+          <div class="workbench-status-bar">
+            <span id="workbench-status-msg">Ready • 100% local execution</span>
+            <span>Server Cost: $0.00 • Latency: &lt;5ms</span>
+          </div>
+        </section>
+
+        
+  <aside class="ad-slot ad-slot-native" id="ad-container-1032357475" aria-label="Advertisement">
+    <ins class="adsbygoogle"
+         style="display:block;width:100%;"
+         data-ad-client="ca-pub-3462180264458803"
+         data-ad-slot="1032357475"
+         data-ad-format="fluid"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </aside>
+
+        <section class="seo-section" aria-labelledby="howto-heading">
+          <h2 id="howto-heading">How to Use the Linux Chmod Calculator</h2>
+          <ol class="steps-list">
+            
+              <li class="step-card">
+                <div class="step-num">STEP 01</div>
+                <div style="font-size:0.9rem;color:var(--text-secondary);">Type a 3-digit octal mode (like 755 or 644) or select a preset from the toolbar.</div>
+              </li>
+              <li class="step-card">
+                <div class="step-num">STEP 02</div>
+                <div style="font-size:0.9rem;color:var(--text-secondary);">Inspect the Owner, Group, and Others permission breakdown and copy the exact chmod command.</div>
+              </li>
+              <li class="step-card">
+                <div class="step-num">STEP 03</div>
+                <div style="font-size:0.9rem;color:var(--text-secondary);">Check the automated security advisory for overly permissive modes.</div>
+              </li>
+          </ol>
+        </section>
+
+        <section class="seo-section" aria-labelledby="faq-heading">
+          <h2 id="faq-heading">Frequently Asked Questions (Linux Chmod Calculator)</h2>
+          <div class="faq-list">
+            
+              <details class="faq-item" id="faq-item-1" open>
+                <summary>What is the difference between chmod 755 and chmod 644?</summary>
+                <p>Mode 755 (rwxr-xr-x) grants execute permission to everyone and is used for directories and executable scripts. Mode 644 (rw-r--r--) omits execute bits and is standard for static files.</p>
+              </details>
+          </div>
+        </section>
+      </div>
+
+      <aside class="sidebar-rail">
+        
+  <aside class="ad-slot ad-slot-sidebar" id="ad-container-5261667519" aria-label="Advertisement">
+    <ins class="adsbygoogle"
+         style="display:block;width:100%;"
+         data-ad-client="ca-pub-3462180264458803"
+         data-ad-slot="5261667519"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </aside>
+
+        
+    <div class="rail-card" style="border-color:var(--accent-primary);background:var(--bg-elevated);">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.45rem;">
+        <h3 style="margin:0;">Recommended Cloud &amp; Dev Stack</h3>
+        <span style="font-family:var(--font-mono);font-size:0.65rem;color:var(--text-muted);text-transform:uppercase;">Partner</span>
+      </div>
+      <div class="related-tools-list">
+        
+          <a href="/go/cloudflare-workers/" target="_blank" rel="noopener sponsored" data-affiliate-partner="Cloudflare Workers &amp; Pages" class="related-tool-link" style="display:flex;flex-direction:column;align-items:flex-start;gap:0.2rem;padding:0.55rem 0.65rem;">
+            <div style="display:flex;justify-content:space-between;width:100%;align-items:center;">
+              <strong style="font-size:0.82rem;color:var(--text-primary);">Cloudflare Workers &amp; Pages</strong>
+              <span class="tool-rpm-tag" style="font-size:0.66rem;">Free Edge Tier</span>
+            </div>
+            <span style="font-size:0.76rem;color:var(--accent-primary);font-weight:600;">Deploy Static &amp; Edge Apps Free →</span>
+          </a>
+          <a href="/go/mercury-banking/" target="_blank" rel="noopener sponsored" data-affiliate-partner="Mercury Startup Banking" class="related-tool-link" style="display:flex;flex-direction:column;align-items:flex-start;gap:0.2rem;padding:0.55rem 0.65rem;">
+            <div style="display:flex;justify-content:space-between;width:100%;align-items:center;">
+              <strong style="font-size:0.82rem;color:var(--text-primary);">Mercury Startup Banking</strong>
+              <span class="tool-rpm-tag" style="font-size:0.66rem;">$250 Bonus • $0 Fees</span>
+            </div>
+            <span style="font-size:0.76rem;color:var(--accent-primary);font-weight:600;">Open SaaS &amp; Founder Treasury Account →</span>
+          </a>
+          <a href="/go/gusto-payroll/" target="_blank" rel="noopener sponsored" data-affiliate-partner="Gusto S-Corp &amp; Contractor Payroll" class="related-tool-link" style="display:flex;flex-direction:column;align-items:flex-start;gap:0.2rem;padding:0.55rem 0.65rem;">
+            <div style="display:flex;justify-content:space-between;width:100%;align-items:center;">
+              <strong style="font-size:0.82rem;color:var(--text-primary);">Gusto S-Corp &amp; Contractor Payroll</strong>
+              <span class="tool-rpm-tag" style="font-size:0.66rem;">$100 Visa Gift Card</span>
+            </div>
+            <span style="font-size:0.76rem;color:var(--accent-primary);font-weight:600;">Automate 1099 &amp; S-Corp Tax Filing →</span>
+          </a>
+          <a href="/go/openrouter-ai/" target="_blank" rel="noopener sponsored" data-affiliate-partner="OpenRouter Unified LLM API" class="related-tool-link" style="display:flex;flex-direction:column;align-items:flex-start;gap:0.2rem;padding:0.55rem 0.65rem;">
+            <div style="display:flex;justify-content:space-between;width:100%;align-items:center;">
+              <strong style="font-size:0.82rem;color:var(--text-primary);">OpenRouter Unified LLM API</strong>
+              <span class="tool-rpm-tag" style="font-size:0.66rem;">300+ AI Models</span>
+            </div>
+            <span style="font-size:0.76rem;color:var(--accent-primary);font-weight:600;">Route GPT-4o, Claude &amp; DeepSeek API →</span>
+          </a>
+          <a href="/go/supabase-postgres/" target="_blank" rel="noopener sponsored" data-affiliate-partner="Supabase Managed Postgres" class="related-tool-link" style="display:flex;flex-direction:column;align-items:flex-start;gap:0.2rem;padding:0.55rem 0.65rem;">
+            <div style="display:flex;justify-content:space-between;width:100%;align-items:center;">
+              <strong style="font-size:0.82rem;color:var(--text-primary);">Supabase Managed Postgres</strong>
+              <span class="tool-rpm-tag" style="font-size:0.66rem;">Open-Source DB + pgvector</span>
+            </div>
+            <span style="font-size:0.76rem;color:var(--accent-primary);font-weight:600;">Launch Free Managed Postgres →</span>
+          </a>
+          <a href="/go/lemon-squeezy/" target="_blank" rel="noopener sponsored" data-affiliate-partner="Lemon Squeezy Merchant of Record" class="related-tool-link" style="display:flex;flex-direction:column;align-items:flex-start;gap:0.2rem;padding:0.55rem 0.65rem;">
+            <div style="display:flex;justify-content:space-between;width:100%;align-items:center;">
+              <strong style="font-size:0.82rem;color:var(--text-primary);">Lemon Squeezy Merchant of Record</strong>
+              <span class="tool-rpm-tag" style="font-size:0.66rem;">Global Tax &amp; Billing</span>
+            </div>
+            <span style="font-size:0.76rem;color:var(--accent-primary);font-weight:600;">Sell Digital Software &amp; SaaS Globally →</span>
+          </a>
+          <a href="/go/neon-postgres/" target="_blank" rel="noopener sponsored" data-affiliate-partner="Neon Serverless Postgres" class="related-tool-link" style="display:flex;flex-direction:column;align-items:flex-start;gap:0.2rem;padding:0.55rem 0.65rem;">
+            <div style="display:flex;justify-content:space-between;width:100%;align-items:center;">
+              <strong style="font-size:0.82rem;color:var(--text-primary);">Neon Serverless Postgres</strong>
+              <span class="tool-rpm-tag" style="font-size:0.66rem;">Scale to Zero • Instant Branching</span>
+            </div>
+            <span style="font-size:0.76rem;color:var(--accent-primary);font-weight:600;">Spin Up Serverless Postgres Database →</span>
+          </a>
+          <a href="/go/digitalocean-cloud/" target="_blank" rel="noopener sponsored" data-affiliate-partner="DigitalOcean Cloud &amp; Droplets" class="related-tool-link" style="display:flex;flex-direction:column;align-items:flex-start;gap:0.2rem;padding:0.55rem 0.65rem;">
+            <div style="display:flex;justify-content:space-between;width:100%;align-items:center;">
+              <strong style="font-size:0.82rem;color:var(--text-primary);">DigitalOcean Cloud &amp; Droplets</strong>
+              <span class="tool-rpm-tag" style="font-size:0.66rem;">$200 Free Credit (60 Days)</span>
+            </div>
+            <span style="font-size:0.76rem;color:var(--accent-primary);font-weight:600;">Claim $200 Cloud Infrastructure Credit →</span>
+          </a>
+          <a href="/go/railway-cloud/" target="_blank" rel="noopener sponsored" data-affiliate-partner="Railway Instant App &amp; DB Cloud" class="related-tool-link" style="display:flex;flex-direction:column;align-items:flex-start;gap:0.2rem;padding:0.55rem 0.65rem;">
+            <div style="display:flex;justify-content:space-between;width:100%;align-items:center;">
+              <strong style="font-size:0.82rem;color:var(--text-primary);">Railway Instant App &amp; DB Cloud</strong>
+              <span class="tool-rpm-tag" style="font-size:0.66rem;">$5 Trial Credit • Zero Config</span>
+            </div>
+            <span style="font-size:0.76rem;color:var(--accent-primary);font-weight:600;">Deploy Containers, Cron &amp; Postgres in 30s →</span>
+          </a>
+      </div>
+    </div>
+
+        <div class="rail-card">
+          <h3>Internal SEO Link Mesh (39)</h3>
+          <div class="related-tools-list">
+            
+              <a href="../json-to-csv/index.html" class="related-tool-link" id="related-link-json-to-csv">
+                <span>JSON ↔ CSV Converter</span>
+                <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--accent-primary);">→</span>
+              </a>
+              <a href="../image-compressor/index.html" class="related-tool-link" id="related-link-image-compressor">
+                <span>Image Compressor &amp; WebP</span>
+                <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--accent-primary);">→</span>
+              </a>
+              <a href="../regex-tester/index.html" class="related-tool-link" id="related-link-regex-tester">
+                <span>Regex Tester &amp; Debugger</span>
+                <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--accent-primary);">→</span>
+              </a>
+              <a href="../text-diff-checker/index.html" class="related-tool-link" id="related-link-text-diff-checker">
+                <span>Text &amp; Code Diff Checker</span>
+                <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--accent-primary);">→</span>
+              </a>
+              <a href="../jwt-decoder/index.html" class="related-tool-link" id="related-link-jwt-decoder">
+                <span>JWT Token Decoder</span>
+                <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--accent-primary);">→</span>
+              </a>
+              <a href="../sql-formatter/index.html" class="related-tool-link" id="related-link-sql-formatter">
+                <span>SQL Query Formatter</span>
+                <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--accent-primary);">→</span>
+              </a>
+              <a href="../base64-hash-studio/index.html" class="related-tool-link" id="related-link-base64-hash-studio">
+                <span>Base64 &amp; SHA Hash Studio</span>
+                <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--accent-primary);">→</span>
+              </a>
+              <a href="../cron-expression-generator/index.html" class="related-tool-link" id="related-link-cron-expression-generator">
+                <span>Cron Schedule Builder</span>
+                <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--accent-primary);">→</span>
+              </a>
+              <a href="../yaml-to-json/index.html" class="related-tool-link" id="related-link-yaml-to-json">
+                <span>YAML ↔ JSON Converter</span>
+                <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--accent-primary);">→</span>
+              </a>
+              <a href="../xml-to-json/index.html" class="related-tool-link" id="related-link-xml-to-json">
+                <span>XML ↔ JSON Converter</span>
+                <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--accent-primary);">→</span>
+              </a>
+          </div>
+        </div>
+
+        <div class="rail-card">
+          <h3>Page SEO & Schema Audit</h3>
+          <div style="font-family:var(--font-mono);font-size:0.75rem;display:flex;flex-direction:column;gap:0.45rem;color:var(--text-secondary);">
+            <div><strong>Primary KW:</strong> chmod calculator online</div>
+            <div><strong>Search Vol:</strong> 130,000/mo</div>
+            <div><strong>JSON-LD:</strong> SoftwareApplication + FAQPage</div>
+            <div><strong>CLS Score:</strong> 0.00 (Reserved Ad Boxes)</div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  
+  <div id="global-checkout-modal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(15,23,42,0.72);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:1rem;">
+    <div style="background:var(--bg-surface);border:1px solid var(--accent-primary);border-radius:12px;max-width:520px;width:100%;padding:1.5rem;box-shadow:0 20px 50px rgba(0,0,0,0.35);position:relative;">
+      <button type="button" id="btn-close-global-checkout" aria-label="Close modal" style="position:absolute;top:0.85rem;right:0.85rem;background:transparent;border:none;font-size:1.25rem;cursor:pointer;color:var(--text-secondary);">✕</button>
+      <div style="font-family:var(--font-mono);font-size:0.7rem;font-weight:700;color:var(--accent-emerald);text-transform:uppercase;margin-bottom:0.3rem;">
+        INSTANT DIRECT CHECKOUT • 100% COMMERCIAL LICENSE
+      </div>
+      <h3 style="font-size:1.2rem;font-weight:800;margin-bottom:0.4rem;color:var(--text-primary);">
+        Sponsor UtilForge or License the Full 373-Page Factory
+      </h3>
+      <p style="font-size:0.84rem;color:var(--text-secondary);margin-bottom:1rem;">
+        Reserve a high-intent developer ad slot across all 373 pages or get immediate Git repository access to the full UtilForge static compiler, 40 tool engines, and 26 boilerplates.
+      </p>
+      <form id="global-checkout-form" style="display:flex;flex-direction:column;gap:0.75rem;">
+        <div>
+          <label for="global-checkout-pkg" style="display:block;font-size:0.76rem;font-weight:700;margin-bottom:0.25rem;">Select Package or Sponsorship Tier</label>
+          <select id="global-checkout-pkg" class="control-select" style="width:100%;">
+            <option value="Full UtilForge 373-Page Factory + 40 Engines Source Code ($149 Lifetime)">Full UtilForge 373-Page Factory Source Code ($149 Lifetime)</option>
+            <option value="Sitewide Leaderboard / Sticky Sidebar Sponsor Slot ($99/mo)">Sitewide Leaderboard / Sticky Sidebar Sponsor Slot ($99/mo)</option>
+            <option value="Featured Marketplace Pin + Newsletter Blast ($49 One-Time)">Featured Marketplace Listing Pin ($49 One-Time)</option>
+            <option value="All 26 SaaS Boilerplates, MCP Servers & n8n Workflows Bundle ($249)">All 26 Boilerplates, MCP Servers & Workflows Bundle ($249)</option>
+          </select>
+        </div>
+        <div>
+          <label for="global-checkout-email" style="display:block;font-size:0.76rem;font-weight:700;margin-bottom:0.25rem;">Your Work or Founder Email</label>
+          <input type="email" id="global-checkout-email" class="control-input" required placeholder="founder@company.com" style="width:100%;" />
+        </div>
+        <button type="submit" class="btn btn-primary" id="btn-submit-global-checkout" style="width:100%;padding:0.75rem;font-size:0.92rem;">
+          Send Instant Payment Link &amp; Repo Access →
+        </button>
+        <div id="global-checkout-status" style="display:none;font-size:0.8rem;font-weight:700;color:var(--accent-emerald);text-align:center;margin-top:0.25rem;"></div>
+      </form>
+    </div>
+  </div>
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <strong>UtilForge</strong> — 40 Utilities + 292 "X vs. Y" Calculators + 26 Marketplace Listings (373 Static Pages). Zero server uploads.
+      </div>
+      <div style="display:flex;gap:1.15rem;flex-wrap:wrap;font-family:var(--font-mono);font-size:0.76rem;">
+        <a href="../marketplace/index.html" id="footer-mkt-link">Marketplace (26)</a>
+        <a href="../compare/index.html" id="footer-matrix-link">X vs Y Matrix (292)</a>
+        <a href="../about/index.html" id="footer-about-link">About &amp; Contact</a>
+        <a href="../privacy/index.html" id="footer-privacy-link">Privacy Policy</a>
+        <a href="../terms/index.html" id="footer-terms-link">Terms of Use</a>
+        <a href="../sitemap.xml" id="footer-sitemap-link">sitemap.xml</a>
+        <a href="../robots.txt" id="footer-robots-link">robots.txt</a>
+        <a href="../ads.txt" id="footer-ads-link">ads.txt</a>
+      </div>
+    </div>
+  </footer>
+  <script src="../assets/engines.js" defer></script>
+</body>
+</html>
