@@ -4,7 +4,7 @@
     <title>UtilForge — Developer Utilities, Cloud Cost Calculators &amp; MCP Marketplace</title>
     <link>https://utilforge.pages.dev/</link>
     <description>Zero-Server Client-Side Data &amp; File Utilities</description>
-    <lastBuildDate>Mon, 19 Oct 2026 09:20:49 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 20 Oct 2026 16:41:24 GMT</lastBuildDate>
     <item>
       <title>JSON ↔ CSV Converter &amp; Nested Flattener</title>
       <link>https://utilforge.pages.dev/json-to-csv/</link>
@@ -244,6 +244,18 @@
       <link>https://utilforge.pages.dev/rag-vector-db-cost-estimator/</link>
       <guid>https://utilforge.pages.dev/rag-vector-db-cost-estimator/</guid>
       <description>Compare monthly vector database and RAG infrastructure costs across Pinecone, Supabase pgvector, Qdrant, and Cloudflare Vectorize client-side with instant workload modeling.</description>
+    </item>
+    <item>
+      <title>Reasoning LLM Cost Calculator (OpenAI o1 / o3-mini vs DeepSeek R1 vs Claude 3.7 Sonnet)</title>
+      <link>https://utilforge.pages.dev/reasoning-llm-token-cost-calculator/</link>
+      <guid>https://utilforge.pages.dev/reasoning-llm-token-cost-calculator/</guid>
+      <description>Compare monthly reasoning model API bills across DeepSeek R1, OpenAI o3-mini, OpenAI o1, and Claude 3.7 Sonnet client-side with interactive thinking token multipliers and prompt caching modeling.</description>
+    </item>
+    <item>
+      <title>Vercel vs Cloudflare Workers &amp; Pages Compute &amp; Bandwidth Cost Calculator</title>
+      <link>https://utilforge.pages.dev/vercel-vs-cloudflare-pricing-calculator/</link>
+      <guid>https://utilforge.pages.dev/vercel-vs-cloudflare-pricing-calculator/</guid>
+      <description>Simulate monthly Next.js and full-stack hosting bills comparing Vercel Pro vs Cloudflare Workers &amp; Pages with zero-egress bandwidth and serverless compute modeling.</description>
     </item>
     <item>
       <title>ShipStack Pro — Next.js 15 + Stripe + Supabase AI SaaS Boilerplate ($199 Lifetime)</title>

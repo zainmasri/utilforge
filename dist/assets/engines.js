@@ -3241,6 +3241,387 @@
         summary: `${(vectors / 1000000).toFixed(1)}M vectors (${dims}d): Lowest Cost = ${topProvider.name} ($${topProvider.monthlyTotal.toFixed(2)}/mo) vs Pinecone ($${pineconeTotal.toFixed(2)}/mo) • Index RAM: ~${ramRequiredGb.toFixed(1)} GB`,
       };
     },
+
+    reasoningLlmCostEngine(input, opts) {
+      let data = {};
+      try {
+        data = JSON.parse(input);
+      } catch (_e) {
+        const num = parseFloat(String(input).replace(/[^0-9.]/g, ''));
+        data = { monthlyRequests: isNaN(num) || num <= 0 ? 500000 : num };
+      }
+
+      const requests = Math.max(100, Number(data.monthlyRequests ?? data.requests ?? 500000));
+      const inTokensPerReq = Math.max(100, Number(data.inputTokensPerReq ?? data.inputTokens ?? 4000));
+
+      let reasoningTokensPerReq = Number(data.reasoningTokensPerReq ?? 4096);
+      if (opts.reasoningTier === 'low') reasoningTokensPerReq = 1024;
+      else if (opts.reasoningTier === 'medium') reasoningTokensPerReq = 4096;
+      else if (opts.reasoningTier === 'high') reasoningTokensPerReq = 8192;
+      else if (opts.reasoningTier === 'extreme') reasoningTokensPerReq = 16384;
+
+      let cacheHitPct = Number(data.promptCacheHitRatePct ?? 50);
+      if (opts.promptCaching === 'none') cacheHitPct = 0;
+      else if (opts.promptCaching === 'standard') cacheHitPct = 50;
+      else if (opts.promptCaching === 'heavy') cacheHitPct = 80;
+      cacheHitPct = Math.max(0, Math.min(95, cacheHitPct));
+
+      const outTokensPerReq = Math.max(50, Number(data.outputTokensPerReq ?? data.outputTokens ?? 1200));
+
+      const totalMonthlyInputTokensM = (requests * inTokensPerReq) / 1000000;
+      const cachedInputTokensM = totalMonthlyInputTokensM * (cacheHitPct / 100);
+      const uncachedInputTokensM = totalMonthlyInputTokensM - cachedInputTokensM;
+      const totalMonthlyReasoningTokensM = (requests * reasoningTokensPerReq) / 1000000;
+      const totalMonthlyOutputTokensM = (requests * outTokensPerReq) / 1000000;
+      const totalBilledOutputTokensM = totalMonthlyReasoningTokensM + totalMonthlyOutputTokensM;
+
+      const models = [
+        {
+          id: 'deepseek-r1',
+          name: 'DeepSeek R1',
+          provider: 'DeepSeek (Open Weights / API)',
+          inputPer1M: 0.55,
+          cachedInputPer1M: 0.14,
+          outputPer1M: 2.19,
+          contextWindow: '128K',
+          notes: 'Industry-leading reasoning economics • Open weights available',
+          affiliateUrl: '/go/openrouter-ai/',
+          affiliatePartner: 'OpenRouter Unified LLM API',
+        },
+        {
+          id: 'openai-o3-mini',
+          name: 'OpenAI o3-mini',
+          provider: 'OpenAI',
+          inputPer1M: 1.10,
+          cachedInputPer1M: 0.55,
+          outputPer1M: 4.40,
+          contextWindow: '200K',
+          notes: 'High-speed STEM & coding reasoning • Low / Med / High reasoning efforts',
+          affiliateUrl: '/go/openrouter-ai/',
+          affiliatePartner: 'OpenRouter Unified LLM API',
+        },
+        {
+          id: 'claude-3-7-sonnet',
+          name: 'Claude 3.7 Sonnet (Thinking Mode)',
+          provider: 'Anthropic',
+          inputPer1M: 3.00,
+          cachedInputPer1M: 0.30,
+          outputPer1M: 15.00,
+          contextWindow: '200K',
+          notes: 'Top-tier agentic coding & nuanced reasoning • 90% prompt cache discount',
+          affiliateUrl: '/go/openrouter-ai/',
+          affiliatePartner: 'OpenRouter Unified LLM API',
+        },
+        {
+          id: 'openai-o1',
+          name: 'OpenAI o1',
+          provider: 'OpenAI',
+          inputPer1M: 15.00,
+          cachedInputPer1M: 7.50,
+          outputPer1M: 60.00,
+          contextWindow: '200K',
+          notes: 'Flagship deep reasoning • Enterprise mathematical & security audit',
+          affiliateUrl: '/go/openrouter-ai/',
+          affiliatePartner: 'OpenRouter Unified LLM API',
+        },
+      ];
+
+      const modelResults = models.map((m) => {
+        const inputCost = uncachedInputTokensM * m.inputPer1M + cachedInputTokensM * m.cachedInputPer1M;
+        const reasoningCost = totalMonthlyReasoningTokensM * m.outputPer1M;
+        const outputCost = totalMonthlyOutputTokensM * m.outputPer1M;
+        const totalCost = inputCost + reasoningCost + outputCost;
+        const totalWithoutCache = totalMonthlyInputTokensM * m.inputPer1M + reasoningCost + outputCost;
+        const cacheSavings = Math.max(0, totalWithoutCache - totalCost);
+        const effectiveRpmUsd = totalCost / (requests / 1000);
+        return {
+          ...m,
+          inputCost,
+          reasoningCost,
+          outputCost,
+          totalCost,
+          cacheSavings,
+          effectiveRpmUsd,
+        };
+      });
+
+      modelResults.sort((a, b) => a.totalCost - b.totalCost);
+      const cheapest = modelResults[0];
+      const priciest = modelResults[modelResults.length - 1];
+      const annualSavingsVsMax = (priciest.totalCost - cheapest.totalCost) * 12;
+
+      const report = {
+        workloadSummary: {
+          monthlyRequests: requests.toLocaleString(),
+          inputTokensPerReq: inTokensPerReq.toLocaleString(),
+          reasoningTokensPerReq: reasoningTokensPerReq.toLocaleString(),
+          outputTokensPerReq: outTokensPerReq.toLocaleString(),
+          promptCacheHitRate: `${cacheHitPct}%`,
+          monthlyReasoningVolume: `${totalMonthlyReasoningTokensM.toFixed(2)}M tokens`,
+          monthlyTotalBilledVolume: `${(totalMonthlyInputTokensM + totalBilledOutputTokensM).toFixed(2)}M tokens`,
+        },
+        modelCostComparison: modelResults.map((m) => ({
+          model: m.name,
+          provider: m.provider,
+          estimatedMonthlyBill: `$${m.totalCost.toFixed(2)}`,
+          costPer1kRequests: `$${m.effectiveRpmUsd.toFixed(3)}`,
+          reasoningOverheadCost: `$${m.reasoningCost.toFixed(2)} (${Math.round((m.reasoningCost / m.totalCost) * 100)}% of bill)`,
+          promptCachingDiscount: `-$${m.cacheSavings.toFixed(2)}/mo`,
+        })),
+        insights: {
+          mostCostEffectiveModel: cheapest.name,
+          cheapestMonthlyCost: `$${cheapest.totalCost.toFixed(2)}/mo`,
+          annualEnterpriseSavings: `$${annualSavingsVsMax.toLocaleString(undefined, { maximumFractionDigits: 0 })}/year vs ${priciest.name}`,
+          recommendation: `Deploy ${cheapest.name} via unified API proxy (OpenRouter) with automated fallback to preserve reasoning depth while cutting inference bills by up to ${Math.round(((priciest.totalCost - cheapest.totalCost) / priciest.totalCost) * 100)}%.`,
+        },
+      };
+
+      const extraHtml = `
+        <div style="margin-top:1.25rem;">
+          <div style="font-size:0.8rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:0.6rem;letter-spacing:0.04em;">
+            Reasoning Model Monthly Bill &amp; Thinking Token Breakdown (${requests.toLocaleString()} reqs, ${reasoningTokensPerReq.toLocaleString()} thinking tokens/req)
+          </div>
+          <div style="overflow-x:auto;">
+            <table class="matrix-table" style="width:100%;font-size:0.86rem;border-collapse:collapse;">
+              <thead>
+                <tr style="background:var(--bg-subtle);border-bottom:2px solid var(--border-strong);">
+                  <th style="padding:0.65rem 0.75rem;text-align:left;">Model</th>
+                  <th style="padding:0.65rem 0.75rem;text-align:right;">Input Bill</th>
+                  <th style="padding:0.65rem 0.75rem;text-align:right;color:var(--accent-amber);">Reasoning / Thinking</th>
+                  <th style="padding:0.65rem 0.75rem;text-align:right;">Final Output</th>
+                  <th style="padding:0.65rem 0.75rem;text-align:right;">Cache Savings</th>
+                  <th style="padding:0.65rem 0.75rem;text-align:right;color:var(--accent-emerald);">Total / Month</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${modelResults
+                  .map(
+                    (m, idx) => `
+                  <tr style="border-bottom:1px solid var(--border-subtle);${idx === 0 ? 'background:var(--accent-emerald-soft);' : ''}">
+                    <td style="padding:0.65rem 0.75rem;">
+                      <strong>${escapeHtml(m.name)}</strong>
+                      <div style="font-size:0.72rem;color:var(--text-muted);">${escapeHtml(m.notes)}</div>
+                    </td>
+                    <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);font-size:0.8rem;">
+                      $${m.inputCost.toFixed(2)}
+                    </td>
+                    <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);font-size:0.82rem;font-weight:700;color:var(--accent-amber);">
+                      $${m.reasoningCost.toFixed(2)}
+                    </td>
+                    <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);font-size:0.8rem;">
+                      $${m.outputCost.toFixed(2)}
+                    </td>
+                    <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);font-size:0.8rem;color:var(--accent-emerald);">
+                      -$${m.cacheSavings.toFixed(2)}
+                    </td>
+                    <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);font-weight:800;font-size:0.95rem;color:${idx === 0 ? 'var(--accent-emerald)' : 'var(--text-primary)'};">
+                      $${m.totalCost.toFixed(2)}/mo
+                    </td>
+                  </tr>`
+                  )
+                  .join('')}
+              </tbody>
+            </table>
+          </div>
+
+          <div style="margin-top:1.15rem;padding:0.9rem 1.15rem;background:var(--bg-elevated);border-left:4px solid var(--accent-primary);border-radius:6px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;">
+            <div>
+              <div style="font-size:0.85rem;font-weight:700;color:var(--text-primary);">Route DeepSeek R1, Claude 3.7 &amp; OpenAI Through a Unified API Gateway</div>
+              <div style="font-size:0.78rem;color:var(--text-secondary);">OpenRouter allows you to switch between reasoning models with 1 line of code, enforce thinking token caps, and benefit from global prompt caching.</div>
+            </div>
+            <a href="/go/openrouter-ai/" target="_blank" rel="noopener sponsored" data-affiliate-partner="OpenRouter Unified LLM API" class="btn btn-primary" style="padding:0.5rem 0.9rem;font-size:0.8rem;">
+              Connect Unified LLM API →
+            </a>
+          </div>
+        </div>
+      `;
+
+      return {
+        output: JSON.stringify(report, null, 2),
+        extraHtml,
+        downloadExt: 'json',
+        downloadMime: 'application/json',
+        summary: `${cheapest.name} is most cost-effective at $${cheapest.totalCost.toFixed(2)}/mo • Saves $${annualSavingsVsMax.toLocaleString(undefined, { maximumFractionDigits: 0 })}/yr vs ${priciest.name} • Thinking tokens represent ${Math.round((cheapest.reasoningCost / cheapest.totalCost) * 100)}% of monthly spend.`,
+      };
+    },
+
+    vercelVsCloudflareEngine(input, opts) {
+      let data = {};
+      try {
+        data = JSON.parse(input);
+      } catch (_e) {
+        const num = parseFloat(String(input).replace(/[^0-9.]/g, ''));
+        data = { monthlyPageviews: isNaN(num) || num <= 0 ? 2500000 : num };
+      }
+
+      const pageviews = Math.max(1000, Number(data.monthlyPageviews ?? data.pageviews ?? 2500000));
+      const bandwidthGb = Math.max(10, Number(data.bandwidthEgressGb ?? data.bandwidth ?? 3500));
+      const funcReqs = Math.max(1000, Number(data.serverlessFunctionRequests ?? data.functions ?? 8000000));
+
+      let durationMs = Number(data.avgExecutionDurationMs ?? 250);
+      if (opts.computeDuration === '100ms') durationMs = 100;
+      else if (opts.computeDuration === '350ms') durationMs = 350;
+      else if (opts.computeDuration === '800ms') durationMs = 800;
+
+      let memoryMb = Number(opts.memoryMb || 512);
+
+      let seats = Math.max(1, Number(data.teamSeats ?? 5));
+      if (opts.teamSeats === '1') seats = 1;
+      else if (opts.teamSeats === '5') seats = 5;
+      else if (opts.teamSeats === '15') seats = 15;
+      else if (opts.teamSeats === '30') seats = 30;
+
+      const vercelSeatCost = seats * 20;
+      const vercelBandwidthOverageGb = Math.max(0, bandwidthGb - 1000);
+      const vercelBandwidthCost = vercelBandwidthOverageGb * 0.15;
+
+      const durationSec = durationMs / 1000;
+      const totalGbHours = (funcReqs * durationSec * (memoryMb / 1024)) / 3600;
+      const vercelComputeOverageGbHours = Math.max(0, totalGbHours - 1000);
+      const vercelComputeCost = vercelComputeOverageGbHours * 0.18;
+
+      const vercelFuncOverageM = Math.max(0, funcReqs - 1000000) / 1000000;
+      const vercelFuncCost = vercelFuncOverageM * 0.40;
+
+      const vercelTotal = vercelSeatCost + vercelBandwidthCost + vercelComputeCost + vercelFuncCost;
+
+      const cfBase = 5;
+      const cfBandwidthCost = 0;
+      const cfFuncOverageM = Math.max(0, funcReqs - 10000000) / 1000000;
+      const cfFuncCost = cfFuncOverageM * 0.30;
+      const cfTotal = cfBase + cfBandwidthCost + cfFuncCost;
+
+      const monthlySavings = Math.max(0, vercelTotal - cfTotal);
+      const annualSavings = monthlySavings * 12;
+      const savingsPct = vercelTotal > 0 ? Math.round((monthlySavings / vercelTotal) * 100) : 0;
+
+      const report = {
+        workloadParameters: {
+          monthlyPageviews: pageviews.toLocaleString(),
+          outboundBandwidthGb: `${bandwidthGb.toLocaleString()} GB`,
+          serverlessFunctionInvocations: funcReqs.toLocaleString(),
+          avgExecutionDurationMs: `${durationMs} ms`,
+          memoryAllocationMb: `${memoryMb} MB`,
+          serverlessComputeGbHours: `${totalGbHours.toFixed(1)} GB-hrs`,
+          teamSeatsCount: seats,
+        },
+        monthlyCostComparison: {
+          vercelPro: {
+            totalMonthlyBill: `$${vercelTotal.toFixed(2)}`,
+            seatsBill: `$${vercelSeatCost.toFixed(2)} (${seats} seats @ $20/mo)`,
+            bandwidthEgressBill: `$${vercelBandwidthCost.toFixed(2)} (${vercelBandwidthOverageGb.toLocaleString()} GB overage @ $0.15/GB)`,
+            computeExecutionBill: `$${vercelComputeCost.toFixed(2)} (${vercelComputeOverageGbHours.toFixed(1)} GB-hr overage @ $0.18/GB-hr)`,
+            functionInvocationBill: `$${vercelFuncCost.toFixed(2)}`,
+          },
+          cloudflareWorkersPaid: {
+            totalMonthlyBill: `$${cfTotal.toFixed(2)}`,
+            seatsBill: `$0.00 (Unlimited team seats included in Cloudflare Account)`,
+            bandwidthEgressBill: `$0.00 (100% Unmetered Zero Egress Bandwidth)`,
+            computeExecutionBill: `Included in standard Workers CPU allocation`,
+            functionInvocationBill: `$${cfFuncCost.toFixed(2)} (${cfFuncOverageM.toFixed(1)}M overage @ $0.30/M)`,
+          },
+        },
+        financialRoi: {
+          monthlySavingsUsd: `$${monthlySavings.toFixed(2)}/mo`,
+          annualSavingsUsd: `$${annualSavings.toLocaleString(undefined, { maximumFractionDigits: 0 })}/year`,
+          savingsPercentage: `${savingsPct}% cost reduction with Cloudflare`,
+          recommendation:
+            'Deploy Next.js App Router and edge APIs to Cloudflare Workers/Pages via OpenNext to completely eliminate $0.15/GB bandwidth penalties and per-seat fees.',
+        },
+      };
+
+      const extraHtml = `
+        <div style="margin-top:1.25rem;">
+          <div style="font-size:0.8rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:0.6rem;letter-spacing:0.04em;">
+            Side-by-Side Cost Breakdown: Vercel Pro vs. Cloudflare Workers (${bandwidthGb.toLocaleString()} GB, ${funcReqs.toLocaleString()} function calls, ${seats} seats)
+          </div>
+          <div style="overflow-x:auto;">
+            <table class="matrix-table" style="width:100%;font-size:0.86rem;border-collapse:collapse;">
+              <thead>
+                <tr style="background:var(--bg-subtle);border-bottom:2px solid var(--border-strong);">
+                  <th style="padding:0.65rem 0.75rem;text-align:left;">Cost Component</th>
+                  <th style="padding:0.65rem 0.75rem;text-align:right;">Vercel Pro</th>
+                  <th style="padding:0.65rem 0.75rem;text-align:right;color:var(--accent-emerald);">Cloudflare Workers Paid</th>
+                  <th style="padding:0.65rem 0.75rem;text-align:right;">Monthly Difference</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="border-bottom:1px solid var(--border-subtle);">
+                  <td style="padding:0.65rem 0.75rem;">
+                    <strong>Team Seats Licensing</strong>
+                    <div style="font-size:0.72rem;color:var(--text-muted);">${seats} developer seats</div>
+                  </td>
+                  <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);">$${vercelSeatCost.toFixed(2)}</td>
+                  <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);color:var(--accent-emerald);font-weight:700;">$0.00</td>
+                  <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);color:var(--accent-emerald);">-$${vercelSeatCost.toFixed(2)}</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--border-subtle);">
+                  <td style="padding:0.65rem 0.75rem;">
+                    <strong>Bandwidth Egress</strong>
+                    <div style="font-size:0.72rem;color:var(--text-muted);">${bandwidthGb.toLocaleString()} GB outbound</div>
+                  </td>
+                  <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);">$${vercelBandwidthCost.toFixed(2)}</td>
+                  <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);color:var(--accent-emerald);font-weight:700;">$0.00 (Zero Egress)</td>
+                  <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);color:var(--accent-emerald);">-$${vercelBandwidthCost.toFixed(2)}</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--border-subtle);">
+                  <td style="padding:0.65rem 0.75rem;">
+                    <strong>Function Compute (CPU/RAM Duration)</strong>
+                    <div style="font-size:0.72rem;color:var(--text-muted);">${totalGbHours.toFixed(1)} GB-hours compute</div>
+                  </td>
+                  <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);">$${vercelComputeCost.toFixed(2)}</td>
+                  <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);color:var(--accent-emerald);">Included</td>
+                  <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);color:var(--accent-emerald);">-$${vercelComputeCost.toFixed(2)}</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--border-subtle);">
+                  <td style="padding:0.65rem 0.75rem;">
+                    <strong>Function Invocations / Requests</strong>
+                    <div style="font-size:0.72rem;color:var(--text-muted);">${funcReqs.toLocaleString()} requests</div>
+                  </td>
+                  <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);">$${vercelFuncCost.toFixed(2)}</td>
+                  <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);">$${cfFuncCost.toFixed(2)}</td>
+                  <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);color:var(--accent-emerald);">-$${Math.max(0, vercelFuncCost - cfFuncCost).toFixed(2)}</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--border-subtle);">
+                  <td style="padding:0.65rem 0.75rem;">
+                    <strong>Base Monthly Subscription</strong>
+                  </td>
+                  <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);">Included in seat</td>
+                  <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);">$5.00</td>
+                  <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);">+$5.00</td>
+                </tr>
+                <tr style="background:var(--accent-emerald-soft);font-weight:800;">
+                  <td style="padding:0.75rem 0.75rem;font-size:0.95rem;">
+                    TOTAL ESTIMATED MONTHLY BILL
+                  </td>
+                  <td style="padding:0.75rem 0.75rem;text-align:right;font-family:var(--font-mono);font-size:1.05rem;color:var(--accent-danger);">$${vercelTotal.toFixed(2)}/mo</td>
+                  <td style="padding:0.75rem 0.75rem;text-align:right;font-family:var(--font-mono);font-size:1.05rem;color:var(--accent-emerald);">$${cfTotal.toFixed(2)}/mo</td>
+                  <td style="padding:0.75rem 0.75rem;text-align:right;font-family:var(--font-mono);font-size:1.05rem;color:var(--accent-emerald);">Saves $${monthlySavings.toFixed(2)}/mo (-${savingsPct}%)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div style="margin-top:1.15rem;padding:0.9rem 1.15rem;background:var(--bg-elevated);border-left:4px solid var(--accent-primary);border-radius:6px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;">
+            <div>
+              <div style="font-size:0.85rem;font-weight:700;color:var(--text-primary);">Deploy Full-Stack Next.js &amp; Edge Apps with Zero Egress Fees</div>
+              <div style="font-size:0.78rem;color:var(--text-secondary);">Cloudflare Pages &amp; Workers run your frontends and APIs across 330+ edge locations with $0 bandwidth fees, unlimited preview branches, and instant builds.</div>
+            </div>
+            <a href="/go/cloudflare-workers/" target="_blank" rel="noopener sponsored" data-affiliate-partner="Cloudflare Workers & Pages" class="btn btn-primary" style="padding:0.5rem 0.9rem;font-size:0.8rem;">
+              Deploy Free on Cloudflare →
+            </a>
+          </div>
+        </div>
+      `;
+
+      return {
+        output: JSON.stringify(report, null, 2),
+        extraHtml,
+        downloadExt: 'json',
+        downloadMime: 'application/json',
+        summary: `Cloudflare Workers saves $${monthlySavings.toFixed(2)}/mo ($${annualSavings.toLocaleString(undefined, { maximumFractionDigits: 0 })}/year, -${savingsPct}%) compared to Vercel Pro • Egress bandwidth savings: $${vercelBandwidthCost.toFixed(2)}/mo • Seat savings: $${vercelSeatCost.toFixed(2)}/mo`,
+      };
+    },
   };
 
   /* ========================================================================
@@ -3847,6 +4228,15 @@
       const aWins = m.valA <= m.valB;
       if (cardAEl) cardAEl.classList.toggle('is-winner', aWins);
       if (cardBEl) cardBEl.classList.toggle('is-winner', !aWins);
+
+      const ctaBtnA = document.getElementById('cta-btn-a');
+      const ctaBtnB = document.getElementById('cta-btn-b');
+      if (ctaBtnA && ctaBtnB) {
+        ctaBtnA.className = aWins ? 'btn btn-primary' : 'btn btn-secondary';
+        ctaBtnB.className = aWins ? 'btn btn-secondary' : 'btn btn-primary';
+        ctaBtnA.style.width = '100%';
+        ctaBtnB.style.width = '100%';
+      }
 
       const winner = aWins ? itemA : itemB;
       const loser = aWins ? itemB : itemA;

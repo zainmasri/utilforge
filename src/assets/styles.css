@@ -239,6 +239,9 @@ a {
 .ad-slot ins.adsbygoogle {
   margin: 0 auto;
   text-align: center;
+  width: 100%;
+  min-height: inherit;
+  display: block;
 }
 
 @media (max-width: 768px) {

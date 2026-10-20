@@ -1,6 +1,6 @@
 {
-  "version": "1.1.0",
-  "lastUpdated": "2026-10-18",
+  "version": "1.2.0",
+  "lastUpdated": "2026-10-20",
   "upcomingHighRpmTools": [
     {
       "id": "stripe-paypal-fee-calculator",
@@ -51,25 +51,49 @@
       "deployedDate": "2026-10-19"
     },
     {
-      "id": "openai-o3-vs-deepseek-r1-calculator",
-      "slug": "openai-o3-vs-deepseek-r1-calculator",
-      "name": "OpenAI o3-mini vs DeepSeek R1 Reasoning Token & Inference Cost Calculator",
-      "shortName": "o3 vs DeepSeek R1 Calc",
-      "category": "Fintech & AI Economics",
-      "engine": "llmTokenEstimatorEngine",
+      "id": "reasoning-llm-token-cost-calculator",
+      "slug": "reasoning-llm-token-cost-calculator",
+      "name": "Reasoning LLM Cost Calculator (OpenAI o1 / o3-mini vs DeepSeek R1 vs Claude 3.7 Sonnet)",
+      "shortName": "Reasoning LLM Cost Calculator",
+      "category": "Fintech & Business",
+      "engine": "reasoningLlmCostEngine",
       "estMonthlySearches": "145,000",
-      "estRpmUsd": "$45 – $80",
+      "estRpmUsd": "$52 – $88",
+      "status": "deployed",
+      "deployedDate": "2026-10-20"
+    },
+    {
+      "id": "vercel-vs-cloudflare-pricing-calculator",
+      "slug": "vercel-vs-cloudflare-pricing-calculator",
+      "name": "Vercel vs Cloudflare Workers & Pages Compute & Bandwidth Cost Calculator",
+      "shortName": "Vercel vs Cloudflare Calc",
+      "category": "DevOps & Cloud",
+      "engine": "vercelVsCloudflareEngine",
+      "estMonthlySearches": "98,000",
+      "estRpmUsd": "$42 – $75",
+      "status": "deployed",
+      "deployedDate": "2026-10-20"
+    },
+    {
+      "id": "aws-rds-vs-supabase-neon-cost-calculator",
+      "slug": "aws-rds-vs-supabase-neon-cost-calculator",
+      "name": "AWS RDS vs Supabase vs Neon Serverless PostgreSQL Cost Calculator",
+      "shortName": "RDS vs Supabase vs Neon Calc",
+      "category": "Data & Analytics",
+      "engine": "postgresCloudCostEngine",
+      "estMonthlySearches": "92,000",
+      "estRpmUsd": "$40 – $68",
       "status": "queued"
     },
     {
-      "id": "nextjs-vs-cloudflare-worker-cost-estimator",
-      "slug": "nextjs-vs-cloudflare-worker-cost-estimator",
-      "name": "Next.js on Vercel vs Cloudflare Workers Compute & Bandwidth Cost Calculator",
-      "shortName": "Vercel vs Cloudflare Workers Calc",
-      "category": "DevOps & Cloud",
-      "engine": "saasMetricsEngine",
-      "estMonthlySearches": "82,000",
-      "estRpmUsd": "$35 – $65",
+      "id": "b2b-saas-churn-net-dollar-retention-calculator",
+      "slug": "b2b-saas-churn-net-dollar-retention-calculator",
+      "name": "B2B SaaS Net Dollar Retention (NDR), Logo Churn & Expansion ARR Calculator",
+      "shortName": "SaaS NDR & Churn Calculator",
+      "category": "Fintech & Business",
+      "engine": "saasNdrChurnEngine",
+      "estMonthlySearches": "64,000",
+      "estRpmUsd": "$48 – $80",
       "status": "queued"
     }
   ]

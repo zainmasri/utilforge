@@ -116,9 +116,15 @@ function resolveMarketplaceCheckoutUrl(item) {
 function renderContextualWorkbenchPartnerBar(tool) {
   const partners = SITE_CONFIG.monetization.affiliatePartners || [];
   if (partners.length === 0) return '';
-  const matched =
-    partners.find((p) => Array.isArray(p.categories) && p.categories.includes(tool.category)) ||
-    partners[0];
+  let matched = null;
+  if (tool.partnerSlug) {
+    matched = partners.find((p) => p.slug === tool.partnerSlug);
+  }
+  if (!matched) {
+    matched =
+      partners.find((p) => Array.isArray(p.categories) && p.categories.includes(tool.category)) ||
+      partners[0];
+  }
   return `
     <div style="padding:0.65rem 1rem;background:var(--bg-elevated);border-top:1px solid var(--border-subtle);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.65rem;">
       <div style="display:flex;align-items:center;gap:0.55rem;flex-wrap:wrap;font-size:0.8rem;">
@@ -796,7 +802,14 @@ function buildComparisonPairHtml(pair) {
             <span id="vs-winner-banner-text">Calculating optimal choice...</span>
             <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;">
               <button type="button" class="btn btn-secondary" id="btn-share-matrix" style="padding:0.35rem 0.7rem;font-size:0.75rem;">🔗 Share Comparison</button>
-              <a href="${escapeHtml(resolveProviderUrl(a))}" target="_blank" rel="noopener sponsored" data-affiliate-partner="${escapeHtml(a.name)}" id="vs-winner-cta-btn" class="btn btn-primary" style="padding:0.38rem 0.85rem;font-size:0.78rem;">
+              <a href="${escapeHtml(ctaHrefA)}"
+                 data-a-href="${escapeHtml(ctaHrefA)}"
+                 data-b-href="${escapeHtml(ctaHrefB)}"
+                 data-a-label="${escapeHtml(ctaLabelA)}"
+                 data-b-label="${escapeHtml(ctaLabelB)}"
+                 data-a-partner="${escapeHtml(a.name)}"
+                 data-b-partner="${escapeHtml(b.name)}"
+                 target="_blank" rel="noopener sponsored" data-affiliate-partner="${escapeHtml(a.name)}" id="vs-winner-cta-btn" class="btn btn-primary" style="padding:0.38rem 0.85rem;font-size:0.78rem;">
                 Claim Winner Offer →
               </a>
             </div>
