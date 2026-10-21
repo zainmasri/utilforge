@@ -2,6 +2,18 @@
 
 All daily programmatic SEO expansions, high-CPM tool additions, affiliate redirect activations, and revenue optimizations are logged below.
 
+## 2026-10-21 — 377-Page Expansion + Postgres Cloud & SaaS NDR/Churn Calculators + AdSense Viewability & Affiliate CTA Optimization
+- **Total Static Pages Compiled**: **377 HTML Pages** (`3 Hubs + 44 Client-Side Tools + 292 X-vs-Y Calculators + 26 Marketplace Listings + 9 /go/ Affiliate Routers + 3 Legal Pages`)
+- **2 New High-CPM Client-Side Utility Tools Added ($40–$80 AdSense RPM Tier)**:
+  1. `/aws-rds-vs-supabase-neon-cost-calculator/` — AWS RDS vs Supabase vs Neon Serverless PostgreSQL Database Cost Calculator (`$40–$68 RPM`, 92K est. monthly searches, directly funnels to `#1` converting partner `supabase-postgres` & `neon-postgres`)
+  2. `/b2b-saas-churn-net-dollar-retention-calculator/` — B2B SaaS Net Dollar Retention (NDR), Logo Churn & Expansion ARR Calculator (`$48–$80 RPM`, 64K est. monthly searches, promotes `mercury-banking` & `lemon-squeezy`)
+- **Affiliate CTA & Ad Viewability Optimizations on High-Traffic Pages**:
+  - Routed `/regex-tester/` (top-traffic page in telemetry) directly to `openrouter-ai` for instant AI regex debugging/generation with high-converting partner badge.
+  - Upgraded `.workbench-partner-bar` with verified partner pill, emerald highlight border, and elevated conversion CTAs across all utility tools.
+  - Enhanced homepage developer perks showcase (`renderHomeAffiliateShowcase`) with distinct deal cards and official partner badges.
+  - Hardened `.ad-slot` CSS viewability: added `contain: layout style;`, `width: 100% !important; display: block !important;` on `ins.adsbygoogle`, and unconstrained `overflow: visible;` on filled ads to maximize Google AdSense Active View viewability and fill probability.
+  - Locked `.sidebar-rail` sticky geometry (`z-index: 10; align-self: start; top: 4.75rem;`) for persistent 100% Active View exposure during long scroll interactions.
+
 ## 2026-10-20 — 375-Page Expansion + Reasoning LLM & Serverless Cost Calculators + Winner CTA Optimization
 - **Total Static Pages Compiled**: **375 HTML Pages** (`3 Hubs + 42 Client-Side Tools + 292 X-vs-Y Calculators + 26 Marketplace Listings + 9 /go/ Affiliate Routers + 3 Legal Pages`)
 - **2 New High-CPM Client-Side Utility Tools Added ($42–$88 AdSense RPM Tier)**:

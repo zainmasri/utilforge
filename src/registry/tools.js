@@ -316,6 +316,7 @@ export const TOOLS = [
     name: 'Interactive Regex Tester, Highlighter & Group Extractor',
     shortName: 'Regex Tester & Debugger',
     category: 'Developer Utilities',
+    partnerSlug: 'openrouter-ai',
     engine: 'regexTesterEngine',
     primaryKeyword: 'regex tester online javascript',
     secondaryKeywords: ['regular expression debugger', 'extract regex capture groups', 'email url regex pattern tester'],
@@ -2524,6 +2525,178 @@ server: cloudflare`,
       {
         q: 'How does Cloudflare Workers compute pricing compare to Vercel Fast Compute?',
         a: 'Cloudflare Workers Paid costs $5/mo and includes 10 million requests with standard CPU time included, charging only $0.30 per additional million requests. Vercel charges for Fast Compute function duration in GB-hours ($0.18/GB-hr) once the Pro tier pool is depleted.',
+      },
+    ],
+  },
+  {
+    id: 'aws-rds-vs-supabase-neon-cost-calculator',
+    slug: 'aws-rds-vs-supabase-neon-cost-calculator',
+    name: 'AWS RDS vs Supabase vs Neon Serverless PostgreSQL Cost Calculator',
+    shortName: 'Postgres Cloud Cost Calculator',
+    category: 'Data & Analytics',
+    engine: 'postgresCloudCostEngine',
+    partnerSlug: 'supabase-postgres',
+    primaryKeyword: 'aws rds vs supabase cost calculator',
+    secondaryKeywords: [
+      'neon vs supabase postgres pricing',
+      'aws rds postgres monthly bill estimator',
+      'serverless postgres pricing comparison',
+      'postgres multi az storage iops pricing',
+    ],
+    estMonthlySearches: '92,000',
+    estRpmUsd: '$40 – $68',
+    competitionLevel: 'Low',
+    headline: 'AWS RDS vs Supabase vs Neon Serverless PostgreSQL Database Cost Calculator',
+    subtitle:
+      'Model monthly PostgreSQL infrastructure expenses across AWS RDS (Single-AZ vs Multi-AZ), Supabase Pro Managed Postgres, and Neon Serverless Database with provisioned IOPS, storage auto-scaling, and auto-suspend compute.',
+    metaDescription:
+      'Calculate monthly PostgreSQL hosting costs comparing AWS RDS vs Supabase Pro vs Neon Serverless client-side with compute sizing, storage IOPS, and auto-suspend workload modeling.',
+    badge: 'PostgreSQL Cloud Benchmark',
+    options: [
+      {
+        id: 'instanceClass',
+        label: 'Compute Tier / Memory',
+        type: 'select',
+        value: 'medium',
+        choices: [
+          { value: 'small', label: 'Small / Dev (db.t4g.small / 2 vCPU, 2GB RAM)' },
+          { value: 'medium', label: 'Medium / Standard (db.m6g.large / 2 vCPU, 8GB RAM)' },
+          { value: 'large', label: 'Large / Production (db.m6g.xlarge / 4 vCPU, 16GB RAM)' },
+          { value: 'xlarge', label: 'Enterprise (db.r6g.2xlarge / 8 vCPU, 64GB RAM)' },
+        ],
+      },
+      {
+        id: 'availabilityTier',
+        label: 'High Availability (HA)',
+        type: 'select',
+        value: 'single_az',
+        choices: [
+          { value: 'single_az', label: 'Single-AZ (Standalone Dev / Staging)' },
+          { value: 'multi_az', label: 'Multi-AZ Standby Replica (High Availability)' },
+        ],
+      },
+      {
+        id: 'serverlessDutyCycle',
+        label: 'Serverless Duty Cycle (Neon)',
+        type: 'select',
+        value: 'continuous',
+        choices: [
+          { value: 'continuous', label: '24/7 Always Active (100% Duty Cycle)' },
+          { value: 'business_hours', label: 'Business Hours Only (~45% Duty Cycle, 10 hrs/day)' },
+          { value: 'intermittent', label: 'Serverless Dev / Staging (~20% Duty Cycle, Auto-Suspend)' },
+        ],
+      },
+    ],
+    sampleInput: JSON.stringify(
+      {
+        storageGb: 250,
+        provisionedIops: 3000,
+        activeConnections: 120,
+        monthlyBackupGb: 250,
+        monthlyEgressGb: 500,
+      },
+      null,
+      2
+    ),
+    howToSteps: [
+      'Enter your database workload metrics: total storage volume in GB (e.g. 250 GB) and monthly outbound network egress (e.g. 500 GB).',
+      'Select your compute class (e.g. Medium 2 vCPU / 8 GB RAM) and high-availability configuration (Single-AZ vs Multi-AZ standby replica).',
+      'Configure the serverless compute duty cycle to model Neon auto-suspension savings during idle off-peak hours.',
+      'Review the itemized side-by-side cost breakdown comparing AWS RDS PostgreSQL, Supabase Pro, and Neon Serverless Database.',
+    ],
+    faqs: [
+      {
+        q: 'Why is AWS RDS often significantly more expensive than Supabase or Neon for startups?',
+        a: 'AWS RDS bills separately for every component: instance hours ($0.154+/hr for db.m6g.large), provisioned gp3 storage ($0.115/GB), provisioned IOPS beyond 3000 ($0.02/IOPS), automated snapshots ($0.095/GB), and internet egress ($0.09/GB). In contrast, Supabase Pro bundles 8 GB storage, 50 GB egress, daily backups, and pgvector for a flat $25/month base fee.',
+      },
+      {
+        q: 'How does Neon Serverless PostgreSQL handle auto-suspend and scale-to-zero?',
+        a: 'Neon separates compute from storage. When an endpoint receives zero incoming connection queries for a configurable timeout (typically 5 minutes), the compute container automatically suspends. Storage remains persistent at $0.175/GB-mo. When a new query arrives, Neon wakes up within ~500ms, saving up to 80% on dev, test, and staging environments.',
+      },
+      {
+        q: 'Does Supabase include connection pooling and pgvector out of the box?',
+        a: 'Yes. Every Supabase PostgreSQL database includes built-in Supavisor connection pooling (handling tens of thousands of client connections without exhausting database RAM) and pre-installed extensions including pgvector for AI embedding search, PostGIS for geospatial data, and Row-Level Security (RLS).',
+      },
+    ],
+  },
+  {
+    id: 'b2b-saas-churn-net-dollar-retention-calculator',
+    slug: 'b2b-saas-churn-net-dollar-retention-calculator',
+    name: 'B2B SaaS Net Dollar Retention (NDR), Logo Churn & Expansion ARR Calculator',
+    shortName: 'SaaS NDR & Churn Calculator',
+    category: 'Fintech & Business',
+    engine: 'saasNdrChurnEngine',
+    partnerSlug: 'mercury-banking',
+    primaryKeyword: 'net dollar retention calculator b2b saas',
+    secondaryKeywords: [
+      'saas ndr vs grr calculator',
+      'logo churn vs revenue churn formula',
+      'saas quick ratio expansion arr calculator',
+      'cohort net revenue retention benchmark',
+    ],
+    estMonthlySearches: '64,000',
+    estRpmUsd: '$48 – $80',
+    competitionLevel: 'Low',
+    headline: 'B2B SaaS Net Dollar Retention (NDR), Logo Churn & Expansion ARR Calculator',
+    subtitle:
+      'Model Net Dollar Retention (NDR), Gross Revenue Retention (GRR), Logo Churn, SaaS Quick Ratio, and 3-Year Compounding ARR Trajectories with cohort upgrade, downgrade, and churn modeling.',
+    metaDescription:
+      'Calculate B2B SaaS Net Dollar Retention (NDR), Gross Revenue Retention (GRR), Logo Churn, and 3-year ARR growth client-side with interactive cohort expansion modeling.',
+    badge: 'B2B SaaS Metric Benchmark',
+    options: [
+      {
+        id: 'benchmarkCohort',
+        label: 'Industry Benchmark Standard',
+        type: 'select',
+        value: 'healthy_b2b',
+        choices: [
+          { value: 'top_decile', label: 'Top Decile Enterprise (>120% NDR — Snowflake / Datadog)' },
+          { value: 'healthy_b2b', label: 'Healthy B2B Mid-Market (105%–115% NDR — High Growth)' },
+          { value: 'smb_selfserve', label: 'SMB / Self-Serve SaaS (90%–100% NDR — Churn Drag)' },
+        ],
+      },
+      {
+        id: 'projectionHorizon',
+        label: 'ARR Projection Milestone',
+        type: 'select',
+        value: '3_years',
+        choices: [
+          { value: '1_year', label: '12-Month Run-Rate Projection' },
+          { value: '3_years', label: '3-Year Multi-Cohort Compounding Model' },
+        ],
+      },
+    ],
+    sampleInput: JSON.stringify(
+      {
+        startingArrUsd: 1200000,
+        startingCustomersCount: 100,
+        expansionArrUsd: 240000,
+        contractionArrUsd: 36000,
+        churnedArrUsd: 84000,
+        lostCustomersCount: 7,
+        newArrAddedUsd: 450000,
+      },
+      null,
+      2
+    ),
+    howToSteps: [
+      'Enter your cohort baseline metrics: Starting ARR (e.g. $1,200,000) and beginning customer count (e.g. 100 enterprise accounts).',
+      'Input expansion ARR generated from seat upgrades, usage tiers, and cross-sells alongside contraction ARR from downgrades.',
+      'Specify lost churned ARR and canceled customer logo count over the 12-month measurement window.',
+      'Evaluate your SaaS Quick Ratio, Net Dollar Retention (NDR %), Gross Revenue Retention (GRR %), and 3-year compounding cohort trajectory.',
+    ],
+    faqs: [
+      {
+        q: 'What is the exact formula for Net Dollar Retention (NDR)?',
+        a: 'Net Dollar Retention (NDR) measures the percentage of recurring revenue retained from an existing customer cohort over a 12-month period. Formula: NDR = [(Starting ARR + Expansion ARR - Contraction ARR - Churned ARR) / Starting ARR] × 100. An NDR above 100% indicates net negative revenue churn.',
+      },
+      {
+        q: 'How does Gross Revenue Retention (GRR) differ from NDR?',
+        a: 'Gross Revenue Retention (GRR) measures revenue retention without crediting expansion or upsells. Formula: GRR = [(Starting ARR - Contraction ARR - Churned ARR) / Starting ARR] × 100. GRR can never exceed 100%. While top enterprise SaaS companies boast 120%–135% NDR, their GRR is typically 90%–95%.',
+      },
+      {
+        q: 'What is a healthy SaaS Quick Ratio?',
+        a: 'The SaaS Quick Ratio measures growth efficiency by comparing revenue additions against revenue losses: Quick Ratio = (New ARR + Expansion ARR) / (Contraction ARR + Churned ARR). A ratio greater than 4.0 indicates hyper-efficient compounding growth, 2.0 to 4.0 indicates solid growth, while below 2.0 indicates that customer churn is severely eroding acquisition efforts.',
       },
     ],
   },

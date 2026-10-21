@@ -3622,6 +3622,424 @@
         summary: `Cloudflare Workers saves $${monthlySavings.toFixed(2)}/mo ($${annualSavings.toLocaleString(undefined, { maximumFractionDigits: 0 })}/year, -${savingsPct}%) compared to Vercel Pro • Egress bandwidth savings: $${vercelBandwidthCost.toFixed(2)}/mo • Seat savings: $${vercelSeatCost.toFixed(2)}/mo`,
       };
     },
+
+    postgresCloudCostEngine(input, opts) {
+      let data = {};
+      try {
+        data = JSON.parse(input);
+      } catch (_e) {
+        const num = parseFloat(String(input).replace(/[^0-9.]/g, ''));
+        data = { storageGb: isNaN(num) || num <= 0 ? 250 : num };
+      }
+
+      const storageGb = Math.max(10, Number(data.storageGb ?? data.storage ?? 250));
+      const iops = Math.max(1000, Number(data.provisionedIops ?? data.iops ?? 3000));
+      const activeConnections = Math.max(10, Number(data.activeConnections ?? data.connections ?? 120));
+      const backupGb = Math.max(0, Number(data.monthlyBackupGb ?? data.backup ?? storageGb));
+      const egressGb = Math.max(0, Number(data.monthlyEgressGb ?? data.egress ?? 500));
+
+      const instanceClass = opts.instanceClass || 'medium';
+      const isMultiAz = opts.availabilityTier === 'multi_az';
+      const dutyCycleOpt = opts.serverlessDutyCycle || 'continuous';
+
+      let dutyCyclePct = 100;
+      let activeHoursPerMo = 730;
+      if (dutyCycleOpt === 'business_hours') {
+        dutyCyclePct = 45;
+        activeHoursPerMo = Math.round(730 * 0.45);
+      } else if (dutyCycleOpt === 'intermittent') {
+        dutyCyclePct = 20;
+        activeHoursPerMo = Math.round(730 * 0.20);
+      }
+
+      const instanceSpecs = {
+        small: {
+          name: 'db.t4g.small (2 vCPU, 2GB)',
+          rdsHourly: 0.034,
+          supabaseAddon: 10,
+          neonCu: 0.5,
+          ramGb: 2,
+        },
+        medium: {
+          name: 'db.m6g.large (2 vCPU, 8GB)',
+          rdsHourly: 0.154,
+          supabaseAddon: 60,
+          neonCu: 2,
+          ramGb: 8,
+        },
+        large: {
+          name: 'db.m6g.xlarge (4 vCPU, 16GB)',
+          rdsHourly: 0.308,
+          supabaseAddon: 110,
+          neonCu: 4,
+          ramGb: 16,
+        },
+        xlarge: {
+          name: 'db.r6g.2xlarge (8 vCPU, 64GB)',
+          rdsHourly: 0.784,
+          supabaseAddon: 420,
+          neonCu: 16,
+          ramGb: 64,
+        },
+      };
+
+      const spec = instanceSpecs[instanceClass] || instanceSpecs.medium;
+
+      // 1. AWS RDS PostgreSQL (Single-AZ vs Multi-AZ)
+      const rdsMultiAzMultiplier = isMultiAz ? 2 : 1;
+      const rdsCompute = spec.rdsHourly * 730 * rdsMultiAzMultiplier;
+      const rdsStorage = storageGb * 0.115 * rdsMultiAzMultiplier;
+      const rdsIopsOverage = Math.max(0, iops - 3000);
+      const rdsIopsCost = rdsIopsOverage * 0.02 * rdsMultiAzMultiplier;
+      const rdsExtraBackupGb = Math.max(0, backupGb - storageGb);
+      const rdsBackupCost = rdsExtraBackupGb * 0.095;
+      const rdsEgressCost = egressGb * 0.09;
+      const rdsTotal = rdsCompute + rdsStorage + rdsIopsCost + rdsBackupCost + rdsEgressCost;
+
+      // 2. Supabase Pro Managed Postgres
+      const supabaseBase = 25;
+      const supabaseCompute = spec.supabaseAddon * (isMultiAz ? 2 : 1);
+      const supabaseExtraStorageGb = Math.max(0, storageGb - 8);
+      const supabaseStorageCost = supabaseExtraStorageGb * 0.125 * (isMultiAz ? 2 : 1);
+      const supabaseExtraEgressGb = Math.max(0, egressGb - 250);
+      const supabaseEgressCost = supabaseExtraEgressGb * 0.09;
+      const supabaseTotal = supabaseBase + supabaseCompute + supabaseStorageCost + supabaseEgressCost;
+
+      // 3. Neon Serverless Postgres
+      const neonComputeCost = spec.neonCu * 0.16 * activeHoursPerMo;
+      const neonStorageCost = storageGb * 0.175;
+      const neonWriteCost = (storageGb * 0.1) * 0.096;
+      const neonEgressCost = Math.max(0, egressGb - 10) * 0.09;
+      const neonTotal = neonComputeCost + neonStorageCost + neonWriteCost + neonEgressCost;
+
+      const providers = [
+        {
+          id: 'supabase',
+          name: 'Supabase Pro',
+          total: supabaseTotal,
+          compute: supabaseCompute + supabaseBase,
+          storage: supabaseStorageCost,
+          network: supabaseEgressCost,
+          partnerUrl: '/go/supabase-postgres/',
+          partnerName: 'Supabase Managed Postgres',
+          badge: 'Integrated Postgres + pgvector + Auth',
+          notes: 'Built-in connection pooler, automated daily backups & vector storage',
+        },
+        {
+          id: 'neon',
+          name: 'Neon Serverless',
+          total: neonTotal,
+          compute: neonComputeCost,
+          storage: neonStorageCost + neonWriteCost,
+          network: neonEgressCost,
+          partnerUrl: '/go/neon-postgres/',
+          partnerName: 'Neon Serverless Postgres',
+          badge: 'Instant Branching & Scale-to-Zero',
+          notes: `Billed for ${activeHoursPerMo} active compute hrs (${dutyCyclePct}% duty cycle)`,
+        },
+        {
+          id: 'aws-rds',
+          name: 'AWS RDS PostgreSQL',
+          total: rdsTotal,
+          compute: rdsCompute,
+          storage: rdsStorage + rdsIopsCost + rdsBackupCost,
+          network: rdsEgressCost,
+          partnerUrl: '/go/supabase-postgres/',
+          partnerName: 'AWS RDS Migration',
+          badge: 'Traditional Cloud Managed Database',
+          notes: `Billed for 730 continuous hours (${rdsMultiAzMultiplier}× Multi-AZ standby replica)`,
+        },
+      ];
+
+      providers.sort((a, b) => a.total - b.total);
+      const winner = providers[0];
+      const annualSavingsVsAws = Math.max(0, (rdsTotal - winner.total) * 12);
+      const savingsPctVsAws = rdsTotal > 0 ? Math.round(((rdsTotal - winner.total) / rdsTotal) * 100) : 0;
+
+      const report = {
+        workloadParameters: {
+          storageGb: `${storageGb} GB`,
+          provisionedIops: iops.toLocaleString(),
+          activeConnections: activeConnections.toLocaleString(),
+          computeTier: spec.name,
+          highAvailability: isMultiAz ? 'Multi-AZ Standby Replica' : 'Single-AZ',
+          serverlessDutyCycle: `${dutyCyclePct}% (${activeHoursPerMo} active hrs/mo)`,
+          monthlyNetworkEgress: `${egressGb} GB`,
+        },
+        providerBills: {
+          supabasePro: {
+            totalMonthlyBill: `$${supabaseTotal.toFixed(2)}`,
+            baseAndCompute: `$${(supabaseBase + supabaseCompute).toFixed(2)}`,
+            storageAndBackups: `$${supabaseStorageCost.toFixed(2)}`,
+            egressBandwidth: `$${supabaseEgressCost.toFixed(2)}`,
+          },
+          neonServerless: {
+            totalMonthlyBill: `$${neonTotal.toFixed(2)}`,
+            computeHours: `$${neonComputeCost.toFixed(2)} (${activeHoursPerMo} hrs @ $${(spec.neonCu * 0.16).toFixed(2)}/hr)`,
+            storageReplicated3x: `$${neonStorageCost.toFixed(2)}`,
+            egressBandwidth: `$${neonEgressCost.toFixed(2)}`,
+          },
+          awsRdsPostgres: {
+            totalMonthlyBill: `$${rdsTotal.toFixed(2)}`,
+            instanceHours: `$${rdsCompute.toFixed(2)} (${rdsMultiAzMultiplier}× Multi-AZ)`,
+            gp3StorageAndIops: `$${(rdsStorage + rdsIopsCost).toFixed(2)}`,
+            snapshotBackups: `$${rdsBackupCost.toFixed(2)}`,
+            egressBandwidth: `$${rdsEgressCost.toFixed(2)}`,
+          },
+        },
+        financialRoi: {
+          mostCostEffectivePlatform: winner.name,
+          cheapestMonthlyBill: `$${winner.total.toFixed(2)}/mo`,
+          annualSavingsVsAwsRds: `$${annualSavingsVsAws.toLocaleString(undefined, { maximumFractionDigits: 0 })}/year (-${savingsPctVsAws}%)`,
+          recommendation:
+            winner.id === 'supabase'
+              ? 'Supabase Pro provides the lowest total cost of ownership by eliminating separate connection pooler fees, bundling pgvector, and slashing multi-AZ storage costs.'
+              : 'Neon Serverless yields maximum cost efficiency by automatically suspending compute during idle periods while providing instant branching for dev workflows.',
+        },
+      };
+
+      const extraHtml = `
+        <div style="margin-top:1.25rem;">
+          <div style="font-size:0.8rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:0.6rem;letter-spacing:0.04em;">
+            PostgreSQL Cloud Database Monthly Bill Breakdown (${storageGb} GB, ${spec.name}, ${isMultiAz ? 'Multi-AZ' : 'Single-AZ'})
+          </div>
+          <div style="overflow-x:auto;">
+            <table class="matrix-table" style="width:100%;font-size:0.86rem;border-collapse:collapse;">
+              <thead>
+                <tr style="background:var(--bg-subtle);border-bottom:2px solid var(--border-strong);">
+                  <th style="padding:0.65rem 0.75rem;text-align:left;">Database Platform</th>
+                  <th style="padding:0.65rem 0.75rem;text-align:right;">Compute Bill</th>
+                  <th style="padding:0.65rem 0.75rem;text-align:right;">Storage &amp; IOPS</th>
+                  <th style="padding:0.65rem 0.75rem;text-align:right;">Network Egress</th>
+                  <th style="padding:0.65rem 0.75rem;text-align:right;color:var(--accent-emerald);">Total / Month</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${providers
+                  .map(
+                    (p, idx) => `
+                  <tr style="border-bottom:1px solid var(--border-subtle);${idx === 0 ? 'background:var(--accent-emerald-soft);' : ''}">
+                    <td style="padding:0.65rem 0.75rem;">
+                      <strong>${escapeHtml(p.name)}</strong>
+                      <div style="font-size:0.72rem;color:var(--text-muted);">${escapeHtml(p.notes)}</div>
+                    </td>
+                    <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);font-size:0.8rem;">
+                      $${p.compute.toFixed(2)}
+                    </td>
+                    <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);font-size:0.8rem;">
+                      $${p.storage.toFixed(2)}
+                    </td>
+                    <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);font-size:0.8rem;">
+                      $${p.network.toFixed(2)}
+                    </td>
+                    <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);font-weight:800;font-size:0.95rem;color:${idx === 0 ? 'var(--accent-emerald)' : 'var(--text-primary)'};">
+                      $${p.total.toFixed(2)}/mo
+                    </td>
+                  </tr>`
+                  )
+                  .join('')}
+              </tbody>
+            </table>
+          </div>
+
+          <div style="margin-top:1.15rem;padding:0.9rem 1.15rem;background:var(--bg-elevated);border-left:4px solid var(--accent-emerald);border-radius:6px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;">
+            <div>
+              <div style="font-size:0.85rem;font-weight:700;color:var(--text-primary);">Launch Managed Postgres with pgvector &amp; Built-in Connection Pooling</div>
+              <div style="font-size:0.78rem;color:var(--text-secondary);">Supabase provides dedicated Postgres with instant REST/GraphQL APIs, real-time subscriptions, and zero separate RDS licensing markups.</div>
+            </div>
+            <a href="/go/supabase-postgres/" target="_blank" rel="noopener sponsored" data-affiliate-partner="Supabase Managed Postgres" class="btn btn-primary" style="padding:0.5rem 0.9rem;font-size:0.8rem;">
+              Launch Free on Supabase →
+            </a>
+          </div>
+        </div>
+      `;
+
+      return {
+        output: JSON.stringify(report, null, 2),
+        extraHtml,
+        downloadExt: 'json',
+        downloadMime: 'application/json',
+        summary: `${winner.name} is the most cost-effective at $${winner.total.toFixed(2)}/mo • Saves $${annualSavingsVsAws.toLocaleString(undefined, { maximumFractionDigits: 0 })}/year (-${savingsPctVsAws}%) vs AWS RDS PostgreSQL (${isMultiAz ? 'Multi-AZ' : 'Single-AZ'}) • RAM: ${spec.ramGb} GB.`,
+      };
+    },
+
+    saasNdrChurnEngine(input, opts) {
+      let data = {};
+      try {
+        data = JSON.parse(input);
+      } catch (_e) {
+        const num = parseFloat(String(input).replace(/[^0-9.]/g, ''));
+        data = { startingArrUsd: isNaN(num) || num <= 0 ? 1200000 : num };
+      }
+
+      const startingArr = Math.max(10000, Number(data.startingArrUsd ?? data.startingArr ?? 1200000));
+      const startingCustomers = Math.max(5, Number(data.startingCustomersCount ?? data.startingCustomers ?? 100));
+      const expansionArr = Math.max(0, Number(data.expansionArrUsd ?? data.expansionArr ?? 240000));
+      const contractionArr = Math.max(0, Number(data.contractionArrUsd ?? data.contractionArr ?? 36000));
+      const churnedArr = Math.max(0, Number(data.churnedArrUsd ?? data.churnedArr ?? 84000));
+      const lostCustomers = Math.max(0, Number(data.lostCustomersCount ?? data.lostCustomers ?? 7));
+      const newArrAdded = Math.max(0, Number(data.newArrAddedUsd ?? data.newArrAdded ?? 450000));
+
+      const retainedCohortArr = startingArr - contractionArr - churnedArr;
+      const endingCohortArr = retainedCohortArr + expansionArr;
+      const totalEndingArr = endingCohortArr + newArrAdded;
+      const netArrChange = totalEndingArr - startingArr;
+
+      const ndrPct = (endingCohortArr / startingArr) * 100;
+      const grrPct = (Math.max(0, retainedCohortArr) / startingArr) * 100;
+      const logoChurnPct = (lostCustomers / startingCustomers) * 100;
+      const logoRetentionPct = 100 - logoChurnPct;
+
+      const netExpansionRatePct = ((expansionArr - contractionArr) / startingArr) * 100;
+      const revenueChurnRatePct = (churnedArr / startingArr) * 100;
+
+      const totalLosses = contractionArr + churnedArr;
+      const totalGains = newArrAdded + expansionArr;
+      const quickRatio = totalLosses > 0 ? totalGains / totalLosses : 99.9;
+
+      const cohortCompounding = [];
+      let cohortVal = startingArr;
+      for (let yr = 1; yr <= 3; yr++) {
+        cohortVal = cohortVal * (ndrPct / 100);
+        cohortCompounding.push({
+          year: `Year ${yr}`,
+          cohortArrUsd: Math.round(cohortVal),
+          cohortArrFormatted: `$${Math.round(cohortVal).toLocaleString()}`,
+          expansionMultiple: `${(cohortVal / startingArr).toFixed(2)}×`,
+        });
+      }
+
+      let benchmarkTier = 'Healthy B2B Mid-Market';
+      let benchmarkColor = 'var(--accent-emerald)';
+      if (ndrPct >= 120) {
+        benchmarkTier = 'Best-in-Class (Top Decile Enterprise — Snowflake / Datadog Tier)';
+      } else if (ndrPct >= 105) {
+        benchmarkTier = 'Healthy Growth (Net Negative Revenue Churn)';
+      } else if (ndrPct >= 95) {
+        benchmarkTier = 'Moderate Churn Drag (Typical SMB Self-Serve SaaS)';
+        benchmarkColor = 'var(--accent-amber)';
+      } else {
+        benchmarkTier = 'Critical Churn Risk (Leaky Bucket ARR Degradation)';
+        benchmarkColor = 'var(--accent-crimson)';
+      }
+
+      const report = {
+        cohortBaseline: {
+          startingArr: `$${startingArr.toLocaleString()}`,
+          startingCustomersCount: startingCustomers,
+          annualExpansionArr: `+$${expansionArr.toLocaleString()}`,
+          annualContractionArr: `-$${contractionArr.toLocaleString()}`,
+          annualLostChurnedArr: `-$${churnedArr.toLocaleString()}`,
+          annualLostLogoCount: lostCustomers,
+          annualNewAcquisitionArr: `+$${newArrAdded.toLocaleString()}`,
+        },
+        coreRetentionMetrics: {
+          netDollarRetentionNdr: `${ndrPct.toFixed(1)}%`,
+          grossRevenueRetentionGrr: `${grrPct.toFixed(1)}%`,
+          annualLogoChurnRate: `${logoChurnPct.toFixed(1)}%`,
+          annualLogoRetentionRate: `${logoRetentionPct.toFixed(1)}%`,
+          saasQuickRatio: quickRatio.toFixed(2),
+          annualNetArrGrowth: `+$${netArrChange.toLocaleString()} (${((netArrChange / startingArr) * 100).toFixed(1)}% growth)`,
+          totalEndingArr: `$${totalEndingArr.toLocaleString()}`,
+        },
+        benchmarkAnalysis: {
+          performanceTier: benchmarkTier,
+          netNegativeChurnAchieved: ndrPct > 100,
+          quickRatioEvaluation:
+            quickRatio >= 4.0
+              ? 'Hyper-Efficient (>4.0x): ARR additions dramatically outpace churn.'
+              : quickRatio >= 2.0
+              ? 'Healthy (2.0x - 4.0x): Solid growth efficiency.'
+              : 'Inefficient (<2.0x): Customer churn is severely undermining acquisition spend.',
+        },
+        threeYearCohortTrajectory: cohortCompounding,
+      };
+
+      const extraHtml = `
+        <div style="margin-top:1.25rem;">
+          <div style="font-size:0.8rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:0.6rem;letter-spacing:0.04em;">
+            Executive Retention &amp; Unit Economics Dashboard
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(170px, 1fr));gap:0.75rem;margin-bottom:1.15rem;">
+            <div style="background:var(--bg-elevated);border:1px solid var(--border-subtle);border-radius:6px;padding:0.85rem;">
+              <div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;font-weight:700;">Net Dollar Retention (NDR)</div>
+              <div style="font-size:1.6rem;font-weight:800;font-family:var(--font-mono);color:${benchmarkColor};">${ndrPct.toFixed(1)}%</div>
+              <div style="font-size:0.72rem;color:var(--text-secondary);">${ndrPct >= 100 ? 'Net negative churn' : 'Cohort revenue contracting'}</div>
+            </div>
+            <div style="background:var(--bg-elevated);border:1px solid var(--border-subtle);border-radius:6px;padding:0.85rem;">
+              <div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;font-weight:700;">Gross Retention (GRR)</div>
+              <div style="font-size:1.6rem;font-weight:800;font-family:var(--font-mono);color:var(--text-primary);">${grrPct.toFixed(1)}%</div>
+              <div style="font-size:0.72rem;color:var(--text-secondary);">Excludes expansion/upsell</div>
+            </div>
+            <div style="background:var(--bg-elevated);border:1px solid var(--border-subtle);border-radius:6px;padding:0.85rem;">
+              <div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;font-weight:700;">SaaS Quick Ratio</div>
+              <div style="font-size:1.6rem;font-weight:800;font-family:var(--font-mono);color:${quickRatio >= 3 ? 'var(--accent-emerald)' : 'var(--accent-amber)'};">${quickRatio.toFixed(2)}×</div>
+              <div style="font-size:0.72rem;color:var(--text-secondary);">${quickRatio >= 4 ? 'Hyper-efficient scaling' : 'Growth vs churn efficiency'}</div>
+            </div>
+            <div style="background:var(--bg-elevated);border:1px solid var(--border-subtle);border-radius:6px;padding:0.85rem;">
+              <div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;font-weight:700;">Annual Logo Churn</div>
+              <div style="font-size:1.6rem;font-weight:800;font-family:var(--font-mono);color:var(--accent-amber);">${logoChurnPct.toFixed(1)}%</div>
+              <div style="font-size:0.72rem;color:var(--text-secondary);">${lostCustomers} canceled accounts</div>
+            </div>
+          </div>
+
+          <div style="font-size:0.8rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:0.6rem;letter-spacing:0.04em;">
+            3-Year Compounding Cohort Projection (${startingArr.toLocaleString()} Baseline)
+          </div>
+          <div style="overflow-x:auto;">
+            <table class="matrix-table" style="width:100%;font-size:0.86rem;border-collapse:collapse;">
+              <thead>
+                <tr style="background:var(--bg-subtle);border-bottom:2px solid var(--border-strong);">
+                  <th style="padding:0.65rem 0.75rem;text-align:left;">Milestone</th>
+                  <th style="padding:0.65rem 0.75rem;text-align:right;">Retained Cohort ARR</th>
+                  <th style="padding:0.65rem 0.75rem;text-align:right;">Expansion Multiple</th>
+                  <th style="padding:0.65rem 0.75rem;text-align:right;color:var(--accent-emerald);">Net Value Created</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="border-bottom:1px solid var(--border-subtle);">
+                  <td style="padding:0.65rem 0.75rem;"><strong>Baseline Cohort</strong></td>
+                  <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);">$${startingArr.toLocaleString()}</td>
+                  <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);">1.00×</td>
+                  <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);">$0</td>
+                </tr>
+                ${cohortCompounding
+                  .map(
+                    (c) => `
+                  <tr style="border-bottom:1px solid var(--border-subtle);">
+                    <td style="padding:0.65rem 0.75rem;"><strong>${escapeHtml(c.year)}</strong></td>
+                    <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);font-weight:700;">${escapeHtml(c.cohortArrFormatted)}</td>
+                    <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);">${escapeHtml(c.expansionMultiple)}</td>
+                    <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);color:${c.cohortArrUsd >= startingArr ? 'var(--accent-emerald)' : 'var(--accent-crimson)'};">
+                      ${c.cohortArrUsd >= startingArr ? '+' : ''}${(c.cohortArrUsd - startingArr).toLocaleString()}
+                    </td>
+                  </tr>`
+                  )
+                  .join('')}
+              </tbody>
+            </table>
+          </div>
+
+          <div style="margin-top:1.15rem;padding:0.9rem 1.15rem;background:var(--bg-elevated);border-left:4px solid var(--accent-primary);border-radius:6px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;">
+            <div>
+              <div style="font-size:0.85rem;font-weight:700;color:var(--text-primary);">Protect SaaS Treasury &amp; Maximize Cash Runway with Mercury</div>
+              <div style="font-size:0.78rem;color:var(--text-secondary);">Earn up to 5.4% yield on startup treasury cash, automate corporate debit cards, and manage multi-entity venture debt with zero maintenance fees.</div>
+            </div>
+            <a href="/go/mercury-banking/" target="_blank" rel="noopener sponsored" data-affiliate-partner="Mercury Startup Banking" class="btn btn-primary" style="padding:0.5rem 0.9rem;font-size:0.8rem;">
+              Open Mercury Treasury ($250 Bonus) →
+            </a>
+          </div>
+        </div>
+      `;
+
+      return {
+        output: JSON.stringify(report, null, 2),
+        extraHtml,
+        downloadExt: 'json',
+        downloadMime: 'application/json',
+        summary: `Net Dollar Retention (NDR): ${ndrPct.toFixed(1)}% (${benchmarkTier}) • Gross Revenue Retention (GRR): ${grrPct.toFixed(1)}% • SaaS Quick Ratio: ${quickRatio.toFixed(2)}× • Year 3 Cohort ARR: ${cohortCompounding[2].cohortArrFormatted} (${cohortCompounding[2].expansionMultiple}).`,
+      };
+    },
   };
 
   /* ========================================================================

@@ -4,7 +4,7 @@
     <title>UtilForge — Developer Utilities, Cloud Cost Calculators &amp; MCP Marketplace</title>
     <link>https://utilforge.pages.dev/</link>
     <description>Zero-Server Client-Side Data &amp; File Utilities</description>
-    <lastBuildDate>Tue, 20 Oct 2026 16:41:24 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 21 Oct 2026 05:21:07 GMT</lastBuildDate>
     <item>
       <title>JSON ↔ CSV Converter &amp; Nested Flattener</title>
       <link>https://utilforge.pages.dev/json-to-csv/</link>
@@ -256,6 +256,18 @@
       <link>https://utilforge.pages.dev/vercel-vs-cloudflare-pricing-calculator/</link>
       <guid>https://utilforge.pages.dev/vercel-vs-cloudflare-pricing-calculator/</guid>
       <description>Simulate monthly Next.js and full-stack hosting bills comparing Vercel Pro vs Cloudflare Workers &amp; Pages with zero-egress bandwidth and serverless compute modeling.</description>
+    </item>
+    <item>
+      <title>AWS RDS vs Supabase vs Neon Serverless PostgreSQL Cost Calculator</title>
+      <link>https://utilforge.pages.dev/aws-rds-vs-supabase-neon-cost-calculator/</link>
+      <guid>https://utilforge.pages.dev/aws-rds-vs-supabase-neon-cost-calculator/</guid>
+      <description>Calculate monthly PostgreSQL hosting costs comparing AWS RDS vs Supabase Pro vs Neon Serverless client-side with compute sizing, storage IOPS, and auto-suspend workload modeling.</description>
+    </item>
+    <item>
+      <title>B2B SaaS Net Dollar Retention (NDR), Logo Churn &amp; Expansion ARR Calculator</title>
+      <link>https://utilforge.pages.dev/b2b-saas-churn-net-dollar-retention-calculator/</link>
+      <guid>https://utilforge.pages.dev/b2b-saas-churn-net-dollar-retention-calculator/</guid>
+      <description>Calculate B2B SaaS Net Dollar Retention (NDR), Gross Revenue Retention (GRR), Logo Churn, and 3-year ARR growth client-side with interactive cohort expansion modeling.</description>
     </item>
     <item>
       <title>ShipStack Pro — Next.js 15 + Stripe + Supabase AI SaaS Boilerplate ($199 Lifetime)</title>

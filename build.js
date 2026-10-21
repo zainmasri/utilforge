@@ -126,13 +126,13 @@ function renderContextualWorkbenchPartnerBar(tool) {
       partners[0];
   }
   return `
-    <div style="padding:0.65rem 1rem;background:var(--bg-elevated);border-top:1px solid var(--border-subtle);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.65rem;">
-      <div style="display:flex;align-items:center;gap:0.55rem;flex-wrap:wrap;font-size:0.8rem;">
-        <span class="tool-rpm-tag" style="font-size:0.65rem;background:var(--accent-emerald-soft);color:var(--accent-emerald);font-weight:700;">VERIFIED PARTNER PERK • ${escapeHtml(matched.badge)}</span>
-        <strong style="color:var(--text-primary);">${escapeHtml(matched.name)}:</strong>
+    <div class="workbench-partner-bar">
+      <div style="display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;font-size:0.82rem;">
+        <span class="tool-rpm-tag" style="font-size:0.68rem;background:var(--accent-emerald-soft);color:var(--accent-emerald);font-weight:700;border:1px solid rgba(16,185,129,0.3);padding:0.2rem 0.5rem;border-radius:4px;">VERIFIED PARTNER PERK • ${escapeHtml(matched.badge)}</span>
+        <strong style="color:var(--text-primary);font-weight:700;">${escapeHtml(matched.name)}:</strong>
         <span style="color:var(--text-secondary);">${escapeHtml(matched.cta.replace(' →', ''))}</span>
       </div>
-      <a href="${escapeHtml(matched.url)}" target="_blank" rel="noopener sponsored" data-affiliate-partner="${escapeHtml(matched.name)}" class="btn btn-primary" style="padding:0.35rem 0.75rem;font-size:0.76rem;">
+      <a href="${escapeHtml(matched.url)}" target="_blank" rel="noopener sponsored" data-affiliate-partner="${escapeHtml(matched.name)}" class="btn btn-primary" style="padding:0.42rem 0.85rem;font-size:0.78rem;font-weight:700;box-shadow:0 1px 3px rgba(0,0,0,0.12);">
         ${escapeHtml(matched.cta)}
       </a>
     </div>`;
@@ -183,16 +183,20 @@ function renderHomeAffiliateShowcase() {
         ${partners
           .map(
             (p) => `
-          <a href="${escapeHtml(p.url)}" target="_blank" rel="noopener sponsored" data-affiliate-partner="${escapeHtml(p.name)}" class="step-card" style="display:flex;flex-direction:column;justify-content:space-between;gap:0.4rem;padding:0.95rem 1.1rem;border:1px solid var(--border-subtle);background:var(--bg-surface);transition:transform 0.15s ease, border-color 0.15s ease;">
+          <a href="${escapeHtml(p.url)}" target="_blank" rel="noopener sponsored" data-affiliate-partner="${escapeHtml(p.name)}" class="step-card" style="display:flex;flex-direction:column;justify-content:space-between;gap:0.6rem;padding:1.1rem 1.25rem;border:1px solid var(--border-subtle);background:var(--bg-surface);border-radius:var(--radius-md);transition:all 0.2s ease;">
             <div>
-              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.3rem;">
-                <span class="tool-cat-tag" style="font-size:0.68rem;">Partner Offer</span>
-                <span class="tool-rpm-tag" style="font-size:0.66rem;background:var(--accent-emerald-soft);color:var(--accent-emerald);font-weight:700;">${escapeHtml(p.badge)}</span>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem;">
+                <span class="tool-cat-tag" style="font-size:0.68rem;">Verified Cloud Deal</span>
+                <span class="tool-rpm-tag" style="font-size:0.68rem;background:var(--accent-emerald-soft);color:var(--accent-emerald);font-weight:700;border:1px solid rgba(16,185,129,0.3);padding:0.15rem 0.45rem;border-radius:4px;">${escapeHtml(p.badge)}</span>
               </div>
-              <strong style="font-size:0.95rem;color:var(--text-primary);display:block;margin-bottom:0.25rem;">${escapeHtml(p.name)}</strong>
+              <strong style="font-size:1.02rem;color:var(--text-primary);display:block;margin-bottom:0.3rem;">${escapeHtml(p.name)}</strong>
+              <p style="font-size:0.82rem;color:var(--text-secondary);margin:0;line-height:1.4;">${escapeHtml(p.cta.replace(' →', ''))} with verified credits &amp; zero setup barriers.</p>
             </div>
-            <div style="font-size:0.8rem;color:var(--accent-primary);font-weight:700;display:flex;align-items:center;gap:0.3rem;">
-              <span>${escapeHtml(p.cta)}</span>
+            <div style="margin-top:0.5rem;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border-subtle);padding-top:0.65rem;">
+              <span style="font-size:0.78rem;font-weight:700;color:var(--accent-primary);display:flex;align-items:center;gap:0.25rem;">
+                ${escapeHtml(p.cta)}
+              </span>
+              <span style="font-size:0.7rem;color:var(--text-muted);font-family:var(--font-mono);">Official Partner</span>
             </div>
           </a>`
           )

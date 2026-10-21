@@ -1,5 +1,5 @@
 # UtilForge — Zero-Server Client-Side Data & File Utilities
-> https://utilforge.pages.dev provides 42 zero-server client-side developer utilities, 292 interactive "X vs. Y" cloud/AI/payment cost calculators, and 26 production-ready SaaS boilerplates, MCP servers, and AI automation workflows.
+> https://utilforge.pages.dev provides 44 zero-server client-side developer utilities, 292 interactive "X vs. Y" cloud/AI/payment cost calculators, and 26 production-ready SaaS boilerplates, MCP servers, and AI automation workflows.
 
 ## Client-Side Developer & FinOps Utilities
 - [JSON ↔ CSV Converter & Nested Flattener](https://utilforge.pages.dev/json-to-csv/): Transform deeply nested JSON objects or arrays into clean RFC-4180 CSV tables—or convert CSV back to structured JSON—with 100% local browser execution and zero server uploads.
@@ -44,6 +44,8 @@
 - [Vector Database & Embedding Cost Calculator (Pinecone vs Supabase vs Qdrant vs Vectorize)](https://utilforge.pages.dev/rag-vector-db-cost-estimator/): Calculate monthly vector database bills, index RAM consumption, read/write query costs, and embedding storage across Pinecone, Supabase pgvector, Qdrant Cloud, and Cloudflare Vectorize.
 - [Reasoning LLM Cost Calculator (OpenAI o1 / o3-mini vs DeepSeek R1 vs Claude 3.7 Sonnet)](https://utilforge.pages.dev/reasoning-llm-token-cost-calculator/): Calculate monthly API bills, reasoning/thinking token overhead, prompt caching discounts, and inference cost across DeepSeek R1, OpenAI o3-mini, OpenAI o1, and Claude 3.7 Sonnet with Extended Thinking.
 - [Vercel vs Cloudflare Workers & Pages Compute & Bandwidth Cost Calculator](https://utilforge.pages.dev/vercel-vs-cloudflare-pricing-calculator/): Calculate monthly cloud bills, bandwidth egress charges ($0.15/GB vs $0.00/GB), serverless function executions, and team seat licensing across Vercel Pro and Cloudflare Workers Paid.
+- [AWS RDS vs Supabase vs Neon Serverless PostgreSQL Cost Calculator](https://utilforge.pages.dev/aws-rds-vs-supabase-neon-cost-calculator/): Model monthly PostgreSQL infrastructure expenses across AWS RDS (Single-AZ vs Multi-AZ), Supabase Pro Managed Postgres, and Neon Serverless Database with provisioned IOPS, storage auto-scaling, and auto-suspend compute.
+- [B2B SaaS Net Dollar Retention (NDR), Logo Churn & Expansion ARR Calculator](https://utilforge.pages.dev/b2b-saas-churn-net-dollar-retention-calculator/): Model Net Dollar Retention (NDR), Gross Revenue Retention (GRR), Logo Churn, SaaS Quick Ratio, and 3-Year Compounding ARR Trajectories with cohort upgrade, downgrade, and churn modeling.
 
 ## Interactive "X vs. Y" Cloud, LLM API & Payment Cost Calculators
 - [OpenAI GPT-4o vs OpenAI GPT-4o Mini Cost Calculator](https://utilforge.pages.dev/compare/gpt-4o-vs-gpt-4o-mini/): Compare OpenAI GPT-4o vs OpenAI GPT-4o Mini side-by-side. Use our interactive calculator to estimate exact monthly costs, savings, and performance trade-offs at your scale.
