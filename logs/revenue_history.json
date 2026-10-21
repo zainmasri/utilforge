@@ -430,17 +430,17 @@
     }
   },
   {
-    "checkedAt": "2026-10-21T05:12:26.746Z",
+    "checkedAt": "2026-10-21T05:22:22.018Z",
     "date": "2026-10-21",
     "siteHealth": {
       "domain": "https://utilforge.pages.dev",
       "homeStatus": 200,
-      "homeLatencyMs": 966,
-      "totalStaticPages": 375,
-      "utilityToolsCount": 42,
+      "homeLatencyMs": 633,
+      "totalStaticPages": 377,
+      "utilityToolsCount": 44,
       "comparisonCalculatorsCount": 292,
       "marketplaceListingsCount": 26,
-      "sitemapUrlsCount": 366
+      "sitemapUrlsCount": 368
     },
     "monetizationHealth": {
       "publisherId": "ca-pub-3462180264458803",
