@@ -4903,6 +4903,27 @@
       updateRoi();
     }
 
+    // A2. Post-Checkout Instant Fulfillment Banner (?checkout=success)
+    if (window.location.search.includes('checkout=success')) {
+      const shell = document.querySelector('.page-shell');
+      if (shell) {
+        const banner = document.createElement('div');
+        banner.style.cssText =
+          'margin-bottom:1.25rem;padding:1.25rem;border-radius:10px;background:var(--accent-emerald-soft);border:2px solid var(--accent-emerald);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;';
+        banner.innerHTML = `
+          <div>
+            <div style="font-weight:800;font-size:1.05rem;color:var(--accent-emerald);margin-bottom:0.25rem;">🎉 Payment Complete — Your UtilForge Commercial Blueprints Are Ready!</div>
+            <div style="font-size:0.86rem;color:var(--text-primary);">Download your complete 26-item MCP Server, SaaS Boilerplate &amp; FinOps JSON Bundle below, or clone the full source code repository.</div>
+          </div>
+          <div style="display:flex;gap:0.65rem;flex-wrap:wrap;">
+            <a href="/assets/utilforge-pro-blueprints.json" download="utilforge-pro-blueprints.json" class="btn btn-primary" style="padding:0.6rem 1.1rem;">⬇️ Download Blueprints Bundle (.json)</a>
+            <a href="https://github.com/zainmasri/utilforge" target="_blank" rel="noopener" class="btn btn-secondary" style="padding:0.6rem 1rem;">Open Full Git Repo →</a>
+          </div>
+        `;
+        shell.prepend(banner);
+      }
+    }
+
     // B. Copy Live Config / Blueprint JSON on Product Listing Page
     const copyPreviewBtn = document.getElementById('btn-copy-mkt-snippet');
     const previewPre = document.getElementById('mkt-snippet-pre');
@@ -4991,7 +5012,21 @@
       });
     }
 
-    // E. Direct Commercial License & Sponsored Slot AJAX Checkout Drawer
+    // E. Direct Commercial License & Sponsored Slot AJAX + Instant PayPal Checkout Drawer
+    function buildPayPalCheckoutUrl(label, defaultUsd = 19) {
+      const m = String(label || '').match(/\$(\d+(?:\.\d+)?)/);
+      const amount = m ? Number(m[1]).toFixed(2) : Number(defaultUsd).toFixed(2);
+      const cleanItem = `UtilForge — ${String(label || 'Commercial License').replace(/\s+/g, ' ').trim()}`;
+      return (
+        'https://www.paypal.com/cgi-bin/webscr?cmd=_xclick' +
+        '&business=' + encodeURIComponent('zainmasri123@gmail.com') +
+        '&item_name=' + encodeURIComponent(cleanItem) +
+        '&amount=' + encodeURIComponent(amount) +
+        '&currency_code=USD&no_shipping=1' +
+        '&return=' + encodeURIComponent('https://utilforge.pages.dev/marketplace/?checkout=success')
+      );
+    }
+
     const openOrderBtn = document.getElementById('btn-open-direct-order');
     const orderDrawer = document.getElementById('direct-order-drawer');
     const orderForm = document.getElementById('direct-order-form');
@@ -4999,8 +5034,9 @@
 
     if (openOrderBtn && orderDrawer) {
       openOrderBtn.addEventListener('click', () => {
-        const isHidden = orderDrawer.style.display === 'none';
-        orderDrawer.style.display = isHidden ? 'block' : 'none';
+        orderDrawer.style.display = 'block';
+        const emailEl = document.getElementById('direct-order-email');
+        if (emailEl) emailEl.focus();
       });
     }
 
@@ -5011,13 +5047,14 @@
         const typeEl = document.getElementById('direct-order-type');
         const submitOrderBtn = document.getElementById('btn-submit-direct-order');
         const buyerEmail = emailEl ? emailEl.value.trim() : '';
-        const orderType = typeEl ? typeEl.value : 'Commercial License';
+        const orderType = typeEl ? typeEl.value : 'Starter Config & Blueprint Pack ($19)';
         const itemName = orderForm.getAttribute('data-item-name') || document.title;
+        const paypalUrl = buildPayPalCheckoutUrl(orderType, 19);
 
         if (!buyerEmail) return;
         if (submitOrderBtn) {
           submitOrderBtn.disabled = true;
-          submitOrderBtn.textContent = 'Sending...';
+          submitOrderBtn.textContent = 'Opening Checkout...';
         }
 
         try {
@@ -5034,7 +5071,7 @@
             keepalive: true,
           }).catch(() => {});
 
-          await fetch('https://formsubmit.co/ajax/zainmasri123@gmail.com', {
+          fetch('https://formsubmit.co/ajax/zainmasri123@gmail.com', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -5045,22 +5082,25 @@
               _captcha: 'false',
               Buyer_Email: buyerEmail,
               Requested_Package: orderType,
+              Checkout_URL: paypalUrl,
               Product_Page: itemName,
               Page_URL: window.location.href,
             }),
-          });
+            keepalive: true,
+          }).catch(() => {});
 
           if (orderStatus) {
             orderStatus.style.display = 'block';
-            orderStatus.textContent = `✓ Request received! Payment & repository access link sent to ${buyerEmail}.`;
+            orderStatus.innerHTML = `✓ Order registered for <strong>${escapeHtml(buyerEmail)}</strong>! <a href="${escapeHtml(paypalUrl)}" target="_blank" rel="noopener" style="text-decoration:underline;color:var(--accent-primary);margin-left:0.35rem;">Click here to complete instant payment via PayPal / Card →</a>`;
           }
           if (submitOrderBtn) {
-            submitOrderBtn.textContent = '✓ Sent!';
+            submitOrderBtn.textContent = '✓ Redirecting to Payment...';
           }
+          window.open(paypalUrl, '_blank', 'noopener');
         } catch (_err) {
           if (submitOrderBtn) {
             submitOrderBtn.disabled = false;
-            submitOrderBtn.textContent = 'Send Payment Link →';
+            submitOrderBtn.textContent = 'Get Instant Access →';
           }
         }
       });
@@ -5112,12 +5152,13 @@
         const emailEl = document.getElementById('global-checkout-email');
         const submitBtn = document.getElementById('btn-submit-global-checkout');
         const buyerEmail = emailEl ? emailEl.value.trim() : '';
-        const selectedPkg = globalPkgSelect ? globalPkgSelect.value : 'Full UtilForge Factory ($149)';
+        const selectedPkg = globalPkgSelect ? globalPkgSelect.value : 'Starter MCP & FinOps Config Pack ($19 One-Time)';
+        const paypalUrl = buildPayPalCheckoutUrl(selectedPkg, 19);
         if (!buyerEmail) return;
 
         if (submitBtn) {
           submitBtn.disabled = true;
-          submitBtn.textContent = 'Processing Order Request...';
+          submitBtn.textContent = 'Opening Instant Checkout...';
         }
 
         try {
@@ -5134,7 +5175,7 @@
             keepalive: true,
           }).catch(() => {});
 
-          await fetch('https://formsubmit.co/ajax/zainmasri123@gmail.com', {
+          fetch('https://formsubmit.co/ajax/zainmasri123@gmail.com', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -5145,17 +5186,20 @@
               _captcha: 'false',
               Buyer_Email: buyerEmail,
               Selected_Package: selectedPkg,
+              Checkout_URL: paypalUrl,
               Source_Page: window.location.href,
             }),
-          });
+            keepalive: true,
+          }).catch(() => {});
 
           if (globalStatus) {
             globalStatus.style.display = 'block';
-            globalStatus.textContent = `✓ Confirmed! Invoice & instant repository access link sent to ${buyerEmail}.`;
+            globalStatus.innerHTML = `✓ Order registered for <strong>${escapeHtml(buyerEmail)}</strong>! <a href="${escapeHtml(paypalUrl)}" target="_blank" rel="noopener" style="text-decoration:underline;color:var(--accent-primary);margin-left:0.35rem;">Complete instant payment via PayPal / Card →</a>`;
           }
           if (submitBtn) {
-            submitBtn.textContent = '✓ Payment Link Sent!';
+            submitBtn.textContent = '✓ Redirecting to Payment...';
           }
+          window.open(paypalUrl, '_blank', 'noopener');
         } catch (_err) {
           if (submitBtn) {
             submitBtn.disabled = false;

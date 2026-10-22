@@ -95,22 +95,20 @@ function resolveProviderUrl(item) {
   return item.affiliateUrl;
 }
 
+function buildDirectPayPalUrl(itemName, amountUsd = 19) {
+  const amt = Number(amountUsd || 19).toFixed(2);
+  return (
+    'https://www.paypal.com/cgi-bin/webscr?cmd=_xclick' +
+    '&business=' + encodeURIComponent('zainmasri123@gmail.com') +
+    '&item_name=' + encodeURIComponent(`UtilForge — ${itemName}`) +
+    '&amount=' + encodeURIComponent(amt) +
+    '&currency_code=USD&no_shipping=1' +
+    '&return=' + encodeURIComponent('https://utilforge.pages.dev/marketplace/?checkout=success')
+  );
+}
+
 function resolveMarketplaceCheckoutUrl(item) {
-  const raw = item.checkoutBaseUrl || '';
-  if (raw.startsWith('/go/')) {
-    return raw;
-  }
-  if (raw && !raw.includes('example-merchant.')) {
-    return `${raw}?${MARKETPLACE_CONFIG.affiliateParamKey}=${MARKETPLACE_CONFIG.affiliateTag}&utm_source=utilforge_marketplace`;
-  }
-  // Route marketplace listings to high-payout /go/ commercial partner redirects matched to stack
-  const slug = (item.slug || '').toLowerCase();
-  if (slug.includes('supabase') || slug.includes('postgres')) return '/go/supabase-postgres/';
-  if (slug.includes('cloudflare') || slug.includes('r2') || slug.includes('wrangler')) return '/go/cloudflare-workers/';
-  if (slug.includes('stripe') || slug.includes('invoice') || slug.includes('finops') || slug.includes('pricing')) return '/go/mercury-banking/';
-  if (item.category === 'MCP Servers & Agent Skills') return '/go/openrouter-ai/';
-  if (item.category === 'n8n / Make AI Workflows') return '/go/railway-cloud/';
-  return '/go/lemon-squeezy/';
+  return buildDirectPayPalUrl(`${item.shortName} (${item.priceLabel})`, item.priceUsd || 49);
 }
 
 function renderContextualWorkbenchPartnerBar(tool) {
@@ -1182,24 +1180,27 @@ function buildMarketplaceItemHtml(item) {
 
           <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
             <a
-              href="${escapeHtml(affiliateUrl)}"
+              href="${escapeHtml(buildDirectPayPalUrl(`${item.shortName} Starter Pack ($19)`, 19))}"
               target="_blank"
-              rel="noopener sponsored"
-              data-affiliate-partner="${escapeHtml(item.shortName)}"
+              rel="noopener"
+              data-affiliate-partner="PayPal Checkout: ${escapeHtml(item.shortName)} ($19 Starter)"
               class="btn btn-primary"
-              id="btn-affiliate-checkout"
+              id="btn-starter-checkout"
               style="flex:2;padding:0.85rem 1.25rem;font-size:0.95rem;"
             >
-              Get ${escapeHtml(item.shortName)} (${escapeHtml(item.priceLabel)}) →
+              💳 Buy Starter Blueprint Pack ($19) →
             </a>
-            <button
-              type="button"
+            <a
+              href="${escapeHtml(affiliateUrl)}"
+              target="_blank"
+              rel="noopener"
+              data-affiliate-partner="PayPal Checkout: ${escapeHtml(item.shortName)} (${escapeHtml(item.priceLabel)})"
               class="btn btn-secondary"
-              id="btn-open-direct-order"
+              id="btn-affiliate-checkout"
               style="flex:1;padding:0.85rem 1rem;"
             >
-              ⚡ Instant Invoice / Sponsor ($${MARKETPLACE_CONFIG.sponsoredSlotMonthlyUsd}/mo)
-            </button>
+              Full Commercial License (${escapeHtml(item.priceLabel)}) →
+            </a>
           </div>
 
           <div id="direct-order-drawer" style="display:block;margin-top:1rem;padding:1rem;background:var(--bg-surface);border:1px solid var(--accent-primary);border-radius:8px;">
@@ -2079,6 +2080,27 @@ function buildAll() {
       path.join(ASSETS_OUT, 'logo.png')
     );
   }
+
+  // Generate downloadable Pro Blueprints bundle for instant post-checkout fulfillment
+  const proBundle = {
+    bundleName: 'UtilForge Pro MCP, SaaS Boilerplate & FinOps Blueprint Pack',
+    generatedAt: new Date().toISOString(),
+    repositoryUrl: 'https://github.com/zainmasri/utilforge',
+    supportEmail: 'zainmasri123@gmail.com',
+    items: MARKETPLACE_ITEMS.map((it) => ({
+      slug: it.slug,
+      name: it.name,
+      category: it.category,
+      stack: it.stack,
+      features: it.features,
+      blueprint: it.previewSnippet,
+    })),
+  };
+  fs.writeFileSync(
+    path.join(ASSETS_OUT, 'utilforge-pro-blueprints.json'),
+    JSON.stringify(proBundle, null, 2),
+    'utf8'
+  );
 
   // 1. Main Hub
   fs.writeFileSync(path.join(DIST_DIR, 'index.html'), buildHubPageHtml(), 'utf8');

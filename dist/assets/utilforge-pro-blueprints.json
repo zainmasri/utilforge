@@ -1,0 +1,333 @@
+{
+  "bundleName": "UtilForge Pro MCP, SaaS Boilerplate & FinOps Blueprint Pack",
+  "generatedAt": "2026-10-22T14:30:48.675Z",
+  "repositoryUrl": "https://github.com/zainmasri/utilforge",
+  "supportEmail": "zainmasri123@gmail.com",
+  "items": [
+    {
+      "slug": "shipfast-nextjs-saas",
+      "name": "ShipStack Pro — Next.js 15 + Stripe + Supabase AI SaaS Boilerplate",
+      "category": "SaaS Boilerplates",
+      "stack": "Next.js • TypeScript • Supabase • Stripe",
+      "features": [
+        "Pre-wired Stripe & Lemon Squeezy webhook handlers (22 hrs saved)",
+        "Supabase Magic Link, Google OAuth & Row-Level Security (18 hrs saved)",
+        "Programmatic SEO blog + dynamic OpenGraph image generator (16 hrs saved)",
+        "OpenAI / Anthropic / Gemini token credit metering system (32 hrs saved)",
+        "Transactional Resend/Postmark email sequences + billing portal (14 hrs saved)",
+        "Admin analytics & customer impersonation dashboard (16 hrs saved)"
+      ],
+      "blueprint": "{\n  \"name\": \"shipstack-pro-saas\",\n  \"version\": \"4.2.0\",\n  \"private\": true,\n  \"scripts\": {\n    \"dev\": \"next dev --turbopack\",\n    \"build\": \"next build\",\n    \"db:migrate\": \"supabase db push\",\n    \"stripe:listen\": \"stripe listen --forward-to localhost:3000/api/webhooks/stripe\"\n  },\n  \"modulesIncluded\": [\n    \"auth/supabase-ssr\",\n    \"billing/stripe-lemonsqueezy-dual\",\n    \"ai/credit-ledger-middleware\",\n    \"seo/jsonld-sitemap-engine\"\n  ]\n}"
+    },
+    {
+      "slug": "cloudflare-edge-saas-kit",
+      "name": "EdgeFlare Kit — Cloudflare Workers + D1 + R2 Zero-Server Bill Boilerplate",
+      "category": "SaaS Boilerplates",
+      "stack": "Cloudflare Workers • Hono • D1 SQLite • R2",
+      "features": [
+        "Hono + TypeScript strict RPC API router (16 hrs saved)",
+        "Cloudflare D1 + Drizzle ORM multi-tenant schema & migrations (20 hrs saved)",
+        "Presigned R2 zero-egress file upload pipeline (18 hrs saved)",
+        "Passkey (WebAuthn) + OAuth2 session management on Workers KV (22 hrs saved)",
+        "Stripe Billing + usage-based metered billing worker (20 hrs saved)"
+      ],
+      "blueprint": "name = \"edgeflare-production-saas\"\nmain = \"src/index.ts\"\ncompatibility_date = \"2026-10-01\"\n\n[[d1_databases]]\nbinding = \"DB\"\ndatabase_name = \"saas_prod_d1\"\n\n[[r2_buckets]]\nbinding = \"ASSETS_BUCKET\"\nbucket_name = \"zero-egress-uploads\""
+    },
+    {
+      "slug": "fastapi-nextjs-ai-agent-starter",
+      "name": "AgentForge — FastAPI + LangGraph + Next.js Multi-Agent SaaS Starter",
+      "category": "SaaS Boilerplates",
+      "stack": "Python FastAPI • PostgreSQL pgvector • Next.js",
+      "features": [
+        "Hybrid BM25 + pgvector semantic document ingestion pipeline (35 hrs saved)",
+        "Server-Sent Events (SSE) token & tool-call streaming UI (25 hrs saved)",
+        "Per-organization RBAC, API key generation & rate limiting (30 hrs saved)",
+        "Docker Compose + Terraform AWS/Render 1-click deployment (25 hrs saved)",
+        "Stripe seat-based + token-top-up billing integration (25 hrs saved)"
+      ],
+      "blueprint": "{\n  \"architecture\": \"decoupled-monorepo\",\n  \"backend\": \"FastAPI 0.115 + SQLAlchemy 2.0 Async + pgvector\",\n  \"frontend\": \"Next.js 15 App Router + Streaming SSE Hook\",\n  \"workers\": \"arq / Redis async document chunker & embedder\"\n}"
+    },
+    {
+      "slug": "chrome-extension-monetization-kit",
+      "name": "ExtPay Studio — Manifest V3 Chrome Extension + Stripe Licensing Kit",
+      "category": "SaaS Boilerplates",
+      "stack": "Manifest V3 • TypeScript • Vite • Stripe",
+      "features": [
+        "Hot-module reload (HMR) for Content Scripts & Side Panel (20 hrs saved)",
+        "Isolated Shadow-DOM UI that never clashes with host page CSS (18 hrs saved)",
+        "Stripe & Lemon Squeezy license activation without a custom backend (26 hrs saved)",
+        "Automated Chrome Web Store & Firefox Add-on ZIP bundler (20 hrs saved)"
+      ],
+      "blueprint": "{\n  \"manifest_version\": 3,\n  \"name\": \"Pro Utility Extension\",\n  \"version\": \"1.0.0\",\n  \"permissions\": [\n    \"storage\",\n    \"sidePanel\",\n    \"activeTab\"\n  ],\n  \"side_panel\": {\n    \"default_path\": \"sidepanel.html\"\n  },\n  \"background\": {\n    \"service_worker\": \"background.js\",\n    \"type\": \"module\"\n  }\n}"
+    },
+    {
+      "slug": "astro-programmatic-seo-directory-kit",
+      "name": "DirectoryEngine — Astro 5 Programmatic SEO Directory & Job Board Starter",
+      "category": "SaaS Boilerplates",
+      "stack": "Astro 5 • Markdown/JSON • Stripe Links",
+      "features": [
+        "CSV/JSON to 10,000+ static routes in under 8 seconds (20 hrs saved)",
+        "Built-in Sponsored Slot & Featured Badge monetization blocks (16 hrs saved)",
+        "Automatic Schema.org ItemList, Product & FAQPage JSON-LD (18 hrs saved)",
+        "Instant client-side multi-facet search & tag filtering (18 hrs saved)"
+      ],
+      "blueprint": "{\n  \"generator\": \"Astro 5 Static Content Collections\",\n  \"monetizationModes\": [\n    \"sponsored-top-slot\",\n    \"affiliate-redirect\",\n    \"paid-submission-webhook\"\n  ],\n  \"lighthouseScore\": {\n    \"performance\": 100,\n    \"seo\": 100,\n    \"bestPractices\": 100\n  }\n}"
+    },
+    {
+      "slug": "sveltekit-pocketbase-micro-saas",
+      "name": "PocketSaaS — SvelteKit 5 + PocketBase Single-Binary SaaS Starter",
+      "category": "SaaS Boilerplates",
+      "stack": "SvelteKit 5 • PocketBase (Go/SQLite) • Stripe",
+      "features": [
+        "Single-command Docker & systemd deployment on Hetzner/DigitalOcean (18 hrs saved)",
+        "Svelte 5 Runes reactive state & type-safe PocketBase SDK (16 hrs saved)",
+        "Automated nightly encrypted Litestream S3 database backups (18 hrs saved)",
+        "Pre-built pricing table, customer portal & webhook verification (16 hrs saved)"
+      ],
+      "blueprint": "{\n  \"runtime\": \"PocketBase v0.24 + SvelteKit 5 Static Adapter\",\n  \"ramFootprintMb\": 28,\n  \"requestsPerSec\": \"14,000+ on 2 vCPU VPS\"\n}"
+    },
+    {
+      "slug": "postgres-readonly-audit-mcp",
+      "name": "PgGuard MCP — Safe Read-Only PostgreSQL & Schema Introspection MCP Server",
+      "category": "MCP Servers & Agent Skills",
+      "stack": "TypeScript • Model Context Protocol • PostgreSQL",
+      "features": [
+        "Strict BEGIN READ ONLY transaction wrapper with statement timeout",
+        "Automatic PII redaction for email, SSN, and token columns",
+        "Built-in EXPLAIN (ANALYZE, BUFFERS, FORMAT JSON) index advisor tool",
+        "Works in Claude Desktop, Cursor, Windsurf, and Zed in 30 seconds"
+      ],
+      "blueprint": "{\n  \"mcpServers\": {\n    \"pgguard-postgres\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"@utilforge/pgguard-mcp-server\"\n      ],\n      \"env\": {\n        \"DATABASE_URL\": \"postgresql://readonly_user:secret@localhost:5432/prod_replica\",\n        \"MAX_ROWS\": \"250\",\n        \"MASK_PII_COLUMNS\": \"true\"\n      }\n    }\n  }\n}"
+    },
+    {
+      "slug": "stripe-revenue-analytics-mcp",
+      "name": "StripePulse MCP — MRR, Churn, Cohort & Refund Triage MCP Server",
+      "category": "MCP Servers & Agent Skills",
+      "stack": "Node.js • Stripe SDK • MCP Protocol",
+      "features": [
+        "14 specialized tools: calculate_mrr, list_at_risk_subscriptions, inspect_dispute",
+        "Zero write permissions required—enforces rk_live_ restricted read keys",
+        "Local SQLite cache for instant historical cohort aggregation"
+      ],
+      "blueprint": "{\n  \"mcpServers\": {\n    \"stripe-pulse\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"@utilforge/stripe-pulse-mcp\"\n      ],\n      \"env\": {\n        \"STRIPE_RESTRICTED_READ_KEY\": \"<YOUR_STRIPE_RESTRICTED_READ_KEY>\",\n        \"CACHE_TTL_SECONDS\": \"300\"\n      }\n    }\n  }\n}"
+    },
+    {
+      "slug": "cloudflare-ops-wrangler-mcp",
+      "name": "CloudflareOps MCP — Workers, DNS, KV, D1 & WAF Log Inspector Server",
+      "category": "MCP Servers & Agent Skills",
+      "stack": "TypeScript • Cloudflare API • MCP",
+      "features": [
+        "Query Cloudflare GraphQL HTTP traffic & WAF block events by ray ID",
+        "Inspect Worker CPU time percentiles (P50, P95, P99) and error traces",
+        "Audit DNS records and SSL/TLS certificate expiration across zones"
+      ],
+      "blueprint": "{\n  \"mcpServers\": {\n    \"cloudflare-ops\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"@utilforge/cloudflare-ops-mcp\"\n      ],\n      \"env\": {\n        \"CF_ACCOUNT_ID\": \"your_cloudflare_account_id\",\n        \"CF_READONLY_API_TOKEN\": \"cf_token_readonly_analytics\"\n      }\n    }\n  }\n}"
+    },
+    {
+      "slug": "playwright-visual-qa-mcp",
+      "name": "VisualQA MCP — Headless Playwright Accessibility, Console & CLS Auditor",
+      "category": "MCP Servers & Agent Skills",
+      "stack": "Playwright • Axe-Core • MCP Server",
+      "features": [
+        "Multi-viewport layout overflow & horizontal scrollbar detector",
+        "Automated WCAG 2.1 AA contrast & missing aria-label report",
+        "Zero-dependency stdio integration for Cursor, Claude Code & Windsurf"
+      ],
+      "blueprint": "{\n  \"mcpServers\": {\n    \"visual-qa-auditor\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"@utilforge/visual-qa-mcp\",\n        \"--headless\"\n      ],\n      \"env\": {\n        \"VIEWPORTS\": \"375x812,768x1024,1440x900\",\n        \"AUDIT_WCAG_LEVEL\": \"AA\"\n      }\n    }\n  }\n}"
+    },
+    {
+      "slug": "github-pr-security-review-skill",
+      "name": "SecReview Skill Pack — OWASP Top 10, Secret Leak & SQLi Agent Ruleset",
+      "category": "MCP Servers & Agent Skills",
+      "stack": "SKILL.md • Cursor Rules • Semgrep AST",
+      "features": [
+        "28 framework-specific security checklists (Next.js, FastAPI, Go, Rails)",
+        "Automated Stripe/GitHub webhook HMAC verification audit prompts",
+        "Zero false-positive AST pattern matchers"
+      ],
+      "blueprint": "{\n  \"skillName\": \"owasp-sec-review\",\n  \"triggers\": [\n    \"review pr\",\n    \"audit security\",\n    \"check auth\"\n  ],\n  \"enforcedInvariants\": [\n    \"Verify row-level tenant_id scoping on every SELECT/UPDATE/DELETE\",\n    \"Require constant-time crypto.timingSafeEqual for webhook signatures\"\n  ]\n}"
+    },
+    {
+      "slug": "bigquery-duckdb-finops-mcp",
+      "name": "QueryGuard MCP — BigQuery Dry-Run Cost Estimator & Local DuckDB Bridge",
+      "category": "MCP Servers & Agent Skills",
+      "stack": "Python • DuckDB • BigQuery API • MCP",
+      "features": [
+        "Hard byte-billed circuit breaker (default: 5 GB max per agent query)",
+        "Automatic partition-filter enforcement on timestamp columns",
+        "Zero-cost local Parquet & CSV querying via embedded DuckDB engine"
+      ],
+      "blueprint": "{\n  \"mcpServers\": {\n    \"query-guard\": {\n      \"command\": \"uvx\",\n      \"args\": [\n        \"queryguard-mcp-server\"\n      ],\n      \"env\": {\n        \"MAX_BYTES_BILLED\": \"5368709120\",\n        \"REQUIRE_PARTITION_FILTER\": \"true\",\n        \"LOCAL_DUCKDB_CACHE\": \"./.cache/analytics.duckdb\"\n      }\n    }\n  }\n}"
+    },
+    {
+      "slug": "n8n-programmatic-seo-content-pipeline",
+      "name": "AutoRank n8n Blueprint — Search Console Low-Hanging Keyword → Fact-Checked PR",
+      "category": "n8n / Make AI Workflows",
+      "stack": "n8n JSON • Google Search Console • Claude 3.5 • GitHub API",
+      "features": [
+        "Filters GSC queries with >500 impressions and CTR < 2% at positions 8–20",
+        "Multi-step citation & schema validator node (SoftwareApplication + FAQPage)",
+        "Opens a clean Markdown/JSON Pull Request on GitHub—never auto-publishes unverified text"
+      ],
+      "blueprint": "{\n  \"name\": \"AutoRank Weekly GSC Striking-Distance Pipeline\",\n  \"nodes\": [\n    {\n      \"id\": \"1\",\n      \"type\": \"n8n-nodes-base.scheduleTrigger\",\n      \"parameters\": {\n        \"cronExpression\": \"0 8 * * 1\"\n      }\n    },\n    {\n      \"id\": \"2\",\n      \"type\": \"n8n-nodes-base.httpRequest\",\n      \"name\": \"Fetch GSC Queries (Pos 8-20)\"\n    },\n    {\n      \"id\": \"3\",\n      \"type\": \"@n8n/n8n-nodes-langchain.agent\",\n      \"name\": \"Synthesize FAQ & JSON-LD Schema\"\n    },\n    {\n      \"id\": \"4\",\n      \"type\": \"n8n-nodes-base.github\",\n      \"name\": \"Create Branch & Open Review PR\"\n    }\n  ]\n}"
+    },
+    {
+      "slug": "n8n-stripe-churn-recovery-concierge",
+      "name": "ChurnShield n8n — Failed Payment & Cancellation Recovery Automation",
+      "category": "n8n / Make AI Workflows",
+      "stack": "n8n JSON • Stripe Webhooks • Resend • Slack",
+      "features": [
+        "Smart retry schedule based on Stripe decline code (insufficient_funds vs expired_card)",
+        "Generates 1-click Stripe Billing Portal update links with zero login friction",
+        "Posts real-time LTV & recovery alerts to Slack / Discord"
+      ],
+      "blueprint": "{\n  \"name\": \"ChurnShield Stripe Dunning & Winback\",\n  \"trigger\": \"stripe.invoice.payment_failed\",\n  \"branches\": [\n    \"soft_decline_retry_48h\",\n    \"expired_card_direct_portal_link\",\n    \"high_ltv_founder_alert\"\n  ]\n}"
+    },
+    {
+      "slug": "n8n-b2b-lead-enrichment-router",
+      "name": "LeadPulse n8n — Zero-Clearbit Signup Enrichment, Scoring & CRM Router",
+      "category": "n8n / Make AI Workflows",
+      "stack": "n8n JSON • DNS/WHOIS • LinkedIn/Web Scraper • HubSpot/Attio",
+      "features": [
+        "Filters out disposable email providers and personal Gmail/Yahoo addresses",
+        "Extracts company industry, pricing model, and hiring signals into structured JSON",
+        "Syncs directly to Attio, HubSpot, Notion, or PostgreSQL"
+      ],
+      "blueprint": "{\n  \"name\": \"LeadPulse Signup Enrichment Pipeline\",\n  \"costPerEnrichedLeadUsd\": 0.002,\n  \"outputSchema\": {\n    \"domain\": \"acme.io\",\n    \"estimatedHeadcount\": \"50-200\",\n    \"detectedTechStack\": [\n      \"Cloudflare\",\n      \"Next.js\",\n      \"Stripe\"\n    ],\n    \"icpFitScore\": 92\n  }\n}"
+    },
+    {
+      "slug": "make-youtube-podcast-repurposing-engine",
+      "name": "ClipCast Make + n8n — Long-Form Video/Podcast to 12 Social & Blog Assets",
+      "category": "n8n / Make AI Workflows",
+      "stack": "n8n + Make.com Blueprint • Whisper • Claude 3.5",
+      "features": [
+        "Includes both n8n self-hosted JSON and Make.com 1-click import blueprint",
+        "Automatic timestamped chapter generator for YouTube description SEO",
+        "Exports clean Markdown directly to Ghost, WordPress, Webflow, or GitHub"
+      ],
+      "blueprint": "{\n  \"name\": \"ClipCast Multi-Channel Repurposer\",\n  \"inputs\": [\n    \"YouTube Channel RSS\",\n    \"Podcast MP3 URL\"\n  ],\n  \"outputs\": [\n    \"SEO Blog Markdown + FAQ JSON-LD\",\n    \"YouTube Chapters\",\n    \"5 LinkedIn/X Posts\"\n  ]\n}"
+    },
+    {
+      "slug": "n8n-github-release-changelog-publisher",
+      "name": "ShipNotes n8n — Git Commits & Merged PRs to Customer Changelog & Email",
+      "category": "n8n / Make AI Workflows",
+      "stack": "n8n JSON • GitHub Webhooks • Linear • Resend",
+      "features": [
+        "Triggered automatically on GitHub release.published webhook",
+        "Categorizes commits and links public issue references",
+        "Pushes formatted MDX/HTML to your changelog page and Resend broadcast draft"
+      ],
+      "blueprint": "{\n  \"name\": \"ShipNotes Release Automation\",\n  \"webhookEvent\": \"github.release.published\",\n  \"sections\": [\n    \"🚀 Features\",\n    \"⚡ Performance\",\n    \"🐛 Fixes\"\n  ]\n}"
+    },
+    {
+      "slug": "n8n-invoice-receipt-ocr-bookkeeper",
+      "name": "LedgerBot n8n — Email Receipt & PDF Invoice Extractor to Google Sheets / CSV",
+      "category": "n8n / Make AI Workflows",
+      "stack": "n8n JSON • Gmail API • Vision LLM • Google Sheets",
+      "features": [
+        "Handles multi-page PDF invoices, Stripe receipts, and cloud billing statements",
+        "Automatic duplicate invoice detection by invoice_number + vendor hash",
+        "Archives renamed PDFs (`2026-10-17_Vendor_USD149.pdf`) into organized Drive/S3 folders"
+      ],
+      "blueprint": "{\n  \"name\": \"LedgerBot Autonomous Bookkeeper\",\n  \"extractedFields\": [\n    \"vendor_name\",\n    \"invoice_date\",\n    \"subtotal\",\n    \"tax_amount\",\n    \"currency\",\n    \"category_gl\"\n  ]\n}"
+    },
+    {
+      "slug": "swiss-utility-design-system-pro",
+      "name": "SwissGrid UI — High-Contrast Editorial & Technical Tool Component Library",
+      "category": "UI & Design Systems",
+      "stack": "Vanilla CSS + React + Astro + Figma Variables",
+      "features": [
+        "Zero external CSS runtime—pure CSS Custom Properties with dark/light tokens (20 hrs saved)",
+        "WCAG 2.1 AAA contrast-verified typography and keyboard-accessible tabs (16 hrs saved)",
+        "Pre-sized AdSense & Carbon Ads containers with 0.00 Cumulative Layout Shift (14 hrs saved)",
+        "Includes Figma Variables file + HTML/React/Astro copy-paste primitives (14 hrs saved)"
+      ],
+      "blueprint": ":root {\n  --surface-alabaster: hsl(40, 27%, 97%);\n  --ink-primary: hsl(220, 28%, 10%);\n  --signal-orange: hsl(16, 84%, 46%);\n  --forest-emerald: hsl(158, 68%, 28%);\n}"
+    },
+    {
+      "slug": "b2b-pricing-page-conversion-kit",
+      "name": "PriceConvert Pro — 18 Interactive SaaS Pricing Tables, Sliders & ROI Calculators",
+      "category": "UI & Design Systems",
+      "stack": "HTML / React / Vue / Tailwind & Vanilla CSS",
+      "features": [
+        "18 production-tested pricing page layouts (Tiered, Usage-Based, Hybrid, Per-Seat)",
+        "Built-in interactive \"Calculate Your Team’s ROI\" embeddable widget",
+        "Accessible sticky header comparison matrix for 30+ feature rows"
+      ],
+      "blueprint": "{\n  \"components\": [\n    \"UsageSliderPricingCard\",\n    \"StickyFeatureComparisonMatrix\",\n    \"AnnualSavingsBadgeToggle\",\n    \"EnterpriseRoiCalculatorModal\"\n  ]\n}"
+    },
+    {
+      "slug": "data-story-chart-components",
+      "name": "MetricCanvas — Lightweight Zero-ChartJS SVG Sparklines, Heatmaps & Scorecards",
+      "category": "UI & Design Systems",
+      "stack": "Zero-Dependency SVG • TypeScript • Web Components",
+      "features": [
+        "Under 3.8KB gzipped—replaces 200KB+ charting bundles on SEO landing pages",
+        "Server-side / static-build pre-renderable SVG paths for instant LCP",
+        "Interactive crosshair tooltips and CSV/PNG export buttons built in"
+      ],
+      "blueprint": "<metric-sparkline\n  values=\"12,18,15,29,34,42,58,74\"\n  stroke=\"hsl(158, 68%, 28%)\"\n  label=\"Monthly Organic Traffic (+142%)\"\n></metric-sparkline>"
+    },
+    {
+      "slug": "docs-openapi-interactive-portal",
+      "name": "ApiDocs Studio — Static OpenAPI 3.1 Reference & Interactive cURL/SDK Playground",
+      "category": "UI & Design Systems",
+      "stack": "OpenAPI 3.1 • Static HTML Compiler • Vanilla JS",
+      "features": [
+        "Compiles OpenAPI 3.0 & 3.1 YAML/JSON specs into static SEO-indexed HTML",
+        "Interactive \"Try It in Browser\" REST & SSE streaming request console",
+        "Automatic multi-language code snippet generator (cURL, fetch, Python, Go)"
+      ],
+      "blueprint": "{\n  \"openapi\": \"3.1.0\",\n  \"info\": {\n    \"title\": \"UtilForge Edge API\",\n    \"version\": \"2.0.0\"\n  },\n  \"generatedTargets\": [\n    \"cURL\",\n    \"TypeScript fetch\",\n    \"Python httpx\",\n    \"Go net/http\",\n    \"Rust reqwest\"\n  ]\n}"
+    },
+    {
+      "slug": "waitlist-viral-referral-kit",
+      "name": "LaunchLoop — Viral Referral Waitlist, Milestone Rewards & Leaderboard Kit",
+      "category": "UI & Design Systems",
+      "stack": "Cloudflare Workers / Supabase • HTML/React",
+      "features": [
+        "Drop-in script or React component with customizable reward tiers (3, 10, 25 referrals)",
+        "Disposable email & same-IP sybil attack protection built in",
+        "Exports verified leads directly to CSV, Resend, ConvertKit, or Beehiiv"
+      ],
+      "blueprint": "{\n  \"widget\": \"LaunchLoopReferralBox\",\n  \"rewardMilestones\": [\n    {\n      \"referrals\": 3,\n      \"reward\": \"Early Beta Access + 20% Lifetime Discount\"\n    },\n    {\n      \"referrals\": 10,\n      \"reward\": \"Pro Plan Free for 6 Months\"\n    }\n  ]\n}"
+    },
+    {
+      "slug": "changelog-roadmap-feedback-board",
+      "name": "PulseBoard — Embeddable Public Roadmap, Upvote Board & Changelog Widget",
+      "category": "UI & Design Systems",
+      "stack": "SQLite / Supabase • Web Component • Static SSG",
+      "features": [
+        "MRR-weighted feature voting so enterprise priorities surface automatically",
+        "Embeddable `<pulse-changelog-bell>` web component for any web app header",
+        "Automatic \"We Shipped Your Request!\" email notification trigger"
+      ],
+      "blueprint": "{\n  \"columns\": [\n    \"Planned\",\n    \"In Progress\",\n    \"Shipped\"\n  ],\n  \"votingMode\": \"mrr_weighted_authenticated\",\n  \"widgetTag\": \"<pulse-changelog-bell app-id=\\\"utilforge\\\"></pulse-changelog-bell>\"\n}"
+    },
+    {
+      "slug": "utilforge-programmatic-seo-factory",
+      "name": "UtilForge Factory — 300-Page Zero-Server Programmatic SEO & Micro-Tool Compiler",
+      "category": "SaaS Boilerplates",
+      "stack": "Node.js SSG • Cloudflare Pages + KV • Zero Dependencies",
+      "features": [
+        "Compiles 300+ static HTML pages with SoftwareApplication, FAQPage & Product JSON-LD in <0.5s",
+        "Built-in Google AdSense Management API v2 auditor + Cloudflare KV click & impression telemetry",
+        "Automated IndexNow search engine submission + stateful ?q= viral permalink sharing",
+        "100% client-side execution with $0.00/mo hosting cost on Cloudflare Pages"
+      ],
+      "blueprint": "{\n  \"compiler\": \"node build.js\",\n  \"registries\": [\n    \"src/registry/tools.js\",\n    \"src/registry/matrix.js\",\n    \"src/registry/marketplace.js\"\n  ],\n  \"monetization\": [\n    \"Google AdSense 3-Slot Zero-CLS\",\n    \"/go/* Cloaked Affiliate Redirects\",\n    \"Direct Sponsor Slots ($99/mo)\"\n  ],\n  \"hostingCostMonthlyUsd\": 0\n}"
+    },
+    {
+      "slug": "cloudflare-r2-zero-egress-migrator-mcp",
+      "name": "R2FinOps MCP — AWS S3 to Cloudflare R2 Zero-Egress Migrator & Cost Auditor",
+      "category": "MCP Servers & Agent Skills",
+      "stack": "TypeScript • MCP SDK • AWS S3 / Cloudflare R2 API",
+      "features": [
+        "Scans AWS Cost Explorer & CloudWatch for per-bucket internet egress charges ($0.09/GB)",
+        "Generates exact Terraform / Wrangler R2 bucket configs + CORS policies automatically",
+        "Configures Cloudflare R2 Sippy on-demand migration with zero application downtime"
+      ],
+      "blueprint": "{\n  \"mcpServers\": {\n    \"r2-finops-migrator\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"@utilforge/mcp-r2-finops-migrator\"\n      ],\n      \"env\": {\n        \"AWS_PROFILE\": \"production-readonly\",\n        \"CLOUDFLARE_ACCOUNT_ID\": \"cf_acc_xxx\"\n      }\n    }\n  }\n}"
+    }
+  ]
+}
