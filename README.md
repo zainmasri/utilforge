@@ -1,17 +1,21 @@
-# UtilForge — 40 Client-Side Developer Utilities, 292 Cloud/LLM Cost Calculators & AI Workflow Marketplace
+# UtilForge — 44 Client-Side Developer Utilities, 292 Cloud/LLM Cost Calculators & AI Workflow Marketplace
 
 **Live Production App:** **[https://utilforge.pages.dev](https://utilforge.pages.dev)**  
 **Comparison Matrix (292 X-vs-Y Calculators):** **[https://utilforge.pages.dev/compare/](https://utilforge.pages.dev/compare/)**  
 **Boilerplate, MCP Server & AI Workflow Marketplace:** **[https://utilforge.pages.dev/marketplace/](https://utilforge.pages.dev/marketplace/)**
 
-UtilForge is a zero-server, 100% browser-executed suite of **40 developer & FinOps utilities**, **292 interactive "X vs. Y" cloud/LLM/payment cost calculators**, and **26 production-ready SaaS boilerplates, MCP servers, and n8n workflows**. All file parsing, token estimation, and financial modeling runs locally in your browser with `<5ms` latency and zero server uploads.
+UtilForge is a zero-server, 100% browser-executed suite of **44 developer & FinOps utilities**, **292 interactive "X vs. Y" cloud/LLM/payment cost calculators**, and **26 production-ready SaaS boilerplates, MCP servers, and n8n workflows**. All file parsing, token estimation, and financial modeling runs locally in your browser with `<5ms` latency and zero server uploads.
 
 ---
 
-## 🛠️ Featured FinOps, AI & Developer Utilities (40 Live Tools)
+## 🛠️ Featured FinOps, AI & Developer Utilities (44 Live Tools)
 
 | Utility / Calculator | Category | Live Tool URL |
 | :--- | :--- | :--- |
+| **AWS RDS vs Supabase vs Neon Serverless PostgreSQL Cost Calculator** | DevOps & Cloud | [Launch Tool →](https://utilforge.pages.dev/aws-rds-vs-supabase-neon-cost-calculator/) |
+| **B2B SaaS Net Dollar Retention (NDR), Logo Churn & Expansion ARR Calculator** | Fintech & Business | [Launch Tool →](https://utilforge.pages.dev/b2b-saas-churn-net-dollar-retention-calculator/) |
+| **Reasoning LLM Token Cost Calculator (OpenAI o1 / o3-mini vs DeepSeek R1 vs Claude 3.7)** | Data & Analytics | [Launch Tool →](https://utilforge.pages.dev/reasoning-llm-token-cost-calculator/) |
+| **Vercel vs Cloudflare Workers & Pages Compute & Bandwidth Cost Calculator** | DevOps & Cloud | [Launch Tool →](https://utilforge.pages.dev/vercel-vs-cloudflare-pricing-calculator/) |
 | **SAFE Note & Seed Round Founder Equity Dilution Calculator** | Fintech & Business | [Launch Tool →](https://utilforge.pages.dev/startup-equity-dilution-calculator/) |
 | **Vector Database & RAG Embedding Cost Calculator (Pinecone vs pgvector vs Qdrant)** | Data & Analytics | [Launch Tool →](https://utilforge.pages.dev/rag-vector-db-cost-estimator/) |
 | **Stripe vs PayPal vs Lemon Squeezy Net Payout & Fee Calculator** | Fintech & Business | [Launch Tool →](https://utilforge.pages.dev/stripe-paypal-fee-calculator/) |
