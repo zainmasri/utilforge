@@ -1,5 +1,5 @@
 # UtilForge — Zero-Server Client-Side Data & File Utilities
-> https://utilforge.pages.dev provides 44 zero-server client-side developer utilities, 292 interactive "X vs. Y" cloud/AI/payment cost calculators, and 26 production-ready SaaS boilerplates, MCP servers, and AI automation workflows.
+> https://utilforge.pages.dev provides 46 zero-server client-side developer utilities, 292 interactive "X vs. Y" cloud/AI/payment cost calculators, and 26 production-ready SaaS boilerplates, MCP servers, and AI automation workflows.
 
 ## Client-Side Developer & FinOps Utilities
 - [JSON ↔ CSV Converter & Nested Flattener](https://utilforge.pages.dev/json-to-csv/): Transform deeply nested JSON objects or arrays into clean RFC-4180 CSV tables—or convert CSV back to structured JSON—with 100% local browser execution and zero server uploads.
@@ -46,6 +46,8 @@
 - [Vercel vs Cloudflare Workers & Pages Compute & Bandwidth Cost Calculator](https://utilforge.pages.dev/vercel-vs-cloudflare-pricing-calculator/): Calculate monthly cloud bills, bandwidth egress charges ($0.15/GB vs $0.00/GB), serverless function executions, and team seat licensing across Vercel Pro and Cloudflare Workers Paid.
 - [AWS RDS vs Supabase vs Neon Serverless PostgreSQL Cost Calculator](https://utilforge.pages.dev/aws-rds-vs-supabase-neon-cost-calculator/): Model monthly PostgreSQL infrastructure expenses across AWS RDS (Single-AZ vs Multi-AZ), Supabase Pro Managed Postgres, and Neon Serverless Database with provisioned IOPS, storage auto-scaling, and auto-suspend compute.
 - [B2B SaaS Net Dollar Retention (NDR), Logo Churn & Expansion ARR Calculator](https://utilforge.pages.dev/b2b-saas-churn-net-dollar-retention-calculator/): Model Net Dollar Retention (NDR), Gross Revenue Retention (GRR), Logo Churn, SaaS Quick Ratio, and 3-Year Compounding ARR Trajectories with cohort upgrade, downgrade, and churn modeling.
+- [AWS Lambda vs Cloudflare Workers Serverless Compute & Concurrency Calculator](https://utilforge.pages.dev/aws-lambda-vs-cloudflare-workers-cost-calculator/): Model monthly request volumes, duration, memory allocations, and egress bandwidth to compare AWS Lambda x86/Graviton against Cloudflare Workers Standard & Workers Paid with zero egress fees.
+- [Stripe Billing vs Chargebee vs Maxio B2B Subscription Billing Cost Calculator](https://utilforge.pages.dev/stripe-billing-vs-chargebee-invoicing-calculator/): Model your monthly recurring revenue (MRR), invoice volume, international card mix, and sales tax compliance to evaluate total billing platform fees and gateway processing charges.
 
 ## Interactive "X vs. Y" Cloud, LLM API & Payment Cost Calculators
 - [OpenAI GPT-4o vs OpenAI GPT-4o Mini Cost Calculator](https://utilforge.pages.dev/compare/gpt-4o-vs-gpt-4o-mini/): Compare OpenAI GPT-4o vs OpenAI GPT-4o Mini side-by-side. Use our interactive calculator to estimate exact monthly costs, savings, and performance trade-offs at your scale.

@@ -229,8 +229,8 @@ function renderHeader(activeSection = '', depth = 0) {
           .join('')}
       </nav>
       <div class="header-actions" style="display:flex;align-items:center;gap:0.5rem;">
-        <button type="button" class="btn btn-primary" id="btn-open-global-checkout" style="padding:0.36rem 0.75rem;font-size:0.75rem;">
-          ⚡ Sponsor / License
+        <button type="button" class="btn btn-primary" id="btn-open-global-checkout" style="padding:0.36rem 0.75rem;font-size:0.75rem;box-shadow:0 1px 4px rgba(16,185,129,0.25);">
+          ⚡ Pro Blueprints ($19) / Sponsor
         </button>
         <button type="button" class="ad-mode-toggle" id="btn-toggle-ad-slots" title="Toggle Zero-CLS Ad Placement Blueprint">
           <span class="ad-mode-dot"></span>
@@ -252,11 +252,37 @@ function renderFooter(depth = 0) {
         INSTANT DIRECT CHECKOUT • 100% COMMERCIAL LICENSE
       </div>
       <h3 style="font-size:1.2rem;font-weight:800;margin-bottom:0.4rem;color:var(--text-primary);">
-        Sponsor UtilForge or License the Full 373-Page Factory
+        Sponsor UtilForge or License the Full ${totalPages}-Page Factory
       </h3>
       <p style="font-size:0.84rem;color:var(--text-secondary);margin-bottom:1rem;">
-        Reserve a high-intent developer ad slot across all ${totalPages} pages or get immediate Git repository access to the full UtilForge static compiler, 40 tool engines, and 26 boilerplates.
+        Reserve a high-intent developer ad slot across all ${totalPages} pages or get immediate Git repository access to the full UtilForge static compiler, ${TOOLS.length} tool engines, and ${MARKETPLACE_ITEMS.length} boilerplates.
       </p>
+
+      <div style="background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.3);border-radius:8px;padding:0.9rem;margin-bottom:1.15rem;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.3rem;">
+          <span style="font-family:var(--font-mono);font-size:0.72rem;font-weight:700;color:var(--accent-emerald);text-transform:uppercase;">⚡ 1-Click Instant Checkout</span>
+          <span style="font-family:var(--font-mono);font-size:0.85rem;font-weight:800;color:var(--accent-emerald);">$19 Starter Tier</span>
+        </div>
+        <div style="font-size:0.84rem;font-weight:700;color:var(--text-primary);margin-bottom:0.25rem;">
+          Starter MCP, FinOps &amp; SaaS Blueprint Pack
+        </div>
+        <p style="font-size:0.75rem;color:var(--text-secondary);margin-bottom:0.75rem;line-height:1.4;">
+          Instant download access to all production MCP server configs, n8n workflow JSONs, and commercial starter blueprints.
+        </p>
+        <a href="${escapeHtml(buildDirectPayPalUrl('Starter MCP & FinOps Config Pack ($19)', 19))}"
+           target="_blank" rel="noopener"
+           data-affiliate-partner="PayPal Checkout: Starter Pack ($19)"
+           class="btn btn-primary"
+           id="btn-modal-1click-paypal"
+           style="display:block;text-align:center;width:100%;padding:0.55rem 0.85rem;font-size:0.84rem;font-weight:700;">
+          💳 Instant PayPal Checkout ($19) →
+        </a>
+      </div>
+
+      <div style="text-align:center;font-size:0.72rem;color:var(--text-muted);margin-bottom:0.75rem;text-transform:uppercase;letter-spacing:0.05em;font-weight:600;">
+        — OR SELECT CUSTOM SPONSORSHIP / FACTORY TIER —
+      </div>
+
       <form id="global-checkout-form" style="display:flex;flex-direction:column;gap:0.75rem;">
         <div>
           <label for="global-checkout-pkg" style="display:block;font-size:0.76rem;font-weight:700;margin-bottom:0.25rem;">Select Package or Sponsorship Tier</label>
@@ -264,8 +290,8 @@ function renderFooter(depth = 0) {
             <option value="Starter MCP & FinOps Config Pack ($19 One-Time)">⚡ Starter MCP &amp; FinOps Config Pack ($19 One-Time)</option>
             <option value="Featured Marketplace Pin + Partner Slot ($49 One-Time)">Featured Marketplace Listing Pin ($49 One-Time)</option>
             <option value="Sitewide Leaderboard / Sticky Sidebar Sponsor Slot ($99/mo)">Sitewide Leaderboard / Sticky Sidebar Sponsor Slot ($99/mo)</option>
-            <option value="Full UtilForge 377-Page Factory + 44 Engines Source Code ($149 Lifetime)">Full UtilForge 377-Page Factory Source Code ($149 Lifetime)</option>
-            <option value="All 26 SaaS Boilerplates, MCP Servers & n8n Workflows Bundle ($249)">All 26 Boilerplates, MCP Servers &amp; Workflows Bundle ($249)</option>
+            <option value="Full UtilForge ${totalPages}-Page Factory + ${TOOLS.length} Engines Source Code ($149 Lifetime)">Full UtilForge ${totalPages}-Page Factory Source Code ($149 Lifetime)</option>
+            <option value="All ${MARKETPLACE_ITEMS.length} SaaS Boilerplates, MCP Servers & n8n Workflows Bundle ($249)">All ${MARKETPLACE_ITEMS.length} Boilerplates, MCP Servers &amp; Workflows Bundle ($249)</option>
           </select>
         </div>
         <div>
@@ -560,6 +586,24 @@ function buildToolPageHtml(tool) {
         )}
 
         ${renderAffiliateRailCard()}
+
+        <div class="rail-card" style="border-color:rgba(16,185,129,0.35);background:var(--bg-elevated);">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.4rem;">
+            <span class="tool-rpm-tag" style="font-size:0.65rem;background:var(--accent-emerald-soft);color:var(--accent-emerald);font-weight:700;">PRO DEVELOPER PACK</span>
+            <span style="font-family:var(--font-mono);font-size:0.8rem;font-weight:800;color:var(--accent-emerald);">$19 Starter</span>
+          </div>
+          <h3 style="font-size:0.88rem;margin:0 0 0.35rem 0;">Get the ${escapeHtml(tool.shortName)} Source Code</h3>
+          <p style="font-size:0.75rem;color:var(--text-secondary);margin-bottom:0.75rem;line-height:1.4;">
+            Deploy this engine offline or embed directly into your stack. Includes standalone TypeScript source, CLI runner, and 100% commercial license.
+          </p>
+          <a href="${escapeHtml(buildDirectPayPalUrl(`${tool.shortName} Starter Pack ($19)`, 19))}"
+             target="_blank" rel="noopener"
+             data-affiliate-partner="PayPal Checkout: ${escapeHtml(tool.shortName)} ($19 Starter)"
+             class="btn btn-primary"
+             style="display:block;text-align:center;width:100%;padding:0.48rem 0.75rem;font-size:0.8rem;font-weight:700;">
+            💳 Buy Starter Blueprint Pack ($19) →
+          </a>
+        </div>
 
         <div class="rail-card">
           <h3>Internal SEO Link Mesh (${relatedTools.length})</h3>
@@ -920,6 +964,24 @@ function buildComparisonPairHtml(pair) {
 
         ${renderAffiliateRailCard()}
 
+        <div class="rail-card" style="border-color:rgba(16,185,129,0.35);background:var(--bg-elevated);">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.4rem;">
+            <span class="tool-rpm-tag" style="font-size:0.65rem;background:var(--accent-emerald-soft);color:var(--accent-emerald);font-weight:700;">PRO FINOPS PACK</span>
+            <span style="font-family:var(--font-mono);font-size:0.8rem;font-weight:800;color:var(--accent-emerald);">$19 Starter</span>
+          </div>
+          <h3 style="font-size:0.88rem;margin:0 0 0.35rem 0;">Cost Metering &amp; Architecture Blueprints</h3>
+          <p style="font-size:0.75rem;color:var(--text-secondary);margin-bottom:0.75rem;line-height:1.4;">
+            Download ready-to-deploy multi-provider API cost metering, Terraform budget alarms, and SaaS optimization templates.
+          </p>
+          <a href="${escapeHtml(buildDirectPayPalUrl(`${pair.itemA.name} vs ${pair.itemB.name} FinOps Pack ($19)`, 19))}"
+             target="_blank" rel="noopener"
+             data-affiliate-partner="PayPal Checkout: ${escapeHtml(pair.slug)} ($19 Starter)"
+             class="btn btn-primary"
+             style="display:block;text-align:center;width:100%;padding:0.48rem 0.75rem;font-size:0.8rem;font-weight:700;">
+            💳 Buy FinOps Blueprint Pack ($19) →
+          </a>
+        </div>
+
         <div class="rail-card">
           <h3>Related Comparisons (${siblingPairs.length})</h3>
           <div class="related-tools-list">
@@ -1059,6 +1121,7 @@ function buildCompareHubPageHtml() {
 }
 
 function buildMarketplaceItemHtml(item) {
+  const totalPages = TOTAL_PAGE_COUNT;
   const canonicalUrl = `${SITE_CONFIG.domain}/marketplace/${item.slug}/`;
   const affiliateUrl = resolveMarketplaceCheckoutUrl(item);
   const relatedItems = MARKETPLACE_ITEMS.filter((m) => m.slug !== item.slug && m.category === item.category);
@@ -1216,7 +1279,7 @@ function buildMarketplaceItemHtml(item) {
                 <option value="Starter Config & Blueprint Pack for ${escapeHtml(item.shortName)} ($19)">⚡ Starter Config &amp; Blueprint Pack ($19)</option>
                 <option value="Buy Full ${escapeHtml(item.shortName)} (${escapeHtml(item.priceLabel)})">Full ${escapeHtml(item.shortName)} (${escapeHtml(item.priceLabel)})</option>
                 <option value="Sponsor Featured Slot ($99/mo)">Sponsor Featured Slot ($99/mo)</option>
-                <option value="Buy Full 377-Page UtilForge Factory ($149)">Buy Full UtilForge Factory ($149)</option>
+                <option value="Buy Full ${totalPages}-Page UtilForge Factory ($149)">Buy Full UtilForge Factory ($149)</option>
               </select>
               <button type="submit" class="btn btn-primary" id="btn-submit-direct-order">Get Instant Access →</button>
             </form>
@@ -1263,6 +1326,24 @@ function buildMarketplaceItemHtml(item) {
         )}
 
         ${renderAffiliateRailCard()}
+
+        <div class="rail-card" style="border-color:rgba(16,185,129,0.35);background:var(--bg-elevated);">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.4rem;">
+            <span class="tool-rpm-tag" style="font-size:0.65rem;background:var(--accent-emerald-soft);color:var(--accent-emerald);font-weight:700;">INSTANT DOWNLOAD</span>
+            <span style="font-family:var(--font-mono);font-size:0.8rem;font-weight:800;color:var(--accent-emerald);">$19 Starter</span>
+          </div>
+          <h3 style="font-size:0.88rem;margin:0 0 0.35rem 0;">${escapeHtml(item.shortName)} Starter Kit</h3>
+          <p style="font-size:0.75rem;color:var(--text-secondary);margin-bottom:0.75rem;line-height:1.4;">
+            Includes verified starter config templates, production workflow JSON, and commercial developer license.
+          </p>
+          <a href="${escapeHtml(buildDirectPayPalUrl(`${item.shortName} Starter Pack ($19)`, 19))}"
+             target="_blank" rel="noopener"
+             data-affiliate-partner="PayPal Checkout: ${escapeHtml(item.shortName)} ($19 Starter)"
+             class="btn btn-primary"
+             style="display:block;text-align:center;width:100%;padding:0.48rem 0.75rem;font-size:0.8rem;font-weight:700;">
+            💳 Buy Starter Blueprint Pack ($19) →
+          </a>
+        </div>
 
         <div class="rail-card">
           <h3>More in ${escapeHtml(item.category)}</h3>

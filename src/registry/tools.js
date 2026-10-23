@@ -2700,6 +2700,168 @@ server: cloudflare`,
       },
     ],
   },
+  {
+    id: 'aws-lambda-vs-cloudflare-workers-cost-calculator',
+    slug: 'aws-lambda-vs-cloudflare-workers-cost-calculator',
+    name: 'AWS Lambda vs Cloudflare Workers Serverless Compute & Concurrency Calculator',
+    shortName: 'Lambda vs Workers Calculator',
+    category: 'DevOps & Cloud',
+    partnerSlug: 'cloudflare-workers',
+    engine: 'serverlessComputeCostEngine',
+    primaryKeyword: 'aws lambda vs cloudflare workers cost calculator',
+    secondaryKeywords: [
+      'serverless compute cost comparison',
+      'lambda vs workers pricing',
+      'serverless duration request calculator',
+    ],
+    estMonthlySearches: '115,000',
+    estRpmUsd: '$45 – $76',
+    competitionLevel: 'Low',
+    headline: 'Calculate AWS Lambda vs Cloudflare Workers Serverless Compute Costs',
+    subtitle:
+      'Model monthly request volumes, duration, memory allocations, and egress bandwidth to compare AWS Lambda x86/Graviton against Cloudflare Workers Standard & Workers Paid with zero egress fees.',
+    metaDescription:
+      'Free online AWS Lambda vs Cloudflare Workers serverless compute cost calculator. Compare request pricing, GB-second compute costs, and egress bandwidth with 100% client-side privacy.',
+    badge: 'Zero-Egress FinOps Model',
+    options: [
+      {
+        id: 'memoryTier',
+        label: 'Memory Allocation',
+        type: 'select',
+        value: '512mb',
+        choices: [
+          { value: '128mb', label: '128 MB RAM (Micro-service / Webhook)' },
+          { value: '256mb', label: '256 MB RAM (API Gateway / Lightweight)' },
+          { value: '512mb', label: '512 MB RAM (Standard Node / Python / Go)' },
+          { value: '1024mb', label: '1,024 MB (1 GB) RAM (Heavy Compute / SSR)' },
+          { value: '2048mb', label: '2,048 MB (2 GB) RAM (Memory Intensive)' },
+        ],
+      },
+      {
+        id: 'architecture',
+        label: 'CPU Architecture',
+        type: 'select',
+        value: 'arm64',
+        choices: [
+          { value: 'arm64', label: 'AWS Graviton2 (ARM64 — $0.0000133334/GB-s)' },
+          { value: 'x86_64', label: 'AWS x86_64 ($0.0000166667/GB-s)' },
+        ],
+      },
+      {
+        id: 'workersPlan',
+        label: 'Cloudflare Plan',
+        type: 'select',
+        value: 'paid',
+        choices: [
+          { value: 'paid', label: 'Cloudflare Workers Paid ($5/mo, 10M incl.)' },
+          { value: 'free', label: 'Cloudflare Workers Free (100k req/day)' },
+        ],
+      },
+    ],
+    sampleInput: JSON.stringify(
+      {
+        monthlyRequests: 25000000,
+        avgDurationMs: 65,
+        egressBandwidthGb: 250,
+        inboundPayloadKb: 4,
+      },
+      null,
+      2
+    ),
+    howToSteps: [
+      'Input your projected monthly request volume (e.g. 25,000,000 requests) and average execution latency (e.g. 65 ms).',
+      'Specify memory allocation (128 MB to 2,048 MB) and architecture (AWS Graviton2 ARM64 vs x86_64).',
+      'Inspect side-by-side cost breakdown including request pricing, GB-seconds compute, and egress bandwidth.',
+      'Export detailed JSON billing report or copy annual savings summary.',
+    ],
+    faqs: [
+      {
+        q: 'How does Cloudflare Workers eliminate egress bandwidth costs?',
+        a: "Unlike AWS Lambda which charges $0.09 per GB for data transfer out to the public internet beyond the first 100 GB, Cloudflare Workers operates directly on Cloudflare's global edge network with $0 egress fees. For data-intensive APIs and media streaming, this single difference often reduces infrastructure bills by 60%–90%.",
+      },
+      {
+        q: 'What is the difference between AWS Lambda GB-seconds and Cloudflare Workers CPU time?',
+        a: "AWS Lambda bills for entire wall-clock execution duration rounded up to the nearest millisecond, meaning you pay for idle I/O time while waiting for external databases or third-party APIs. Cloudflare Workers Paid only bills for actual CPU execution time ($0.02 per 1M CPU milliseconds), allowing I/O-bound requests to wait at zero additional compute cost.",
+      },
+      {
+        q: 'When does AWS Lambda make more sense than Cloudflare Workers?',
+        a: 'AWS Lambda is advantageous when workloads require custom Linux binaries, Docker container images up to 10 GB, GPU acceleration, execution runtimes longer than 15 minutes, or native VPC integration with legacy internal AWS services.',
+      },
+    ],
+  },
+  {
+    id: 'stripe-billing-vs-chargebee-invoicing-calculator',
+    slug: 'stripe-billing-vs-chargebee-invoicing-calculator',
+    name: 'Stripe Billing vs Chargebee vs Maxio B2B Subscription Billing Cost Calculator',
+    shortName: 'SaaS Billing Cost Calculator',
+    category: 'Fintech & Business',
+    partnerSlug: 'mercury-banking',
+    engine: 'b2bBillingCostEngine',
+    primaryKeyword: 'stripe billing vs chargebee pricing calculator',
+    secondaryKeywords: [
+      'b2b saas billing cost calculator',
+      'chargebee vs stripe pricing',
+      'subscription billing fee comparison',
+    ],
+    estMonthlySearches: '58,000',
+    estRpmUsd: '$50 – $85',
+    competitionLevel: 'Low',
+    headline: 'Compare Stripe Billing vs Chargebee vs Maxio Subscription Platform Fees',
+    subtitle:
+      'Model your monthly recurring revenue (MRR), invoice volume, international card mix, and sales tax compliance to evaluate total billing platform fees and gateway processing charges.',
+    metaDescription:
+      'Free B2B SaaS subscription billing calculator. Compare Stripe Billing, Chargebee, Maxio, and Lemon Squeezy total platform fees, gateway processing, and tax compliance costs.',
+    badge: 'B2B SaaS FinOps Model',
+    options: [
+      {
+        id: 'billingModel',
+        label: 'Billing & Payment Mix',
+        type: 'select',
+        value: 'self_serve_card',
+        choices: [
+          { value: 'self_serve_card', label: 'Self-Serve SaaS (Credit Card 85% / ACH 15%)' },
+          { value: 'enterprise_invoiced', label: 'B2B Invoiced Enterprise (ACH 70% / Card 30%)' },
+          { value: 'hybrid_usage', label: 'Hybrid Usage-Based & Tiered Subscriptions' },
+        ],
+      },
+      {
+        id: 'taxComplianceIncluded',
+        label: 'Automated Tax Compliance',
+        type: 'checkbox',
+        value: true,
+      },
+    ],
+    sampleInput: JSON.stringify(
+      {
+        monthlyProcessedVolumeUsd: 150000,
+        monthlyInvoicesCount: 450,
+        intlVolumePct: 15,
+        chargebackRatePct: 0.05,
+      },
+      null,
+      2
+    ),
+    howToSteps: [
+      'Enter your monthly processed subscription volume (e.g. $150,000 MRR) and expected invoice count.',
+      'Select your billing model (Self-serve credit card vs B2B invoiced enterprise) and international volume share.',
+      'Review the automated breakdown comparing Stripe Billing, Chargebee Starter/Performance, Maxio, and Lemon Squeezy.',
+      'Inspect net payout percentages, gateway surcharges, and annual software platform savings.',
+    ],
+    faqs: [
+      {
+        q: 'How does Stripe Billing charge for subscription management?',
+        a: 'Stripe Billing charges 0.7% on recurring volume (or 0.5% for Starter plans with basic features) on top of the standard payment processing fee (2.9% + 30¢ for domestic credit cards or 0.8% capped at $5 for ACH Direct Debit). Additional features like Stripe Tax (0.5%) and Stripe Invoicing (0.4% after 25 free invoices) increase total take-rates.',
+      },
+      {
+        q: 'When is Chargebee cheaper than Stripe Billing?',
+        a: 'Chargebee uses fixed monthly platform pricing (e.g. $599/mo including $100k/mo volume + 0.75% overage) rather than purely percentage-based fees. For high-ticket B2B SaaS companies processing large invoices via ACH or negotiated low interchange rates, a fixed platform fee can decouple revenue growth from billing platform fees.',
+      },
+      {
+        q: 'Why consider a Merchant of Record (MoR) like Lemon Squeezy instead?',
+        a: 'A Merchant of Record acts as the legal reseller of your digital software. They assume 100% liability for global sales tax calculation, remittance, VAT filing across 100+ jurisdictions, and chargeback disputes for a flat fee (typically 5% + 50¢), eliminating separate tax software, accountants, and merchant account overhead.',
+      },
+    ],
+  },
 ];
 
 

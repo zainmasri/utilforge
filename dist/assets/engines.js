@@ -4040,6 +4040,388 @@
         summary: `Net Dollar Retention (NDR): ${ndrPct.toFixed(1)}% (${benchmarkTier}) • Gross Revenue Retention (GRR): ${grrPct.toFixed(1)}% • SaaS Quick Ratio: ${quickRatio.toFixed(2)}× • Year 3 Cohort ARR: ${cohortCompounding[2].cohortArrFormatted} (${cohortCompounding[2].expansionMultiple}).`,
       };
     },
+
+    serverlessComputeCostEngine(input, opts) {
+      let data = {};
+      try {
+        data = JSON.parse(input);
+      } catch (_e) {
+        const num = parseFloat(String(input).replace(/[^0-9.]/g, ''));
+        data = { monthlyRequests: isNaN(num) || num <= 0 ? 25000000 : num };
+      }
+
+      const requests = Math.max(1000, Number(data.monthlyRequests ?? data.requests ?? 25000000));
+      const avgDurationMs = Math.max(1, Number(data.avgDurationMs ?? data.duration ?? 65));
+      const egressGb = Math.max(0, Number(data.egressBandwidthGb ?? data.egressGb ?? data.egress ?? 250));
+      const inboundPayloadKb = Math.max(0, Number(data.inboundPayloadKb ?? 4));
+
+      const memoryTier = opts.memoryTier || '512mb';
+      const architecture = opts.architecture || 'arm64';
+      const workersPlan = opts.workersPlan || 'paid';
+
+      const memMap = {
+        '128mb': 128,
+        '256mb': 256,
+        '512mb': 512,
+        '1024mb': 1024,
+        '2048mb': 2048,
+      };
+      const allocatedRamMb = memMap[memoryTier] || 512;
+
+      // 1. AWS Lambda Calculation
+      const lambdaRatePerGbSec = architecture === 'arm64' ? 0.0000133334 : 0.0000166667;
+      const lambdaGbSeconds = requests * (avgDurationMs / 1000) * (allocatedRamMb / 1024);
+      const lambdaComputeCost = lambdaGbSeconds * lambdaRatePerGbSec;
+      const lambdaRequestCost = (requests / 1000000) * 0.20;
+      const lambdaBillableEgressGb = Math.max(0, egressGb - 100);
+      const lambdaEgressCost = lambdaBillableEgressGb * 0.09;
+      const lambdaTotalCost = lambdaComputeCost + lambdaRequestCost + lambdaEgressCost;
+
+      // 2. Cloudflare Workers Calculation
+      let cfBaseCost = 5.0; // Workers Paid includes 10M requests & 30s CPU time
+      let cfBillableRequests = Math.max(0, requests - 10000000);
+      let cfRequestCost = (cfBillableRequests / 1000000) * 0.30;
+      const totalCpuMs = requests * (avgDurationMs * 0.25);
+      const billableCpuMs = Math.max(0, totalCpuMs - 30000000);
+      const cfCpuCost = (billableCpuMs / 1000000) * 0.02;
+      const cfEgressCost = 0.0; // $0.00 Egress
+      let cfTotalCost = cfBaseCost + cfRequestCost + cfCpuCost + cfEgressCost;
+
+      if (workersPlan === 'free') {
+        if (requests <= 3000000) {
+          cfTotalCost = 0;
+          cfBaseCost = 0;
+          cfRequestCost = 0;
+          cfCpuCost = 0;
+        }
+      }
+
+      const monthlySavings = Math.max(0, lambdaTotalCost - cfTotalCost);
+      const annualSavings = monthlySavings * 12;
+      const savingsPct = lambdaTotalCost > 0 ? ((monthlySavings / lambdaTotalCost) * 100).toFixed(1) : '0.0';
+
+      const report = {
+        workloadInput: {
+          monthlyRequests: requests,
+          avgDurationMs,
+          allocatedRamMb,
+          architecture: architecture === 'arm64' ? 'AWS Graviton2 (ARM64)' : 'AWS x86_64',
+          egressBandwidthGb: egressGb,
+          inboundPayloadKb,
+        },
+        monthlyCostComparison: {
+          awsLambda: {
+            requestChargesUsd: Number(lambdaRequestCost.toFixed(2)),
+            computeChargesUsd: Number(lambdaComputeCost.toFixed(2)),
+            gbSeconds: Number(lambdaGbSeconds.toFixed(1)),
+            egressBandwidthChargesUsd: Number(lambdaEgressCost.toFixed(2)),
+            totalMonthlyUsd: Number(lambdaTotalCost.toFixed(2)),
+          },
+          cloudflareWorkers: {
+            baseSubscriptionUsd: Number(cfBaseCost.toFixed(2)),
+            additionalRequestChargesUsd: Number(cfRequestCost.toFixed(2)),
+            cpuComputeChargesUsd: Number(cfCpuCost.toFixed(2)),
+            egressBandwidthChargesUsd: 0.0,
+            totalMonthlyUsd: Number(cfTotalCost.toFixed(2)),
+          },
+          netSavingsWithCloudflare: {
+            monthlySavingsUsd: Number(monthlySavings.toFixed(2)),
+            annualSavingsUsd: Number(annualSavings.toFixed(2)),
+            savingsPercentage: `${savingsPct}%`,
+          },
+        },
+      };
+
+      const extraHtml = `
+        <div style="margin-top:1.25rem;">
+          <div style="font-size:0.8rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:0.6rem;letter-spacing:0.04em;">
+            Serverless Architecture Cost &amp; Egress Comparison (${requests.toLocaleString()} Requests/Mo)
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(210px, 1fr));gap:0.75rem;margin-bottom:1.25rem;">
+            <div class="kpi-tile" style="background:var(--bg-elevated);border-left:4px solid var(--accent-amber);">
+              <div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;font-weight:700;">AWS Lambda Total</div>
+              <div style="font-size:1.6rem;font-weight:800;font-family:var(--font-mono);color:var(--text-primary);">$${lambdaTotalCost.toFixed(2)}/mo</div>
+              <div style="font-size:0.72rem;color:var(--text-secondary);">$${(lambdaTotalCost * 12).toLocaleString(undefined, { maximumFractionDigits: 0 })}/year (${architecture})</div>
+            </div>
+            <div class="kpi-tile" style="background:var(--bg-elevated);border-left:4px solid var(--accent-emerald);">
+              <div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;font-weight:700;">Cloudflare Workers</div>
+              <div style="font-size:1.6rem;font-weight:800;font-family:var(--font-mono);color:var(--accent-emerald);">$${cfTotalCost.toFixed(2)}/mo</div>
+              <div style="font-size:0.72rem;color:var(--text-secondary);">$${(cfTotalCost * 12).toLocaleString(undefined, { maximumFractionDigits: 0 })}/year ($0 Egress)</div>
+            </div>
+            <div class="kpi-tile" style="background:var(--bg-elevated);border-left:4px solid var(--accent-emerald);">
+              <div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;font-weight:700;">Net Cloudflare Savings</div>
+              <div style="font-size:1.6rem;font-weight:800;font-family:var(--font-mono);color:var(--accent-emerald);">-${savingsPct}%</div>
+              <div style="font-size:0.72rem;color:var(--accent-emerald);font-weight:700;">Save $${annualSavings.toLocaleString(undefined, { maximumFractionDigits: 0 })}/yr</div>
+            </div>
+          </div>
+
+          <div style="overflow-x:auto;">
+            <table class="matrix-table" style="width:100%;font-size:0.86rem;border-collapse:collapse;">
+              <thead>
+                <tr style="background:var(--bg-subtle);border-bottom:2px solid var(--border-strong);">
+                  <th style="padding:0.65rem 0.75rem;text-align:left;">Cost Dimension</th>
+                  <th style="padding:0.65rem 0.75rem;text-align:right;">AWS Lambda (${architecture})</th>
+                  <th style="padding:0.65rem 0.75rem;text-align:right;color:var(--accent-emerald);">Cloudflare Workers</th>
+                  <th style="padding:0.65rem 0.75rem;text-align:right;">Difference</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="border-bottom:1px solid var(--border-subtle);">
+                  <td style="padding:0.65rem 0.75rem;"><strong>Base Subscription / Inclusions</strong></td>
+                  <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);">$0.00</td>
+                  <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);">$${cfBaseCost.toFixed(2)} (10M incl.)</td>
+                  <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);color:var(--text-muted);">${cfBaseCost > 0 ? '+$5.00' : '$0.00'}</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--border-subtle);">
+                  <td style="padding:0.65rem 0.75rem;"><strong>Request Invocations (${requests.toLocaleString()})</strong></td>
+                  <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);">$${lambdaRequestCost.toFixed(2)} ($0.20/1M)</td>
+                  <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);">$${cfRequestCost.toFixed(2)} ($0.30/1M)</td>
+                  <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);">${cfRequestCost >= lambdaRequestCost ? '+' : ''}${(cfRequestCost - lambdaRequestCost).toFixed(2)}</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--border-subtle);">
+                  <td style="padding:0.65rem 0.75rem;"><strong>Compute Duration (${allocatedRamMb} MB RAM, ${avgDurationMs}ms)</strong></td>
+                  <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);">$${lambdaComputeCost.toFixed(2)} (${lambdaGbSeconds.toLocaleString(undefined, { maximumFractionDigits: 0 })} GB-s)</td>
+                  <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);">$${cfCpuCost.toFixed(2)} (CPU Time Only)</td>
+                  <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);color:var(--accent-emerald);">-$${(lambdaComputeCost - cfCpuCost).toFixed(2)}</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--border-subtle);">
+                  <td style="padding:0.65rem 0.75rem;"><strong>Egress Bandwidth (${egressGb} GB Out)</strong></td>
+                  <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);">$${lambdaEgressCost.toFixed(2)} ($0.09/GB)</td>
+                  <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);font-weight:700;color:var(--accent-emerald);">$0.00 (Zero Egress)</td>
+                  <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);color:var(--accent-emerald);">-$${lambdaEgressCost.toFixed(2)}</td>
+                </tr>
+                <tr style="background:var(--accent-emerald-soft);font-weight:800;">
+                  <td style="padding:0.75rem;"><strong>Total Monthly Run-Rate</strong></td>
+                  <td style="padding:0.75rem;text-align:right;font-family:var(--font-mono);font-size:0.95rem;">$${lambdaTotalCost.toFixed(2)}/mo</td>
+                  <td style="padding:0.75rem;text-align:right;font-family:var(--font-mono);font-size:0.95rem;color:var(--accent-emerald);">$${cfTotalCost.toFixed(2)}/mo</td>
+                  <td style="padding:0.75rem;text-align:right;font-family:var(--font-mono);font-size:0.95rem;color:var(--accent-emerald);">Save $${monthlySavings.toFixed(2)}/mo</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div style="margin-top:1.15rem;padding:0.9rem 1.15rem;background:var(--bg-elevated);border-left:4px solid var(--accent-emerald);border-radius:6px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;">
+            <div>
+              <div style="font-size:0.85rem;font-weight:700;color:var(--text-primary);">Deploy on Cloudflare's Global 330+ City Edge Network</div>
+              <div style="font-size:0.78rem;color:var(--text-secondary);">Enjoy sub-10ms global cold starts, zero egress fees, built-in KV, D1 SQLite, and R2 object storage.</div>
+            </div>
+            <a href="/go/cloudflare-workers/" target="_blank" rel="noopener sponsored" data-affiliate-partner="Cloudflare Workers & Pages" class="btn btn-primary" style="padding:0.5rem 0.9rem;font-size:0.8rem;">
+              Deploy Free on Cloudflare →
+            </a>
+          </div>
+        </div>
+      `;
+
+      return {
+        output: JSON.stringify(report, null, 2),
+        extraHtml,
+        downloadExt: 'json',
+        downloadMime: 'application/json',
+        summary: `Cloudflare Workers saves $${monthlySavings.toFixed(2)}/mo ($${annualSavings.toLocaleString(undefined, { maximumFractionDigits: 0 })}/year, -${savingsPct}%) compared to AWS Lambda (${architecture}) • Zero egress bandwidth cost • ${allocatedRamMb} MB RAM model.`,
+      };
+    },
+
+    b2bBillingCostEngine(input, opts) {
+      let data = {};
+      try {
+        data = JSON.parse(input);
+      } catch (_e) {
+        const num = parseFloat(String(input).replace(/[^0-9.]/g, ''));
+        data = { monthlyProcessedVolumeUsd: isNaN(num) || num <= 0 ? 150000 : num };
+      }
+
+      const volume = Math.max(1000, Number(data.monthlyProcessedVolumeUsd ?? data.volume ?? 150000));
+      const invoices = Math.max(1, Number(data.monthlyInvoicesCount ?? data.invoices ?? 450));
+      const intlPct = Math.min(100, Math.max(0, Number(data.intlVolumePct ?? data.intlPct ?? 15)));
+      const includeTax = opts.taxComplianceIncluded !== false;
+      const billingModel = opts.billingModel || 'self_serve_card';
+
+      let cardShare = 0.85;
+      let achShare = 0.15;
+      if (billingModel === 'enterprise_invoiced') {
+        cardShare = 0.30;
+        achShare = 0.70;
+      } else if (billingModel === 'hybrid_usage') {
+        cardShare = 0.60;
+        achShare = 0.40;
+      }
+
+      const cardVolume = volume * cardShare;
+      const achVolume = volume * achShare;
+      const cardTxCount = Math.round(invoices * cardShare);
+      const achTxCount = Math.round(invoices * achShare);
+
+      const cardProcessing = (cardVolume * 0.029) + (cardTxCount * 0.30) + (cardVolume * (intlPct / 100) * 0.015);
+      const avgAchTx = achTxCount > 0 ? achVolume / achTxCount : 0;
+      const achFeePerTx = Math.min(5.0, avgAchTx * 0.008);
+      const achProcessing = achTxCount * achFeePerTx;
+      const totalGatewayProcessing = cardProcessing + achProcessing;
+
+      const stripeBillingFee = volume * 0.007;
+      const stripeBillableInvoices = Math.max(0, invoices - 25);
+      const avgInvoiceAmount = volume / invoices;
+      const stripeInvoicingFee = stripeBillableInvoices * avgInvoiceAmount * 0.004;
+      const stripeTaxFee = includeTax ? (volume * 0.005) : 0.0;
+      const stripePlatformTotal = stripeBillingFee + stripeInvoicingFee + stripeTaxFee;
+      const stripeGrandTotal = totalGatewayProcessing + stripePlatformTotal;
+
+      const chargebeeBase = 599.0;
+      const chargebeeOverage = Math.max(0, volume - 100000) * 0.0075;
+      const chargebeeTaxIntegration = includeTax ? 150.0 : 0.0;
+      const chargebeePlatformTotal = chargebeeBase + chargebeeOverage + chargebeeTaxIntegration;
+      const chargebeeGrandTotal = totalGatewayProcessing + chargebeePlatformTotal;
+
+      const maxioBase = 799.0;
+      const maxioOverage = Math.max(0, volume - 150000) * 0.009;
+      const maxioTaxIntegration = includeTax ? 175.0 : 0.0;
+      const maxioPlatformTotal = maxioBase + maxioOverage + maxioTaxIntegration;
+      const maxioGrandTotal = totalGatewayProcessing + maxioPlatformTotal;
+
+      const lemonSqueezyGrandTotal = (volume * 0.05) + (invoices * 0.50);
+
+      const platforms = [
+        {
+          id: 'stripe-billing',
+          name: 'Stripe Billing Stack',
+          platformFee: stripePlatformTotal,
+          gatewayFee: totalGatewayProcessing,
+          taxFee: stripeTaxFee,
+          grandTotal: stripeGrandTotal,
+          takeRatePct: ((stripeGrandTotal / volume) * 100).toFixed(2),
+          notes: '0.7% recurring + 0.4% invoicing + 0.5% Stripe Tax + 2.9%+30¢ gateway',
+        },
+        {
+          id: 'chargebee',
+          name: 'Chargebee Performance',
+          platformFee: chargebeePlatformTotal,
+          gatewayFee: totalGatewayProcessing,
+          taxFee: chargebeeTaxIntegration,
+          grandTotal: chargebeeGrandTotal,
+          takeRatePct: ((chargebeeGrandTotal / volume) * 100).toFixed(2),
+          notes: '$599/mo base (incl. $100k MRR) + 0.75% overage + gateway fees',
+        },
+        {
+          id: 'maxio',
+          name: 'Maxio (Chargify)',
+          platformFee: maxioPlatformTotal,
+          gatewayFee: totalGatewayProcessing,
+          taxFee: maxioTaxIntegration,
+          grandTotal: maxioGrandTotal,
+          takeRatePct: ((maxioGrandTotal / volume) * 100).toFixed(2),
+          notes: '$799/mo base + 0.9% overage + gateway fees',
+        },
+        {
+          id: 'lemon-squeezy',
+          name: 'Lemon Squeezy (MoR)',
+          platformFee: Math.max(0, lemonSqueezyGrandTotal - totalGatewayProcessing),
+          gatewayFee: totalGatewayProcessing,
+          taxFee: 0,
+          grandTotal: lemonSqueezyGrandTotal,
+          takeRatePct: ((lemonSqueezyGrandTotal / volume) * 100).toFixed(2),
+          notes: '5.0% + $0.50 all-in Merchant of Record (remits global VAT/sales tax)',
+        },
+      ];
+
+      platforms.sort((a, b) => a.grandTotal - b.grandTotal);
+      const winner = platforms[0];
+      const mostExpensive = platforms[platforms.length - 1];
+      const annualSpread = (mostExpensive.grandTotal - winner.grandTotal) * 12;
+
+      const report = {
+        workloadInput: {
+          monthlyProcessedVolumeUsd: volume,
+          monthlyInvoicesCount: invoices,
+          cardVolumeSharePct: Math.round(cardShare * 100),
+          achVolumeSharePct: Math.round(achShare * 100),
+          internationalVolumePct: intlPct,
+          automatedTaxComplianceEnabled: includeTax,
+        },
+        monthlyCostComparison: platforms.map((p) => ({
+          platform: p.name,
+          platformSoftwareFeesUsd: Number(p.platformFee.toFixed(2)),
+          gatewayProcessingFeesUsd: Number(p.gatewayFee.toFixed(2)),
+          totalMonthlyFeeUsd: Number(p.grandTotal.toFixed(2)),
+          effectiveTakeRatePercentage: `${p.takeRatePct}%`,
+          notes: p.notes,
+        })),
+        optimizationInsights: {
+          lowestCostPlatform: winner.name,
+          lowestMonthlyCostUsd: Number(winner.grandTotal.toFixed(2)),
+          annualSavingsVsMostExpensiveUsd: Number(annualSpread.toFixed(2)),
+        },
+      };
+
+      const extraHtml = `
+        <div style="margin-top:1.25rem;">
+          <div style="font-size:0.8rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:0.6rem;letter-spacing:0.04em;">
+            B2B SaaS Subscription Billing &amp; Invoicing Comparison ($${volume.toLocaleString()} MRR)
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(210px, 1fr));gap:0.75rem;margin-bottom:1.25rem;">
+            ${platforms
+              .map(
+                (p, idx) => `
+              <div class="kpi-tile" style="background:var(--bg-elevated);border-left:4px solid ${idx === 0 ? 'var(--accent-emerald)' : 'var(--border-strong)'};">
+                <div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;font-weight:700;">${escapeHtml(p.name)}</div>
+                <div style="font-size:1.5rem;font-weight:800;font-family:var(--font-mono);color:${idx === 0 ? 'var(--accent-emerald)' : 'var(--text-primary)'};">$${p.grandTotal.toFixed(2)}/mo</div>
+                <div style="font-size:0.72rem;color:var(--text-secondary);">${p.takeRatePct}% effective take-rate</div>
+              </div>`
+              )
+              .join('')}
+          </div>
+
+          <div style="overflow-x:auto;">
+            <table class="matrix-table" style="width:100%;font-size:0.86rem;border-collapse:collapse;">
+              <thead>
+                <tr style="background:var(--bg-subtle);border-bottom:2px solid var(--border-strong);">
+                  <th style="padding:0.65rem 0.75rem;text-align:left;">Billing Provider</th>
+                  <th style="padding:0.65rem 0.75rem;text-align:right;">Platform Software Fee</th>
+                  <th style="padding:0.65rem 0.75rem;text-align:right;">Gateway Processing</th>
+                  <th style="padding:0.65rem 0.75rem;text-align:right;">Total Monthly Cost</th>
+                  <th style="padding:0.65rem 0.75rem;text-align:right;color:var(--accent-emerald);">Take-Rate</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${platforms
+                  .map(
+                    (p, idx) => `
+                  <tr style="border-bottom:1px solid var(--border-subtle);${idx === 0 ? 'background:var(--accent-emerald-soft);' : ''}">
+                    <td style="padding:0.65rem 0.75rem;">
+                      <strong>${escapeHtml(p.name)}</strong>
+                      <div style="font-size:0.72rem;color:var(--text-muted);">${escapeHtml(p.notes)}</div>
+                    </td>
+                    <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);font-size:0.8rem;">$${p.platformFee.toFixed(2)}</td>
+                    <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);font-size:0.8rem;">$${p.gatewayFee.toFixed(2)}</td>
+                    <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);font-weight:800;font-size:0.95rem;color:${idx === 0 ? 'var(--accent-emerald)' : 'var(--text-primary)'};">$${p.grandTotal.toFixed(2)}/mo</td>
+                    <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);font-weight:700;color:${idx === 0 ? 'var(--accent-emerald)' : 'var(--text-secondary)'};">${p.takeRatePct}%</td>
+                  </tr>`
+                  )
+                  .join('')}
+              </tbody>
+            </table>
+          </div>
+
+          <div style="margin-top:1.15rem;padding:0.9rem 1.15rem;background:var(--bg-elevated);border-left:4px solid var(--accent-emerald);border-radius:6px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;">
+            <div>
+              <div style="font-size:0.85rem;font-weight:700;color:var(--text-primary);">Automate SaaS Payouts &amp; Bank Feeds with Mercury</div>
+              <div style="font-size:0.78rem;color:var(--text-secondary);">Direct Stripe &amp; PayPal webhook sync, $5M FDIC treasury protection, and zero fee domestic/international wires.</div>
+            </div>
+            <a href="/go/mercury-banking/" target="_blank" rel="noopener sponsored" data-affiliate-partner="Mercury Startup Banking" class="btn btn-primary" style="padding:0.5rem 0.9rem;font-size:0.8rem;">
+              Open Mercury Account ($250 Bonus) →
+            </a>
+          </div>
+        </div>
+      `;
+
+      return {
+        output: JSON.stringify(report, null, 2),
+        extraHtml,
+        downloadExt: 'json',
+        downloadMime: 'application/json',
+        summary: `${winner.name} delivers the lowest fee at $${winner.grandTotal.toFixed(2)}/mo (${winner.takeRatePct}% take-rate) • Up to $${annualSpread.toLocaleString(undefined, { maximumFractionDigits: 0 })}/year in billing stack fee spread • B2B volume: $${volume.toLocaleString()} MRR.`,
+      };
+    },
   };
 
   /* ========================================================================
@@ -4819,8 +5201,8 @@
           <div style="font-size:0.78rem;color:var(--text-secondary);line-height:1.4;">${offer.sub}</div>
           <a href="${offer.href}" target="_blank" rel="noopener sponsored" data-affiliate-partner="${offer.partner}" class="btn btn-primary" style="width:100%;text-align:center;padding:0.5rem 0.75rem;font-size:0.8rem;">${offer.cta}</a>
           <div style="border-top:1px dashed var(--border-subtle);padding-top:0.5rem;margin-top:0.15rem;display:flex;justify-content:space-between;align-items:center;font-size:0.74rem;">
-            <span style="color:var(--text-muted);">Want all 373 pages &amp; 40 engines?</span>
-            <button type="button" data-open-sponsor-modal="Full UtilForge 373-Page Factory + 40 Engines Source Code ($149 Lifetime)" style="background:none;border:none;font-weight:700;color:var(--accent-primary);cursor:pointer;padding:0;">Buy Factory ($149) →</button>
+            <span style="color:var(--text-muted);">Want all 379 pages &amp; 46 engines?</span>
+            <button type="button" data-open-sponsor-modal="Full UtilForge 379-Page Factory + 46 Engines Source Code ($149 Lifetime)" style="background:none;border:none;font-weight:700;color:var(--accent-primary);cursor:pointer;padding:0;">Buy Factory ($149) →</button>
           </div>
         `
         : `

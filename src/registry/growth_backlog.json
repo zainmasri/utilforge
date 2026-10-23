@@ -1,6 +1,6 @@
 {
-  "version": "1.3.0",
-  "lastUpdated": "2026-10-21",
+  "version": "1.4.0",
+  "lastUpdated": "2026-10-23",
   "upcomingHighRpmTools": [
     {
       "id": "stripe-paypal-fee-calculator",
@@ -107,7 +107,8 @@
       "engine": "serverlessComputeCostEngine",
       "estMonthlySearches": "115,000",
       "estRpmUsd": "$45 – $76",
-      "status": "queued"
+      "status": "deployed",
+      "deployedDate": "2026-10-23"
     },
     {
       "id": "stripe-billing-vs-chargebee-invoicing-calculator",
@@ -118,6 +119,29 @@
       "engine": "b2bBillingCostEngine",
       "estMonthlySearches": "58,000",
       "estRpmUsd": "$50 – $85",
+      "status": "deployed",
+      "deployedDate": "2026-10-23"
+    },
+    {
+      "id": "supabase-vs-neon-serverless-branching-cost-calculator",
+      "slug": "supabase-vs-neon-serverless-branching-cost-calculator",
+      "name": "Supabase vs Neon Database Branching & Serverless Compute Cost Calculator",
+      "shortName": "Supabase vs Neon Branching Calc",
+      "category": "Data & Analytics",
+      "engine": "dbBranchingCostEngine",
+      "estMonthlySearches": "76,000",
+      "estRpmUsd": "$42 – $70",
+      "status": "queued"
+    },
+    {
+      "id": "cloud-gpu-inference-cost-calculator",
+      "slug": "cloud-gpu-inference-cost-calculator",
+      "name": "Cloud GPU Inference & Fine-Tuning Cost Calculator (RunPod vs Lambda Labs vs Modal vs CoreWeave)",
+      "shortName": "Cloud GPU Inference Cost Calc",
+      "category": "DevOps & Cloud",
+      "engine": "cloudGpuCostEngine",
+      "estMonthlySearches": "108,000",
+      "estRpmUsd": "$55 – $92",
       "status": "queued"
     }
   ]

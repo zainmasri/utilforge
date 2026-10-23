@@ -4,7 +4,7 @@
     <title>UtilForge — Developer Utilities, Cloud Cost Calculators &amp; MCP Marketplace</title>
     <link>https://utilforge.pages.dev/</link>
     <description>Zero-Server Client-Side Data &amp; File Utilities</description>
-    <lastBuildDate>Thu, 22 Oct 2026 14:30:48 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 23 Oct 2026 07:26:43 GMT</lastBuildDate>
     <item>
       <title>JSON ↔ CSV Converter &amp; Nested Flattener</title>
       <link>https://utilforge.pages.dev/json-to-csv/</link>
@@ -268,6 +268,18 @@
       <link>https://utilforge.pages.dev/b2b-saas-churn-net-dollar-retention-calculator/</link>
       <guid>https://utilforge.pages.dev/b2b-saas-churn-net-dollar-retention-calculator/</guid>
       <description>Calculate B2B SaaS Net Dollar Retention (NDR), Gross Revenue Retention (GRR), Logo Churn, and 3-year ARR growth client-side with interactive cohort expansion modeling.</description>
+    </item>
+    <item>
+      <title>AWS Lambda vs Cloudflare Workers Serverless Compute &amp; Concurrency Calculator</title>
+      <link>https://utilforge.pages.dev/aws-lambda-vs-cloudflare-workers-cost-calculator/</link>
+      <guid>https://utilforge.pages.dev/aws-lambda-vs-cloudflare-workers-cost-calculator/</guid>
+      <description>Free online AWS Lambda vs Cloudflare Workers serverless compute cost calculator. Compare request pricing, GB-second compute costs, and egress bandwidth with 100% client-side privacy.</description>
+    </item>
+    <item>
+      <title>Stripe Billing vs Chargebee vs Maxio B2B Subscription Billing Cost Calculator</title>
+      <link>https://utilforge.pages.dev/stripe-billing-vs-chargebee-invoicing-calculator/</link>
+      <guid>https://utilforge.pages.dev/stripe-billing-vs-chargebee-invoicing-calculator/</guid>
+      <description>Free B2B SaaS subscription billing calculator. Compare Stripe Billing, Chargebee, Maxio, and Lemon Squeezy total platform fees, gateway processing, and tax compliance costs.</description>
     </item>
     <item>
       <title>ShipStack Pro — Next.js 15 + Stripe + Supabase AI SaaS Boilerplate ($199 Lifetime)</title>
