@@ -183,7 +183,7 @@ export async function onRequestPost(context) {
       p.adFilled += 1;
     } else if (eventType === 'ad_unfilled') {
       bucket.adRequests += 1;
-    } else if (eventType === 'affiliate_click' || eventType === 'order_lead') {
+    } else if (eventType === 'affiliate_click' || eventType === 'order_lead' || eventType === 'paypal_click') {
       bucket.affiliateClicks += 1;
       p.affiliateClicks += 1;
       if (partner) {

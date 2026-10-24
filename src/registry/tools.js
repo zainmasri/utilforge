@@ -2862,6 +2862,161 @@ server: cloudflare`,
       },
     ],
   },
+  {
+    id: 'supabase-vs-neon-serverless-branching-cost-calculator',
+    slug: 'supabase-vs-neon-serverless-branching-cost-calculator',
+    name: 'Supabase vs Neon Database Branching & Serverless Compute Cost Calculator',
+    shortName: 'Supabase vs Neon Branching Calc',
+    category: 'Data & Analytics',
+    partnerSlug: 'neon-postgres',
+    engine: 'dbBranchingCostEngine',
+    primaryKeyword: 'supabase vs neon pricing calculator',
+    secondaryKeywords: [
+      'serverless postgres branching cost',
+      'neon vs supabase cost comparison',
+      'database branching cost calculator',
+    ],
+    estMonthlySearches: '76,000',
+    estRpmUsd: '$42 – $70',
+    competitionLevel: 'Low',
+    headline: 'Compare Supabase vs Neon Serverless Postgres & Ephemeral Branching Costs',
+    subtitle:
+      'Model your production database storage, active compute hours, ephemeral preview branches, and egress bandwidth to compare monthly costs across Supabase and Neon.',
+    metaDescription:
+      'Free Supabase vs Neon Serverless Postgres cost calculator. Compare compute CU hours, disk storage, ephemeral Git branching, and bandwidth fees with instant FinOps analysis.',
+    badge: 'Postgres Serverless & Branching Model',
+    options: [
+      {
+        id: 'previewBranchCount',
+        label: 'CI/CD Preview Branches',
+        type: 'select',
+        value: 'moderate_5',
+        choices: [
+          { value: 'light_2', label: '2 Staging/Dev Branches (Small Team)' },
+          { value: 'moderate_5', label: '5 Preview Branches (Active Pull Requests)' },
+          { value: 'heavy_15', label: '15 Ephemeral Branches (High-Velocity CI/CD)' },
+        ],
+      },
+      {
+        id: 'scaleToZero',
+        label: 'Auto-Suspend Idle Branches (Scale to Zero)',
+        type: 'checkbox',
+        value: true,
+      },
+    ],
+    sampleInput: JSON.stringify(
+      {
+        productionStorageGb: 50,
+        activeComputeHoursPerDay: 16,
+        computeUnits: 2,
+        monthlyEgressGb: 120,
+        previewBranchesCount: 6,
+        hoursPerBranchPerMonth: 35,
+      },
+      null,
+      2
+    ),
+    howToSteps: [
+      'Input your projected production database storage size (e.g. 50 GB) and active daily compute hours.',
+      'Specify compute sizing in Compute Units (CUs) or equivalent vCPU/RAM allocation and monthly egress volume.',
+      'Select your ephemeral Git-branching volume for staging environments and PR preview deployments.',
+      'Inspect the side-by-side cost breakdown comparing Neon scale-to-zero copy-on-write architecture against Supabase fixed instances.',
+    ],
+    faqs: [
+      {
+        q: 'How does Neon database branching differ from Supabase branching?',
+        a: 'Neon uses a copy-on-write storage engine where each preview branch shares pages with the parent database until modified. This means creating a branch takes less than 1 second, consumes near-zero storage, and scales to zero when idle. Supabase branching runs a logical branch with dedicated compute add-ons ($0.32/branch/day = ~$9.60/mo each), which can add up with frequent preview deployments.',
+      },
+      {
+        q: 'Can Neon databases truly scale to zero?',
+        a: 'Yes. Neon serverless compute decouples storage from compute and automatically suspends compute endpoints after a configurable period of inactivity (default 5 minutes). When an incoming SQL query or connection arrives via the Neon Serverless Driver or connection pooler, it cold-starts in 300ms–500ms, reducing staging and PR preview compute costs to near $0.',
+      },
+      {
+        q: 'When is Supabase more cost-effective than Neon?',
+        a: 'Supabase is often more cost-effective if you heavily utilize its integrated ecosystem beyond core PostgreSQL: built-in Row Level Security (RLS) Auth, Supabase Storage (S3-compatible object storage), Realtime WebSocket subscriptions, Edge Functions, and pgvector embeddings included in the $25/mo Pro tier.',
+      },
+    ],
+  },
+  {
+    id: 'cloud-gpu-inference-cost-calculator',
+    slug: 'cloud-gpu-inference-cost-calculator',
+    name: 'Cloud GPU Inference & Fine-Tuning Cost Calculator (RunPod vs Lambda Labs vs Modal vs CoreWeave)',
+    shortName: 'Cloud GPU Inference Cost Calc',
+    category: 'DevOps & Cloud',
+    partnerSlug: 'openrouter-ai',
+    engine: 'cloudGpuCostEngine',
+    primaryKeyword: 'cloud gpu cost calculator runpod lambda modal coreweave',
+    secondaryKeywords: [
+      'h100 a100 gpu hourly cost calculator',
+      'runpod vs modal vs lambda labs pricing',
+      'cloud gpu inference vs token api pricing',
+    ],
+    estMonthlySearches: '108,000',
+    estRpmUsd: '$55 – $92',
+    competitionLevel: 'Low',
+    headline: 'Compare Cloud GPU Hourly & Inference Costs: RunPod vs Lambda Labs vs Modal vs CoreWeave',
+    subtitle:
+      'Model your AI workload across NVIDIA H100, A100 (80GB), L40S, and RTX 4090 to benchmark dedicated cloud GPUs against serverless container runtimes and token APIs.',
+    metaDescription:
+      'Free Cloud GPU pricing & FinOps calculator. Compare hourly rental and inference costs across RunPod, Lambda Labs, Modal, and CoreWeave for H100, A100, L40S, and RTX 4090 GPUs.',
+    badge: 'AI FinOps & Cloud GPU Benchmark',
+    options: [
+      {
+        id: 'gpuModel',
+        label: 'NVIDIA GPU Model',
+        type: 'select',
+        value: 'h100',
+        choices: [
+          { value: 'h100', label: 'NVIDIA H100 SXM5 80GB (Top Performance / DeepSeek R1 & Llama 3 70B)' },
+          { value: 'a100_80gb', label: 'NVIDIA A100 SXM4 80GB (Production Workhorse / High VRAM)' },
+          { value: 'l40s_48gb', label: 'NVIDIA L40S 48GB (Cost-Effective Multi-Modal & 8B–14B LLMs)' },
+          { value: 'rtx_4090', label: 'NVIDIA RTX 4090 24GB (Ultra-Budget Dev & Prototyping)' },
+        ],
+      },
+      {
+        id: 'workloadPattern',
+        label: 'Usage Pattern & Concurrency',
+        type: 'select',
+        value: 'serverless_spiky',
+        choices: [
+          { value: 'serverless_spiky', label: 'Serverless / Spiky (Active ~6 hrs/day, Scale-to-Zero Idle)' },
+          { value: 'dedicated_24_7', label: 'Dedicated 24/7 Production (Continuous Serving)' },
+          { value: 'batch_lora', label: 'Batch Training / LoRA Job (120 hrs total duration)' },
+        ],
+      },
+    ],
+    sampleInput: JSON.stringify(
+      {
+        activeHoursPerMonth: 180,
+        gpuCount: 1,
+        storageVolumeGb: 150,
+        monthlyEgressBandwidthGb: 250,
+        estMonthlyTokensMillion: 25,
+      },
+      null,
+      2
+    ),
+    howToSteps: [
+      'Select your target NVIDIA GPU architecture (H100 SXM5, A100 80GB, L40S 48GB, or RTX 4090).',
+      'Choose your workload schedule (24/7 continuous serving vs serverless scale-to-zero vs batch training).',
+      'Specify the number of GPUs, persistent volume disk size (GB), and egress bandwidth.',
+      'Review side-by-side total monthly costs comparing RunPod, Lambda Labs, Modal, and CoreWeave alongside Token API alternatives.',
+    ],
+    faqs: [
+      {
+        q: 'When should I use Serverless GPU runtimes like Modal over dedicated GPU instances like RunPod?',
+        a: 'Serverless runtimes (like Modal) bill by the second only when GPU code is executing. If your inference workload is bursty, interactive, or runs during business hours (e.g. 4–6 hours/day), serverless runtimes save 60%–80% compared to paying 24/7 for dedicated cloud GPU instances, which incur full hourly rates even while idling.',
+      },
+      {
+        q: 'How do cloud GPU costs compare against unified token APIs like OpenRouter?',
+        a: 'For low-to-medium token volume (<50M tokens/month), hosted LLM APIs (OpenRouter, OpenAI, Anthropic) are almost always more cost-effective because you pay only per token without GPU idle waste, container orchestration overhead, or cold start management. Self-hosting GPUs becomes cheaper when monthly token volume exceeds 100M+ tokens or requires custom fine-tuned weights.',
+      },
+      {
+        q: 'What is the difference between Community Cloud and Secure Cloud on RunPod?',
+        a: 'RunPod Community Cloud uses crowd-sourced, decentralized data centers at discounted prices (e.g. ~$0.44/hr for RTX 4090), ideal for non-sensitive research and batch jobs. Secure Cloud runs in Tier 3/4 enterprise data centers with strict SOC2/ISO compliance, higher redundancy, and guaranteed uptime for production APIs.',
+      },
+    ],
+  },
 ];
 
 

@@ -4,7 +4,7 @@
     <title>UtilForge — Developer Utilities, Cloud Cost Calculators &amp; MCP Marketplace</title>
     <link>https://utilforge.pages.dev/</link>
     <description>Zero-Server Client-Side Data &amp; File Utilities</description>
-    <lastBuildDate>Fri, 23 Oct 2026 07:26:43 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 24 Oct 2026 18:06:51 GMT</lastBuildDate>
     <item>
       <title>JSON ↔ CSV Converter &amp; Nested Flattener</title>
       <link>https://utilforge.pages.dev/json-to-csv/</link>
@@ -280,6 +280,18 @@
       <link>https://utilforge.pages.dev/stripe-billing-vs-chargebee-invoicing-calculator/</link>
       <guid>https://utilforge.pages.dev/stripe-billing-vs-chargebee-invoicing-calculator/</guid>
       <description>Free B2B SaaS subscription billing calculator. Compare Stripe Billing, Chargebee, Maxio, and Lemon Squeezy total platform fees, gateway processing, and tax compliance costs.</description>
+    </item>
+    <item>
+      <title>Supabase vs Neon Database Branching &amp; Serverless Compute Cost Calculator</title>
+      <link>https://utilforge.pages.dev/supabase-vs-neon-serverless-branching-cost-calculator/</link>
+      <guid>https://utilforge.pages.dev/supabase-vs-neon-serverless-branching-cost-calculator/</guid>
+      <description>Free Supabase vs Neon Serverless Postgres cost calculator. Compare compute CU hours, disk storage, ephemeral Git branching, and bandwidth fees with instant FinOps analysis.</description>
+    </item>
+    <item>
+      <title>Cloud GPU Inference &amp; Fine-Tuning Cost Calculator (RunPod vs Lambda Labs vs Modal vs CoreWeave)</title>
+      <link>https://utilforge.pages.dev/cloud-gpu-inference-cost-calculator/</link>
+      <guid>https://utilforge.pages.dev/cloud-gpu-inference-cost-calculator/</guid>
+      <description>Free Cloud GPU pricing &amp; FinOps calculator. Compare hourly rental and inference costs across RunPod, Lambda Labs, Modal, and CoreWeave for H100, A100, L40S, and RTX 4090 GPUs.</description>
     </item>
     <item>
       <title>ShipStack Pro — Next.js 15 + Stripe + Supabase AI SaaS Boilerplate ($199 Lifetime)</title>

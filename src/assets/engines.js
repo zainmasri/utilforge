@@ -4422,6 +4422,389 @@
         summary: `${winner.name} delivers the lowest fee at $${winner.grandTotal.toFixed(2)}/mo (${winner.takeRatePct}% take-rate) • Up to $${annualSpread.toLocaleString(undefined, { maximumFractionDigits: 0 })}/year in billing stack fee spread • B2B volume: $${volume.toLocaleString()} MRR.`,
       };
     },
+
+    dbBranchingCostEngine(input, opts) {
+      let data = {};
+      try {
+        data = JSON.parse(input);
+      } catch (_e) {
+        const num = parseFloat(String(input).replace(/[^0-9.]/g, ''));
+        data = { productionStorageGb: isNaN(num) || num <= 0 ? 50 : num };
+      }
+
+      const prodStorageGb = Math.max(1, Number(data.productionStorageGb ?? data.storageGb ?? 50));
+      const activeComputeHoursPerDay = Math.min(24, Math.max(1, Number(data.activeComputeHoursPerDay ?? 16)));
+      const computeUnits = Math.max(0.25, Number(data.computeUnits ?? data.cus ?? 2));
+      const monthlyEgressGb = Math.max(0, Number(data.monthlyEgressGb ?? data.egressGb ?? 120));
+
+      const branchOptMap = {
+        light_2: 2,
+        moderate_5: 5,
+        heavy_15: 15,
+      };
+      const branchesCount = Math.max(
+        1,
+        Number(data.previewBranchesCount ?? branchOptMap[opts.previewBranchCount] ?? 5)
+      );
+      const hoursPerBranchPerMonth = Math.max(1, Number(data.hoursPerBranchPerMonth ?? 35));
+      const scaleToZero = opts.scaleToZero !== false;
+
+      // 1. Neon Serverless Postgres Calculation
+      const activeDaysPerMonth = 30.4;
+      const neonProdComputeHours = (scaleToZero ? activeComputeHoursPerDay : 24) * activeDaysPerMonth;
+      const neonProdComputeCost = computeUnits * 0.16 * neonProdComputeHours;
+      const neonBranchComputeHours = branchesCount * hoursPerBranchPerMonth;
+      const neonBranchComputeCost = branchesCount * (0.5 * 0.16 * hoursPerBranchPerMonth);
+      const neonTotalComputeCost = neonProdComputeCost + neonBranchComputeCost;
+
+      const neonTotalStorageGb = prodStorageGb + (branchesCount * 1.5);
+      const neonBillableStorageGb = Math.max(0, neonTotalStorageGb - 10);
+      const neonStorageCost = neonBillableStorageGb * 0.125;
+      const neonEgressCost = Math.max(0, monthlyEgressGb - 10) * 0.09;
+      const neonBasePlan = 19.0;
+      const neonTotalCost = neonBasePlan + neonTotalComputeCost + neonStorageCost + neonEgressCost;
+
+      // 2. Supabase Managed Postgres Calculation
+      const supabaseComputeAddon = computeUnits > 1 ? (computeUnits >= 4 ? 110.0 : 60.0) : 10.0;
+      const supabaseBranchingCost = branchesCount * (0.32 * activeDaysPerMonth);
+      const supabaseTotalStorageGb = prodStorageGb + (branchesCount * 5);
+      const supabaseStorageCost = Math.max(0, supabaseTotalStorageGb - 8) * 0.125;
+      const supabaseEgressCost = Math.max(0, monthlyEgressGb - 50) * 0.09;
+      const supabaseBase = 25.0;
+      const supabaseTotalCost = supabaseBase + supabaseComputeAddon + supabaseBranchingCost + supabaseStorageCost + supabaseEgressCost;
+
+      // 3. AWS RDS PostgreSQL Baseline
+      const awsRdsProdInstance = 49.64 * (computeUnits / 2);
+      const awsRdsBranchInstances = branchesCount * 35.0;
+      const awsRdsStorage = prodStorageGb * 0.115 + (branchesCount * 25 * 0.115);
+      const awsRdsEgress = Math.max(0, monthlyEgressGb - 100) * 0.09;
+      const awsRdsTotalCost = awsRdsProdInstance + awsRdsBranchInstances + awsRdsStorage + awsRdsEgress;
+
+      const monthlySavings = Math.max(0, supabaseTotalCost - neonTotalCost);
+      const annualSavings = monthlySavings * 12;
+      const savingsPct = supabaseTotalCost > 0 ? ((monthlySavings / supabaseTotalCost) * 100).toFixed(1) : '0.0';
+
+      const report = {
+        workloadInput: {
+          productionStorageGb: prodStorageGb,
+          activeComputeHoursPerDay,
+          computeUnits,
+          previewBranchesCount: branchesCount,
+          hoursPerBranchPerMonth,
+          scaleToZeroEnabled: scaleToZero,
+          monthlyEgressGb,
+        },
+        monthlyCostComparison: {
+          neonServerlessPostgres: {
+            basePlanUsd: Number(neonBasePlan.toFixed(2)),
+            primaryComputeUsd: Number(neonProdComputeCost.toFixed(2)),
+            branchComputeUsd: Number(neonBranchComputeCost.toFixed(2)),
+            storageChargesUsd: Number(neonStorageCost.toFixed(2)),
+            egressChargesUsd: Number(neonEgressCost.toFixed(2)),
+            totalMonthlyUsd: Number(neonTotalCost.toFixed(2)),
+          },
+          supabasePostgres: {
+            baseProTierUsd: Number(supabaseBase.toFixed(2)),
+            dedicatedComputeAddonUsd: Number(supabaseComputeAddon.toFixed(2)),
+            branchingAddonUsd: Number(supabaseBranchingCost.toFixed(2)),
+            storageChargesUsd: Number(supabaseStorageCost.toFixed(2)),
+            egressChargesUsd: Number(supabaseEgressCost.toFixed(2)),
+            totalMonthlyUsd: Number(supabaseTotalCost.toFixed(2)),
+          },
+          awsRdsPostgresBaseline: {
+            totalMonthlyUsd: Number(awsRdsTotalCost.toFixed(2)),
+          },
+          finopsSavingsWithNeon: {
+            monthlySavingsUsd: Number(monthlySavings.toFixed(2)),
+            annualSavingsUsd: Number(annualSavings.toFixed(2)),
+            savingsPercentage: `${savingsPct}%`,
+          },
+        },
+      };
+
+      const extraHtml = `
+        <div style="margin-top:1.25rem;">
+          <div style="font-size:0.8rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:0.6rem;letter-spacing:0.04em;">
+            Postgres Serverless &amp; Branching Cost Benchmark (${branchesCount} Preview Branches • ${prodStorageGb} GB Storage)
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(210px, 1fr));gap:0.75rem;margin-bottom:1.25rem;">
+            <div class="kpi-tile" style="background:var(--bg-elevated);border-left:4px solid var(--accent-emerald);">
+              <div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;font-weight:700;">Neon Serverless Total</div>
+              <div style="font-size:1.6rem;font-weight:800;font-family:var(--font-mono);color:var(--accent-emerald);">$${neonTotalCost.toFixed(2)}/mo</div>
+              <div style="font-size:0.72rem;color:var(--text-secondary);">$${(neonTotalCost * 12).toLocaleString(undefined, { maximumFractionDigits: 0 })}/year (Scale-to-Zero)</div>
+            </div>
+            <div class="kpi-tile" style="background:var(--bg-elevated);border-left:4px solid var(--accent-amber);">
+              <div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;font-weight:700;">Supabase Managed</div>
+              <div style="font-size:1.6rem;font-weight:800;font-family:var(--font-mono);color:var(--text-primary);">$${supabaseTotalCost.toFixed(2)}/mo</div>
+              <div style="font-size:0.72rem;color:var(--text-secondary);">$${(supabaseTotalCost * 12).toLocaleString(undefined, { maximumFractionDigits: 0 })}/year ($9.60/branch)</div>
+            </div>
+            <div class="kpi-tile" style="background:var(--bg-elevated);border-left:4px solid var(--accent-emerald);">
+              <div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;font-weight:700;">Net Neon Savings</div>
+              <div style="font-size:1.6rem;font-weight:800;font-family:var(--font-mono);color:var(--accent-emerald);">-${savingsPct}%</div>
+              <div style="font-size:0.72rem;color:var(--accent-emerald);font-weight:700;">Save $${annualSavings.toLocaleString(undefined, { maximumFractionDigits: 0 })}/yr vs Supabase</div>
+            </div>
+          </div>
+
+          <div style="overflow-x:auto;">
+            <table class="matrix-table" style="width:100%;font-size:0.86rem;border-collapse:collapse;">
+              <thead>
+                <tr style="background:var(--bg-subtle);border-bottom:2px solid var(--border-strong);">
+                  <th style="padding:0.65rem 0.75rem;text-align:left;">Cost Dimension</th>
+                  <th style="padding:0.65rem 0.75rem;text-align:right;color:var(--accent-emerald);">Neon Serverless</th>
+                  <th style="padding:0.65rem 0.75rem;text-align:right;">Supabase Pro</th>
+                  <th style="padding:0.65rem 0.75rem;text-align:right;">AWS RDS Baseline</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="border-bottom:1px solid var(--border-subtle);">
+                  <td style="padding:0.65rem 0.75rem;"><strong>Base Subscription / Inclusions</strong></td>
+                  <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);color:var(--accent-emerald);">$${neonBasePlan.toFixed(2)} (Launch)</td>
+                  <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);">$${supabaseBase.toFixed(2)} (Pro)</td>
+                  <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);">$0.00</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--border-subtle);">
+                  <td style="padding:0.65rem 0.75rem;"><strong>Primary Compute (${computeUnits} CUs / vCPU)</strong></td>
+                  <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);">$${neonProdComputeCost.toFixed(2)} (${activeComputeHoursPerDay}h/day active)</td>
+                  <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);">$${supabaseComputeAddon.toFixed(2)} (24/7 dedicated)</td>
+                  <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);">$${awsRdsProdInstance.toFixed(2)}</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--border-subtle);">
+                  <td style="padding:0.65rem 0.75rem;"><strong>Preview Branching (${branchesCount} Branches)</strong></td>
+                  <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);color:var(--accent-emerald);">$${neonBranchComputeCost.toFixed(2)} (Scale-to-zero)</td>
+                  <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);">$${supabaseBranchingCost.toFixed(2)} ($0.32/branch/day)</td>
+                  <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);">$${awsRdsBranchInstances.toFixed(2)}</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--border-subtle);">
+                  <td style="padding:0.65rem 0.75rem;"><strong>Storage (${prodStorageGb} GB DB + Branch Diffs)</strong></td>
+                  <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);">$${neonStorageCost.toFixed(2)} (Copy-on-write)</td>
+                  <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);">$${supabaseStorageCost.toFixed(2)}</td>
+                  <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);">$${awsRdsStorage.toFixed(2)}</td>
+                </tr>
+                <tr style="background:var(--accent-emerald-soft);font-weight:800;">
+                  <td style="padding:0.75rem;"><strong>Total Monthly Run-Rate</strong></td>
+                  <td style="padding:0.75rem;text-align:right;font-family:var(--font-mono);font-size:0.95rem;color:var(--accent-emerald);">$${neonTotalCost.toFixed(2)}/mo</td>
+                  <td style="padding:0.75rem;text-align:right;font-family:var(--font-mono);font-size:0.95rem;">$${supabaseTotalCost.toFixed(2)}/mo</td>
+                  <td style="padding:0.75rem;text-align:right;font-family:var(--font-mono);font-size:0.95rem;">$${awsRdsTotalCost.toFixed(2)}/mo</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div style="margin-top:1.15rem;padding:0.9rem 1.15rem;background:var(--bg-elevated);border-left:4px solid var(--accent-emerald);border-radius:6px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;">
+            <div>
+              <div style="font-size:0.85rem;font-weight:700;color:var(--text-primary);">Launch Serverless Postgres on Neon</div>
+              <div style="font-size:0.78rem;color:var(--text-secondary);">Spin up instant copy-on-write Git branches for every pull request, auto-suspend idle compute, and connect from serverless edge runtimes.</div>
+            </div>
+            <a href="/go/neon-postgres/" target="_blank" rel="noopener sponsored" data-affiliate-partner="Neon Serverless Postgres" class="btn btn-primary" style="padding:0.5rem 0.9rem;font-size:0.8rem;">
+              Start Free on Neon Postgres →
+            </a>
+          </div>
+        </div>
+      `;
+
+      return {
+        output: JSON.stringify(report, null, 2),
+        extraHtml,
+        downloadExt: 'json',
+        downloadMime: 'application/json',
+        summary: `Neon Serverless Postgres runs at $${neonTotalCost.toFixed(2)}/mo, saving $${monthlySavings.toFixed(2)}/mo ($${annualSavings.toLocaleString(undefined, { maximumFractionDigits: 0 })}/year, -${savingsPct}%) vs Supabase • ${branchesCount} ephemeral preview branches with copy-on-write scale-to-zero.`,
+      };
+    },
+
+    cloudGpuCostEngine(input, opts) {
+      let data = {};
+      try {
+        data = JSON.parse(input);
+      } catch (_e) {
+        const num = parseFloat(String(input).replace(/[^0-9.]/g, ''));
+        data = { activeHoursPerMonth: isNaN(num) || num <= 0 ? 180 : num };
+      }
+
+      const gpuModel = opts.gpuModel || 'h100';
+      const workloadPattern = opts.workloadPattern || 'serverless_spiky';
+
+      const gpuSpecs = {
+        h100: {
+          name: 'NVIDIA H100 SXM5 80GB',
+          vram: '80 GB HBM3',
+          runpodRate: 2.69,
+          lambdaRate: 2.49,
+          modalRate: 4.30,
+          coreweaveRate: 2.85,
+          tokenApiCostPer25M: 35.0,
+        },
+        a100_80gb: {
+          name: 'NVIDIA A100 SXM4 80GB',
+          vram: '80 GB HBM2e',
+          runpodRate: 1.89,
+          lambdaRate: 1.89,
+          modalRate: 2.80,
+          coreweaveRate: 2.21,
+          tokenApiCostPer25M: 22.0,
+        },
+        l40s_48gb: {
+          name: 'NVIDIA L40S 48GB',
+          vram: '48 GB GDDR6',
+          runpodRate: 0.85,
+          lambdaRate: 0.99,
+          modalRate: 1.35,
+          coreweaveRate: 1.05,
+          tokenApiCostPer25M: 12.5,
+        },
+        rtx_4090: {
+          name: 'NVIDIA RTX 4090 24GB',
+          vram: '24 GB GDDR6X',
+          runpodRate: 0.44,
+          lambdaRate: 0.50,
+          modalRate: 0.65,
+          coreweaveRate: 0.72,
+          tokenApiCostPer25M: 7.5,
+        },
+      };
+
+      const spec = gpuSpecs[gpuModel] || gpuSpecs.h100;
+      const gpuCount = Math.max(1, Number(data.gpuCount ?? 1));
+      const storageGb = Math.max(20, Number(data.storageVolumeGb ?? 150));
+      const egressGb = Math.max(0, Number(data.monthlyEgressBandwidthGb ?? 250));
+      const tokensMillion = Math.max(1, Number(data.estMonthlyTokensMillion ?? 25));
+
+      let activeHours = Math.max(1, Number(data.activeHoursPerMonth ?? 180));
+      if (workloadPattern === 'dedicated_24_7') {
+        activeHours = 730;
+      } else if (workloadPattern === 'batch_lora') {
+        activeHours = 120;
+      }
+
+      const storageCost = storageGb * 0.05;
+      const egressCost = Math.max(0, egressGb - 100) * 0.05;
+
+      const runpodCompute = activeHours * spec.runpodRate * gpuCount;
+      const runpodTotal = runpodCompute + storageCost + egressCost;
+
+      const lambdaCompute = activeHours * spec.lambdaRate * gpuCount;
+      const lambdaTotal = lambdaCompute + storageCost + egressCost;
+
+      const modalCompute = activeHours * spec.modalRate * gpuCount;
+      const modalTotal = modalCompute + (storageCost * 0.5) + egressCost;
+
+      const coreweaveCompute = activeHours * spec.coreweaveRate * gpuCount;
+      const coreweaveTotal = coreweaveCompute + (storageGb * 0.08) + egressCost;
+
+      const tokenApiTotal = (tokensMillion / 25) * spec.tokenApiCostPer25M;
+
+      const providers = [
+        { name: 'RunPod Cloud', hourlyRate: spec.runpodRate, total: runpodTotal, badge: 'Low Cost Leader' },
+        { name: 'Lambda Labs', hourlyRate: spec.lambdaRate, total: lambdaTotal, badge: 'Raw Bare-Metal' },
+        { name: 'Modal Serverless', hourlyRate: spec.modalRate, total: modalTotal, badge: 'Scale-to-Zero Container' },
+        { name: 'CoreWeave Enterprise', hourlyRate: spec.coreweaveRate, total: coreweaveTotal, badge: 'Enterprise High Bandwidth' },
+      ];
+
+      providers.sort((a, b) => a.total - b.total);
+      const winner = providers[0];
+      const monthlySavingsVsMax = providers[providers.length - 1].total - winner.total;
+
+      const report = {
+        workloadInput: {
+          gpuModel: spec.name,
+          gpuCount,
+          activeHoursPerMonth: activeHours,
+          workloadPattern: workloadPattern.replace(/_/g, ' '),
+          storageVolumeGb: storageGb,
+          monthlyEgressBandwidthGb: egressGb,
+          equivalentTokenVolumeMillion: tokensMillion,
+        },
+        monthlyCostComparison: {
+          winnerProvider: winner.name,
+          providers: providers.map((p) => ({
+            provider: p.name,
+            hourlyGpuRateUsd: Number(p.hourlyRate.toFixed(2)),
+            totalMonthlyCostUsd: Number(p.total.toFixed(2)),
+            badge: p.badge,
+          })),
+          tokenApiAlternativeOpenRouterUsd: Number(tokenApiTotal.toFixed(2)),
+          finopsRecommendation:
+            tokenApiTotal < winner.total
+              ? `Unified Token API (OpenRouter) is cheaper ($${tokenApiTotal.toFixed(2)}/mo vs $${winner.total.toFixed(2)}/mo GPU) for ${tokensMillion}M tokens.`
+              : `${winner.name} self-hosting saves $${(tokenApiTotal - winner.total).toFixed(2)}/mo vs Token APIs for high continuous volume.`,
+        },
+      };
+
+      const extraHtml = `
+        <div style="margin-top:1.25rem;">
+          <div style="font-size:0.8rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:0.6rem;letter-spacing:0.04em;">
+            Cloud GPU Benchmark: ${escapeHtml(spec.name)} (${gpuCount}× GPU • ${activeHours} hrs/mo • ${escapeHtml(workloadPattern.replace(/_/g, ' '))})
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(210px, 1fr));gap:0.75rem;margin-bottom:1.25rem;">
+            <div class="kpi-tile" style="background:var(--bg-elevated);border-left:4px solid var(--accent-emerald);">
+              <div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;font-weight:700;">Lowest GPU Provider</div>
+              <div style="font-size:1.6rem;font-weight:800;font-family:var(--font-mono);color:var(--accent-emerald);">$${winner.total.toFixed(2)}/mo</div>
+              <div style="font-size:0.72rem;color:var(--text-secondary);">${escapeHtml(winner.name)} ($${winner.hourlyRate.toFixed(2)}/hr)</div>
+            </div>
+            <div class="kpi-tile" style="background:var(--bg-elevated);border-left:4px solid var(--accent-primary);">
+              <div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;font-weight:700;">Token API Alternative</div>
+              <div style="font-size:1.6rem;font-weight:800;font-family:var(--font-mono);color:var(--accent-primary);">$${tokenApiTotal.toFixed(2)}/mo</div>
+              <div style="font-size:0.72rem;color:var(--text-secondary);">OpenRouter API (${tokensMillion}M tokens)</div>
+            </div>
+            <div class="kpi-tile" style="background:var(--bg-elevated);border-left:4px solid var(--accent-amber);">
+              <div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;font-weight:700;">GPU Cost Spread</div>
+              <div style="font-size:1.6rem;font-weight:800;font-family:var(--font-mono);color:var(--text-primary);">$${monthlySavingsVsMax.toFixed(2)}/mo</div>
+              <div style="font-size:0.72rem;color:var(--text-muted);">Spread between highest &amp; lowest cloud</div>
+            </div>
+          </div>
+
+          <div style="overflow-x:auto;">
+            <table class="matrix-table" style="width:100%;font-size:0.86rem;border-collapse:collapse;">
+              <thead>
+                <tr style="background:var(--bg-subtle);border-bottom:2px solid var(--border-strong);">
+                  <th style="padding:0.65rem 0.75rem;text-align:left;">Cloud GPU Provider</th>
+                  <th style="padding:0.65rem 0.75rem;text-align:right;">GPU Hourly Rate</th>
+                  <th style="padding:0.65rem 0.75rem;text-align:right;">Compute Cost (${activeHours}h)</th>
+                  <th style="padding:0.65rem 0.75rem;text-align:right;">Total Monthly</th>
+                  <th style="padding:0.65rem 0.75rem;text-align:center;">Model VRAM</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${providers
+                  .map(
+                    (p, idx) => `
+                  <tr style="border-bottom:1px solid var(--border-subtle);${idx === 0 ? 'background:var(--accent-emerald-soft);' : ''}">
+                    <td style="padding:0.65rem 0.75rem;">
+                      <strong>${escapeHtml(p.name)}</strong>
+                      <span class="tool-rpm-tag" style="margin-left:0.4rem;font-size:0.65rem;">${escapeHtml(p.badge)}</span>
+                    </td>
+                    <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);">$${p.hourlyRate.toFixed(2)}/hr</td>
+                    <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);">$${(activeHours * p.hourlyRate * gpuCount).toFixed(2)}</td>
+                    <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);font-weight:800;color:${idx === 0 ? 'var(--accent-emerald)' : 'var(--text-primary)'};">$${p.total.toFixed(2)}/mo</td>
+                    <td style="padding:0.65rem 0.75rem;text-align:center;font-size:0.75rem;color:var(--text-muted);">${escapeHtml(spec.vram)}</td>
+                  </tr>`
+                  )
+                  .join('')}
+              </tbody>
+            </table>
+          </div>
+
+          <div style="margin-top:1.15rem;padding:0.9rem 1.15rem;background:var(--bg-elevated);border-left:4px solid var(--accent-primary);border-radius:6px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;">
+            <div>
+              <div style="font-size:0.85rem;font-weight:700;color:var(--text-primary);">Prefer Zero-DevOps Token Billing? Route via OpenRouter</div>
+              <div style="font-size:0.78rem;color:var(--text-secondary);">Access DeepSeek R1, Llama 3.3 70B, Claude 3.5 Sonnet, and GPT-4o with zero GPU idle charges or cold starts.</div>
+            </div>
+            <a href="/go/openrouter-ai/" target="_blank" rel="noopener sponsored" data-affiliate-partner="OpenRouter Unified LLM API" class="btn btn-primary" style="padding:0.5rem 0.9rem;font-size:0.8rem;">
+              Get Free OpenRouter API Key →
+            </a>
+          </div>
+        </div>
+      `;
+
+      return {
+        output: JSON.stringify(report, null, 2),
+        extraHtml,
+        downloadExt: 'json',
+        downloadMime: 'application/json',
+        summary: `${winner.name} delivers lowest GPU cost at $${winner.total.toFixed(2)}/mo ($${winner.hourlyRate.toFixed(2)}/hr) for ${spec.name} • Token API alternative: $${tokenApiTotal.toFixed(2)}/mo for ${tokensMillion}M tokens • Active runtime: ${activeHours} hrs/mo.`,
+      };
+    },
   };
 
   /* ========================================================================
@@ -5119,12 +5502,13 @@
     // 1. Record pageview
     sendTelemetry({ type: 'pageview' });
 
-    // 2. Track affiliate & partner CTA clicks
+    // 2. Track affiliate & partner CTA clicks + PayPal Standard Checkout clicks
     document.addEventListener('click', (e) => {
-      const link = e.target.closest('a[data-affiliate-partner], a[rel*="sponsored"]');
+      const link = e.target.closest('a[data-affiliate-partner], a[rel*="sponsored"], a[href*="paypal.com"]');
       if (!link) return;
       const partner =
         link.getAttribute('data-affiliate-partner') ||
+        (link.href && link.href.includes('paypal.com') ? 'PayPal Standard Checkout ($19 Starter)' : '') ||
         link.textContent.trim().slice(0, 50) ||
         'partner';
       sendTelemetry({ type: 'affiliate_click', partner });
