@@ -5453,14 +5453,28 @@
 
     if (shareMatrixBtn) {
       shareMatrixBtn.addEventListener('click', async () => {
-        const u = new URL(window.location.origin + window.location.pathname);
+        const u = new URL('https://utilforge.pages.dev' + window.location.pathname);
+        const v1 = Number(s1 ? s1.value : 50);
+        const v2 = Number(s2 ? s2.value : 30);
         if (s1) u.searchParams.set('s1', s1.value);
         if (s2) u.searchParams.set('s2', s2.value);
+        const m = computeMetrics(v1, v2);
+        const bannerText = winnerBannerEl ? winnerBannerEl.textContent : '';
+        const mdSnippet = [
+          `### ${itemA.name} vs. ${itemB.name} Cost & Workload Benchmark`,
+          `| Provider | Estimated Cost / Footprint | Details |`,
+          `| :--- | :--- | :--- |`,
+          `| **${itemA.name}** | **${m.fmtA}** | ${m.subA} |`,
+          `| **${itemB.name}** | **${m.fmtB}** | ${m.subB} |`,
+          ``,
+          `> ${bannerText}`,
+          `> 🔗 Interactive Simulator: [${itemA.name} vs ${itemB.name} Calculator](${u.toString()})`,
+        ].join('\n');
         try {
-          await navigator.clipboard.writeText(u.toString());
+          await navigator.clipboard.writeText(mdSnippet);
           const orig = shareMatrixBtn.textContent;
-          shareMatrixBtn.textContent = '✓ Link Copied!';
-          setTimeout(() => (shareMatrixBtn.textContent = orig), 1800);
+          shareMatrixBtn.textContent = '✓ Copied Markdown + Link!';
+          setTimeout(() => (shareMatrixBtn.textContent = orig), 2000);
         } catch (_) {}
       });
     }
@@ -5475,7 +5489,11 @@
      ======================================================================== */
 
   function initRevenueTelemetry() {
-    const pagePath = window.location.pathname || '/';
+    const pagePath = (window.location.pathname || '/').replace(/^\/utilforge\//, '/');
+    const telemetryEndpoint =
+      window.location.hostname === 'utilforge.pages.dev'
+        ? '/api/telemetry'
+        : 'https://utilforge.pages.dev/api/telemetry';
 
     function sendTelemetry(payload) {
       try {
@@ -5485,9 +5503,9 @@
         });
         if (navigator.sendBeacon) {
           const blob = new Blob([body], { type: 'application/json' });
-          navigator.sendBeacon('/api/telemetry', blob);
+          navigator.sendBeacon(telemetryEndpoint, blob);
         } else {
-          fetch('/api/telemetry', {
+          fetch(telemetryEndpoint, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body,
