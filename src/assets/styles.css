@@ -1224,4 +1224,33 @@ body.ads-hidden .ad-slot {
   color: var(--accent-emerald);
 }
 
+/* ==========================================================================
+   UtilForge High-Converting $19 Starter Banners & Mobile Sticky CTA
+   ========================================================================== */
+
+.workbench-pro-banner,
+.matrix-finops-banner {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.workbench-pro-banner:hover,
+.matrix-finops-banner:hover {
+  border-color: rgba(16, 185, 129, 0.6) !important;
+  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.12);
+}
+
+.mobile-sticky-cta {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-sticky-cta {
+    display: flex !important;
+  }
+  body {
+    padding-bottom: 3.5rem;
+  }
+}
+
+
 

@@ -19,7 +19,7 @@ const HISTORY_FILE = path.join(ROOT_DIR, 'logs', 'revenue_history.json');
 const LATEST_MD_FILE = path.join(ROOT_DIR, 'logs', 'latest_daily_report.md');
 
 const RECIPIENT_EMAIL = 'zainmasri123@gmail.com';
-const SITE_ORIGIN = 'https://utilforge.pages.dev';
+const SITE_ORIGIN = 'https://getutilforge.com';
 
 async function sendDailyEmail() {
   const customSummary =

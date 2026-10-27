@@ -2,451 +2,463 @@
 <rss version="2.0">
   <channel>
     <title>UtilForge — Developer Utilities, Cloud Cost Calculators &amp; MCP Marketplace</title>
-    <link>https://utilforge.pages.dev/</link>
+    <link>https://getutilforge.com/</link>
     <description>Zero-Server Client-Side Data &amp; File Utilities</description>
-    <lastBuildDate>Sat, 24 Oct 2026 21:07:26 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 27 Oct 2026 10:49:39 GMT</lastBuildDate>
     <item>
       <title>JSON ↔ CSV Converter &amp; Nested Flattener</title>
-      <link>https://utilforge.pages.dev/json-to-csv/</link>
-      <guid>https://utilforge.pages.dev/json-to-csv/</guid>
+      <link>https://getutilforge.com/json-to-csv/</link>
+      <guid>https://getutilforge.com/json-to-csv/</guid>
       <description>Free client-side JSON to CSV and CSV to JSON converter. Automatically flattens nested objects with dot notation, supports custom delimiters, and never uploads your data.</description>
     </item>
     <item>
       <title>Client-Side Image Compressor &amp; WebP Converter</title>
-      <link>https://utilforge.pages.dev/image-compressor/</link>
-      <guid>https://utilforge.pages.dev/image-compressor/</guid>
+      <link>https://getutilforge.com/image-compressor/</link>
+      <guid>https://getutilforge.com/image-compressor/</guid>
       <description>Compress PNG, JPEG, and WebP images right in your browser with zero server uploads. Adjust quality, resize dimensions, and convert to modern WebP instantly.</description>
     </item>
     <item>
       <title>Interactive Regex Tester, Highlighter &amp; Group Extractor</title>
-      <link>https://utilforge.pages.dev/regex-tester/</link>
-      <guid>https://utilforge.pages.dev/regex-tester/</guid>
+      <link>https://getutilforge.com/regex-tester/</link>
+      <guid>https://getutilforge.com/regex-tester/</guid>
       <description>Fast client-side JavaScript Regex Tester with live match highlighting, capture group extraction tables, and built-in presets for emails, URLs, IPv4, dates, and UUIDs.</description>
     </item>
     <item>
       <title>Side-by-Side Text &amp; Code Diff Checker</title>
-      <link>https://utilforge.pages.dev/text-diff-checker/</link>
-      <guid>https://utilforge.pages.dev/text-diff-checker/</guid>
+      <link>https://getutilforge.com/text-diff-checker/</link>
+      <guid>https://getutilforge.com/text-diff-checker/</guid>
       <description>Compare two text files, JSON configs, or code snippets online without uploading data to a server. Features line-by-line highlighting, whitespace normalization, and unified diff export.</description>
     </item>
     <item>
       <title>JWT Token Decoder &amp; Expiration Inspector</title>
-      <link>https://utilforge.pages.dev/jwt-decoder/</link>
-      <guid>https://utilforge.pages.dev/jwt-decoder/</guid>
+      <link>https://getutilforge.com/jwt-decoder/</link>
+      <guid>https://getutilforge.com/jwt-decoder/</guid>
       <description>Decode JSON Web Tokens (JWT) 100% locally in your browser. Inspect JOSE headers, payload claims, issued-at (iat) and expiration (exp) timestamps safely.</description>
     </item>
     <item>
       <title>SQL Query Formatter, Beautifier &amp; Minifier</title>
-      <link>https://utilforge.pages.dev/sql-formatter/</link>
-      <guid>https://utilforge.pages.dev/sql-formatter/</guid>
+      <link>https://getutilforge.com/sql-formatter/</link>
+      <guid>https://getutilforge.com/sql-formatter/</guid>
       <description>Free online SQL formatter and beautifier for PostgreSQL, MySQL, BigQuery, and Snowflake. Standardize SELECT, JOIN, WHERE, and CTE indentation in one click.</description>
     </item>
     <item>
       <title>Base64 / URL Encoder &amp; WebCrypto SHA Hash Generator</title>
-      <link>https://utilforge.pages.dev/base64-hash-studio/</link>
-      <guid>https://utilforge.pages.dev/base64-hash-studio/</guid>
+      <link>https://getutilforge.com/base64-hash-studio/</link>
+      <guid>https://getutilforge.com/base64-hash-studio/</guid>
       <description>Encode and decode UTF-8 Base64 strings, URL components, and generate cryptographic SHA-256 / SHA-512 hashes locally using the browser Web Crypto API.</description>
     </item>
     <item>
       <title>Cron Schedule Expression Builder &amp; Next-Run Calculator</title>
-      <link>https://utilforge.pages.dev/cron-expression-generator/</link>
-      <guid>https://utilforge.pages.dev/cron-expression-generator/</guid>
+      <link>https://getutilforge.com/cron-expression-generator/</link>
+      <guid>https://getutilforge.com/cron-expression-generator/</guid>
       <description>Interactive 5-field Cron Expression Generator and plain-English translator. Preview the next 5 scheduled execution dates for Linux crontab, GitHub Actions, and Cloud Scheduler.</description>
     </item>
     <item>
       <title>YAML ↔ JSON Bi-Directional Converter &amp; Validator</title>
-      <link>https://utilforge.pages.dev/yaml-to-json/</link>
-      <guid>https://utilforge.pages.dev/yaml-to-json/</guid>
+      <link>https://getutilforge.com/yaml-to-json/</link>
+      <guid>https://getutilforge.com/yaml-to-json/</guid>
       <description>Free client-side YAML to JSON and JSON to YAML converter for Kubernetes manifests, GitHub Actions workflows, and OpenAPI specs.</description>
     </item>
     <item>
       <title>XML ↔ JSON DOM Parser &amp; Pretty Converter</title>
-      <link>https://utilforge.pages.dev/xml-to-json/</link>
-      <guid>https://utilforge.pages.dev/xml-to-json/</guid>
+      <link>https://getutilforge.com/xml-to-json/</link>
+      <guid>https://getutilforge.com/xml-to-json/</guid>
       <description>Convert XML documents, SOAP payloads, and RSS feeds into structured JSON objects locally using browser-native DOMParser.</description>
     </item>
     <item>
       <title>UUID v4 / Time-Ordered v7 &amp; ULID Bulk Generator</title>
-      <link>https://utilforge.pages.dev/uuid-generator/</link>
-      <guid>https://utilforge.pages.dev/uuid-generator/</guid>
+      <link>https://getutilforge.com/uuid-generator/</link>
+      <guid>https://getutilforge.com/uuid-generator/</guid>
       <description>Generate single or bulk UUID v4, sortable UUID v7, and Crockford Base32 ULIDs in your browser using cryptographic randomness.</description>
     </item>
     <item>
       <title>Unix Epoch Timestamp ↔ ISO-8601 Date &amp; Timezone Converter</title>
-      <link>https://utilforge.pages.dev/unix-timestamp-converter/</link>
-      <guid>https://utilforge.pages.dev/unix-timestamp-converter/</guid>
+      <link>https://getutilforge.com/unix-timestamp-converter/</link>
+      <guid>https://getutilforge.com/unix-timestamp-converter/</guid>
       <description>Instant Unix Epoch timestamp to human-readable date converter. Supports seconds, milliseconds, nanoseconds, ISO-8601, RFC-2822, and SQL timestamps.</description>
     </item>
     <item>
       <title>Markdown ↔ HTML Compiler &amp; Live Preview Studio</title>
-      <link>https://utilforge.pages.dev/markdown-to-html/</link>
-      <guid>https://utilforge.pages.dev/markdown-to-html/</guid>
+      <link>https://getutilforge.com/markdown-to-html/</link>
+      <guid>https://getutilforge.com/markdown-to-html/</guid>
       <description>Convert Markdown (.md) into clean semantic HTML online with live visual preview. Zero external dependencies, 100% browser-executed.</description>
     </item>
     <item>
       <title>HEX / RGB / HSL Color Converter &amp; WCAG 2.1 Contrast Checker</title>
-      <link>https://utilforge.pages.dev/color-contrast-converter/</link>
-      <guid>https://utilforge.pages.dev/color-contrast-converter/</guid>
+      <link>https://getutilforge.com/color-contrast-converter/</link>
+      <guid>https://getutilforge.com/color-contrast-converter/</guid>
       <description>Convert HEX colors to RGB and HSL while testing WCAG 2.1 AA and AAA accessibility contrast ratios for normal and large text.</description>
     </item>
     <item>
       <title>Linux Chmod Octal (755 / 644) &amp; Symbolic Permission Calculator</title>
-      <link>https://utilforge.pages.dev/chmod-calculator/</link>
-      <guid>https://utilforge.pages.dev/chmod-calculator/</guid>
+      <link>https://getutilforge.com/chmod-calculator/</link>
+      <guid>https://getutilforge.com/chmod-calculator/</guid>
       <description>Interactive Linux chmod permission calculator. Convert octal modes (755, 644, 600, 777) to symbolic rwxr-xr-x strings with security warnings.</description>
     </item>
     <item>
       <title>URL Slug, camelCase, snake_case &amp; Reading Time Analyzer</title>
-      <link>https://utilforge.pages.dev/case-slug-converter/</link>
-      <guid>https://utilforge.pages.dev/case-slug-converter/</guid>
+      <link>https://getutilforge.com/case-slug-converter/</link>
+      <guid>https://getutilforge.com/case-slug-converter/</guid>
       <description>All-in-one SEO URL slug generator, programming case converter (camelCase, PascalCase, snake_case, kebab-case, CONSTANT_CASE), and word counter.</description>
     </item>
     <item>
       <title>TOML ↔ JSON Config Converter &amp; Validator</title>
-      <link>https://utilforge.pages.dev/toml-to-json/</link>
-      <guid>https://utilforge.pages.dev/toml-to-json/</guid>
+      <link>https://getutilforge.com/toml-to-json/</link>
+      <guid>https://getutilforge.com/toml-to-json/</guid>
       <description>Free client-side TOML to JSON and JSON to TOML converter. Parse Rust Cargo.toml, Python pyproject.toml, and Cloudflare wrangler.toml files privately in your browser.</description>
     </item>
     <item>
       <title>cURL to Fetch, Axios &amp; Python Requests Converter</title>
-      <link>https://utilforge.pages.dev/curl-to-fetch/</link>
-      <guid>https://utilforge.pages.dev/curl-to-fetch/</guid>
+      <link>https://getutilforge.com/curl-to-fetch/</link>
+      <guid>https://getutilforge.com/curl-to-fetch/</guid>
       <description>Instant client-side cURL to JavaScript fetch(), Axios, and Python requests converter. Automatically extracts HTTP methods, Bearer tokens, headers, and JSON payloads.</description>
     </item>
     <item>
       <title>SVG Minifier, Cleanup &amp; Data URI Encoder</title>
-      <link>https://utilforge.pages.dev/svg-optimizer/</link>
-      <guid>https://utilforge.pages.dev/svg-optimizer/</guid>
+      <link>https://getutilforge.com/svg-optimizer/</link>
+      <guid>https://getutilforge.com/svg-optimizer/</guid>
       <description>Free client-side SVG optimizer, minifier, and CSS Data URI generator. Reduce SVG file size and copy ready-to-use background-image CSS snippets.</description>
     </item>
     <item>
       <title>URL Query String Parser, UTM Inspector &amp; Parameter Builder</title>
-      <link>https://utilforge.pages.dev/url-parser-builder/</link>
-      <guid>https://utilforge.pages.dev/url-parser-builder/</guid>
+      <link>https://getutilforge.com/url-parser-builder/</link>
+      <guid>https://getutilforge.com/url-parser-builder/</guid>
       <description>Free online URL parser and query string decoder. Convert complex URLs and webhook query parameters into clean JSON tables and inspect UTM tags locally.</description>
     </item>
     <item>
       <title>Cryptographic Password, API Key &amp; Entropy Generator</title>
-      <link>https://utilforge.pages.dev/password-entropy-generator/</link>
-      <guid>https://utilforge.pages.dev/password-entropy-generator/</guid>
+      <link>https://getutilforge.com/password-entropy-generator/</link>
+      <guid>https://getutilforge.com/password-entropy-generator/</guid>
       <description>Generate cryptographically secure passwords, JWT secrets, and API keys in your browser using WebCrypto CSPRNG. Includes live bits-of-entropy auditing.</description>
     </item>
     <item>
       <title>Data Size (KB / MB / GB / TB vs KiB / MiB / GiB) &amp; Transfer Time Calculator</title>
-      <link>https://utilforge.pages.dev/byte-unit-converter/</link>
-      <guid>https://utilforge.pages.dev/byte-unit-converter/</guid>
+      <link>https://getutilforge.com/byte-unit-converter/</link>
+      <guid>https://getutilforge.com/byte-unit-converter/</guid>
       <description>Convert between Bytes, KB, MB, GB, TB and binary KiB, MiB, GiB, TiB units with live network transfer time estimates for cloud DevOps engineers.</description>
     </item>
     <item>
       <title>JSON to JSON Schema (Draft-07 / 2020-12) &amp; TypeScript Interface Generator</title>
-      <link>https://utilforge.pages.dev/json-schema-generator/</link>
-      <guid>https://utilforge.pages.dev/json-schema-generator/</guid>
+      <link>https://getutilforge.com/json-schema-generator/</link>
+      <guid>https://getutilforge.com/json-schema-generator/</guid>
       <description>Free client-side JSON to JSON Schema (Draft 2020-12) and TypeScript interface generator. Infer types, required properties, and nested schemas locally.</description>
     </item>
     <item>
       <title>HTML Entity Encoder / Decoder &amp; XSS Sanitization Inspector</title>
-      <link>https://utilforge.pages.dev/html-entity-encoder/</link>
-      <guid>https://utilforge.pages.dev/html-entity-encoder/</guid>
+      <link>https://getutilforge.com/html-entity-encoder/</link>
+      <guid>https://getutilforge.com/html-entity-encoder/</guid>
       <description>Free online HTML entity encoder and decoder. Convert special characters to named or hexadecimal HTML entities to prevent XSS and display code snippets safely.</description>
     </item>
     <item>
       <title>SQL CREATE TABLE → Prisma Schema, Zod &amp; TypeScript Converter</title>
-      <link>https://utilforge.pages.dev/sql-to-prisma-zod/</link>
-      <guid>https://utilforge.pages.dev/sql-to-prisma-zod/</guid>
+      <link>https://getutilforge.com/sql-to-prisma-zod/</link>
+      <guid>https://getutilforge.com/sql-to-prisma-zod/</guid>
       <description>Free client-side SQL CREATE TABLE to Prisma schema, Zod validator, and TypeScript interface converter. Supports primary keys, nullable columns, and defaults.</description>
     </item>
     <item>
       <title>SVG to React JSX / TSX &amp; Tailwind Component Converter</title>
-      <link>https://utilforge.pages.dev/svg-to-jsx/</link>
-      <guid>https://utilforge.pages.dev/svg-to-jsx/</guid>
+      <link>https://getutilforge.com/svg-to-jsx/</link>
+      <guid>https://getutilforge.com/svg-to-jsx/</guid>
       <description>Free client-side SVG to React JSX and TypeScript TSX component converter. Converts kebab-case attributes to camelCase and adds props spreading.</description>
     </item>
     <item>
       <title>.env to Kubernetes ConfigMap / Secret, Docker Compose &amp; JSON Converter</title>
-      <link>https://utilforge.pages.dev/env-to-k8s-docker/</link>
-      <guid>https://utilforge.pages.dev/env-to-k8s-docker/</guid>
+      <link>https://getutilforge.com/env-to-k8s-docker/</link>
+      <guid>https://getutilforge.com/env-to-k8s-docker/</guid>
       <description>Free client-side .env converter. Transform dotenv files into Kubernetes ConfigMaps, Base64 K8s Secrets, Docker Compose YAML, and JSON locally in your browser.</description>
     </item>
     <item>
       <title>CSV / TSV / JSON to GitHub Markdown &amp; LaTeX Table Generator</title>
-      <link>https://utilforge.pages.dev/csv-to-markdown-table/</link>
-      <guid>https://utilforge.pages.dev/csv-to-markdown-table/</guid>
+      <link>https://getutilforge.com/csv-to-markdown-table/</link>
+      <guid>https://getutilforge.com/csv-to-markdown-table/</guid>
       <description>Instant client-side CSV and Excel TSV to GitHub Markdown table and LaTeX table converter with column alignment controls and live table preview.</description>
     </item>
     <item>
       <title>IPv4 CIDR Subnet Mask, Range &amp; AWS/Cloud VPC Calculator</title>
-      <link>https://utilforge.pages.dev/cidr-subnet-calculator/</link>
-      <guid>https://utilforge.pages.dev/cidr-subnet-calculator/</guid>
+      <link>https://getutilforge.com/cidr-subnet-calculator/</link>
+      <guid>https://getutilforge.com/cidr-subnet-calculator/</guid>
       <description>Free online IPv4 CIDR subnet calculator for network and cloud engineers. Compute netmasks, usable IP ranges, broadcast addresses, and AWS VPC reserved IPs.</description>
     </item>
     <item>
       <title>Cron Expression to Human English Explainer &amp; systemd Timer Converter</title>
-      <link>https://utilforge.pages.dev/cron-to-english/</link>
-      <guid>https://utilforge.pages.dev/cron-to-english/</guid>
+      <link>https://getutilforge.com/cron-to-english/</link>
+      <guid>https://getutilforge.com/cron-to-english/</guid>
       <description>Decode 5-field cron expressions into plain English sentences, preview upcoming execution times, and convert crontab rules to Linux systemd timer units.</description>
     </item>
     <item>
       <title>HAR File &amp; HTTP Headers Security / Waterfall Analyzer</title>
-      <link>https://utilforge.pages.dev/har-analyzer/</link>
-      <guid>https://utilforge.pages.dev/har-analyzer/</guid>
+      <link>https://getutilforge.com/har-analyzer/</link>
+      <guid>https://getutilforge.com/har-analyzer/</guid>
       <description>Client-side HTTP response header security auditor and HAR JSON inspector. Check Content-Security-Policy, HSTS, CORS, and Cache-Control headers locally.</description>
     </item>
     <item>
       <title>Base64 Image / SVG / JSON Data URI Decoder &amp; Live Visual Previewer</title>
-      <link>https://utilforge.pages.dev/base64-data-uri-previewer/</link>
-      <guid>https://utilforge.pages.dev/base64-data-uri-previewer/</guid>
+      <link>https://getutilforge.com/base64-data-uri-previewer/</link>
+      <guid>https://getutilforge.com/base64-data-uri-previewer/</guid>
       <description>Free client-side Base64 Data URI decoder and image previewer. Inspect MIME types, file magic bytes, and decoded payload sizes without uploading files.</description>
     </item>
     <item>
       <title>Freelance Hourly Rate, Billable Utilization &amp; Self-Employment Tax Calculator</title>
-      <link>https://utilforge.pages.dev/freelance-rate-tax-calculator/</link>
-      <guid>https://utilforge.pages.dev/freelance-rate-tax-calculator/</guid>
+      <link>https://getutilforge.com/freelance-rate-tax-calculator/</link>
+      <guid>https://getutilforge.com/freelance-rate-tax-calculator/</guid>
       <description>Free interactive freelance hourly rate, day rate, and self-employment tax calculator for software engineers, designers, and independent consultants.</description>
     </item>
     <item>
       <title>SaaS LTV:CAC, Churn, Payback Period &amp; ARR Unit Economics Calculator</title>
-      <link>https://utilforge.pages.dev/saas-ltv-cac-calculator/</link>
-      <guid>https://utilforge.pages.dev/saas-ltv-cac-calculator/</guid>
+      <link>https://getutilforge.com/saas-ltv-cac-calculator/</link>
+      <guid>https://getutilforge.com/saas-ltv-cac-calculator/</guid>
       <description>Calculate SaaS Customer Lifetime Value (LTV), LTV:CAC ratio, gross-margin adjusted payback period in months, and ARR growth projections locally in your browser.</description>
     </item>
     <item>
       <title>LLM Prompt Token Counter &amp; Multi-Model API Cost Estimator (GPT-4o, Claude, Gemini, o3-mini)</title>
-      <link>https://utilforge.pages.dev/llm-token-cost-estimator/</link>
-      <guid>https://utilforge.pages.dev/llm-token-cost-estimator/</guid>
+      <link>https://getutilforge.com/llm-token-cost-estimator/</link>
+      <guid>https://getutilforge.com/llm-token-cost-estimator/</guid>
       <description>Free client-side LLM token counter and API pricing calculator. Paste your prompt to estimate tokens and compare costs across GPT-4o, o3-mini, Claude 3.5 Sonnet, Gemini 1.5 Flash, and DeepSeek V3.</description>
     </item>
     <item>
       <title>Client-Side SVG QR Code &amp; Wi-Fi / vCard Payload Studio</title>
-      <link>https://utilforge.pages.dev/svg-qr-code-studio/</link>
-      <guid>https://utilforge.pages.dev/svg-qr-code-studio/</guid>
+      <link>https://getutilforge.com/svg-qr-code-studio/</link>
+      <guid>https://getutilforge.com/svg-qr-code-studio/</guid>
       <description>Build Wi-Fi login QR payloads, vCard contact strings, and UTM campaign URLs locally in your browser with instant SVG vector preview.</description>
     </item>
     <item>
       <title>Stripe vs PayPal vs Lemon Squeezy Net Payout &amp; Fee Calculator</title>
-      <link>https://utilforge.pages.dev/stripe-paypal-fee-calculator/</link>
-      <guid>https://utilforge.pages.dev/stripe-paypal-fee-calculator/</guid>
+      <link>https://getutilforge.com/stripe-paypal-fee-calculator/</link>
+      <guid>https://getutilforge.com/stripe-paypal-fee-calculator/</guid>
       <description>Calculate net payout and processing fees across Stripe (2.9% + 30¢), PayPal (3.49% + 49¢), Lemon Squeezy (5% + 50¢), Paddle, and Polar with instant client-side execution.</description>
     </item>
     <item>
       <title>AWS S3 vs Cloudflare R2 Storage &amp; Egress Bandwidth Calculator</title>
-      <link>https://utilforge.pages.dev/aws-s3-vs-cloudflare-r2-egress-calculator/</link>
-      <guid>https://utilforge.pages.dev/aws-s3-vs-cloudflare-r2-egress-calculator/</guid>
+      <link>https://getutilforge.com/aws-s3-vs-cloudflare-r2-egress-calculator/</link>
+      <guid>https://getutilforge.com/aws-s3-vs-cloudflare-r2-egress-calculator/</guid>
       <description>Compare monthly storage and egress bandwidth costs between AWS S3 ($0.09/GB egress) and Cloudflare R2 (zero egress fees) locally in your browser with instant ROI calculation.</description>
     </item>
     <item>
       <title>SAFE Note &amp; Seed Round Founder Equity Dilution Calculator</title>
-      <link>https://utilforge.pages.dev/startup-equity-dilution-calculator/</link>
-      <guid>https://utilforge.pages.dev/startup-equity-dilution-calculator/</guid>
+      <link>https://getutilforge.com/startup-equity-dilution-calculator/</link>
+      <guid>https://getutilforge.com/startup-equity-dilution-calculator/</guid>
       <description>Calculate founder equity dilution across SAFE notes, valuation caps, and priced seed rounds locally in your browser with instant cap table waterfall modeling.</description>
     </item>
     <item>
       <title>Vector Database &amp; Embedding Cost Calculator (Pinecone vs Supabase vs Qdrant vs Vectorize)</title>
-      <link>https://utilforge.pages.dev/rag-vector-db-cost-estimator/</link>
-      <guid>https://utilforge.pages.dev/rag-vector-db-cost-estimator/</guid>
+      <link>https://getutilforge.com/rag-vector-db-cost-estimator/</link>
+      <guid>https://getutilforge.com/rag-vector-db-cost-estimator/</guid>
       <description>Compare monthly vector database and RAG infrastructure costs across Pinecone, Supabase pgvector, Qdrant, and Cloudflare Vectorize client-side with instant workload modeling.</description>
     </item>
     <item>
       <title>Reasoning LLM Cost Calculator (OpenAI o1 / o3-mini vs DeepSeek R1 vs Claude 3.7 Sonnet)</title>
-      <link>https://utilforge.pages.dev/reasoning-llm-token-cost-calculator/</link>
-      <guid>https://utilforge.pages.dev/reasoning-llm-token-cost-calculator/</guid>
+      <link>https://getutilforge.com/reasoning-llm-token-cost-calculator/</link>
+      <guid>https://getutilforge.com/reasoning-llm-token-cost-calculator/</guid>
       <description>Compare monthly reasoning model API bills across DeepSeek R1, OpenAI o3-mini, OpenAI o1, and Claude 3.7 Sonnet client-side with interactive thinking token multipliers and prompt caching modeling.</description>
     </item>
     <item>
       <title>Vercel vs Cloudflare Workers &amp; Pages Compute &amp; Bandwidth Cost Calculator</title>
-      <link>https://utilforge.pages.dev/vercel-vs-cloudflare-pricing-calculator/</link>
-      <guid>https://utilforge.pages.dev/vercel-vs-cloudflare-pricing-calculator/</guid>
+      <link>https://getutilforge.com/vercel-vs-cloudflare-pricing-calculator/</link>
+      <guid>https://getutilforge.com/vercel-vs-cloudflare-pricing-calculator/</guid>
       <description>Simulate monthly Next.js and full-stack hosting bills comparing Vercel Pro vs Cloudflare Workers &amp; Pages with zero-egress bandwidth and serverless compute modeling.</description>
     </item>
     <item>
       <title>AWS RDS vs Supabase vs Neon Serverless PostgreSQL Cost Calculator</title>
-      <link>https://utilforge.pages.dev/aws-rds-vs-supabase-neon-cost-calculator/</link>
-      <guid>https://utilforge.pages.dev/aws-rds-vs-supabase-neon-cost-calculator/</guid>
+      <link>https://getutilforge.com/aws-rds-vs-supabase-neon-cost-calculator/</link>
+      <guid>https://getutilforge.com/aws-rds-vs-supabase-neon-cost-calculator/</guid>
       <description>Calculate monthly PostgreSQL hosting costs comparing AWS RDS vs Supabase Pro vs Neon Serverless client-side with compute sizing, storage IOPS, and auto-suspend workload modeling.</description>
     </item>
     <item>
       <title>B2B SaaS Net Dollar Retention (NDR), Logo Churn &amp; Expansion ARR Calculator</title>
-      <link>https://utilforge.pages.dev/b2b-saas-churn-net-dollar-retention-calculator/</link>
-      <guid>https://utilforge.pages.dev/b2b-saas-churn-net-dollar-retention-calculator/</guid>
+      <link>https://getutilforge.com/b2b-saas-churn-net-dollar-retention-calculator/</link>
+      <guid>https://getutilforge.com/b2b-saas-churn-net-dollar-retention-calculator/</guid>
       <description>Calculate B2B SaaS Net Dollar Retention (NDR), Gross Revenue Retention (GRR), Logo Churn, and 3-year ARR growth client-side with interactive cohort expansion modeling.</description>
     </item>
     <item>
       <title>AWS Lambda vs Cloudflare Workers Serverless Compute &amp; Concurrency Calculator</title>
-      <link>https://utilforge.pages.dev/aws-lambda-vs-cloudflare-workers-cost-calculator/</link>
-      <guid>https://utilforge.pages.dev/aws-lambda-vs-cloudflare-workers-cost-calculator/</guid>
+      <link>https://getutilforge.com/aws-lambda-vs-cloudflare-workers-cost-calculator/</link>
+      <guid>https://getutilforge.com/aws-lambda-vs-cloudflare-workers-cost-calculator/</guid>
       <description>Free online AWS Lambda vs Cloudflare Workers serverless compute cost calculator. Compare request pricing, GB-second compute costs, and egress bandwidth with 100% client-side privacy.</description>
     </item>
     <item>
       <title>Stripe Billing vs Chargebee vs Maxio B2B Subscription Billing Cost Calculator</title>
-      <link>https://utilforge.pages.dev/stripe-billing-vs-chargebee-invoicing-calculator/</link>
-      <guid>https://utilforge.pages.dev/stripe-billing-vs-chargebee-invoicing-calculator/</guid>
+      <link>https://getutilforge.com/stripe-billing-vs-chargebee-invoicing-calculator/</link>
+      <guid>https://getutilforge.com/stripe-billing-vs-chargebee-invoicing-calculator/</guid>
       <description>Free B2B SaaS subscription billing calculator. Compare Stripe Billing, Chargebee, Maxio, and Lemon Squeezy total platform fees, gateway processing, and tax compliance costs.</description>
     </item>
     <item>
       <title>Supabase vs Neon Database Branching &amp; Serverless Compute Cost Calculator</title>
-      <link>https://utilforge.pages.dev/supabase-vs-neon-serverless-branching-cost-calculator/</link>
-      <guid>https://utilforge.pages.dev/supabase-vs-neon-serverless-branching-cost-calculator/</guid>
+      <link>https://getutilforge.com/supabase-vs-neon-serverless-branching-cost-calculator/</link>
+      <guid>https://getutilforge.com/supabase-vs-neon-serverless-branching-cost-calculator/</guid>
       <description>Free Supabase vs Neon Serverless Postgres cost calculator. Compare compute CU hours, disk storage, ephemeral Git branching, and bandwidth fees with instant FinOps analysis.</description>
     </item>
     <item>
       <title>Cloud GPU Inference &amp; Fine-Tuning Cost Calculator (RunPod vs Lambda Labs vs Modal vs CoreWeave)</title>
-      <link>https://utilforge.pages.dev/cloud-gpu-inference-cost-calculator/</link>
-      <guid>https://utilforge.pages.dev/cloud-gpu-inference-cost-calculator/</guid>
+      <link>https://getutilforge.com/cloud-gpu-inference-cost-calculator/</link>
+      <guid>https://getutilforge.com/cloud-gpu-inference-cost-calculator/</guid>
       <description>Free Cloud GPU pricing &amp; FinOps calculator. Compare hourly rental and inference costs across RunPod, Lambda Labs, Modal, and CoreWeave for H100, A100, L40S, and RTX 4090 GPUs.</description>
     </item>
     <item>
+      <title>Prompt Caching &amp; Context Window Cost Calculator (Claude 3.7/3.5 vs GPT-4o vs DeepSeek vs Gemini)</title>
+      <link>https://getutilforge.com/llm-prompt-caching-cost-calculator/</link>
+      <guid>https://getutilforge.com/llm-prompt-caching-cost-calculator/</guid>
+      <description>Free Prompt Caching &amp; LLM context cost calculator. Simulate 50%–90% token discounts, cache write premiums, and multi-turn agent savings for Claude 3.5 Sonnet, GPT-4o, DeepSeek, and Gemini.</description>
+    </item>
+    <item>
+      <title>AI Voice &amp; Speech API Cost Calculator (ElevenLabs vs OpenAI Realtime vs Deepgram vs Cartesia vs Whisper)</title>
+      <link>https://getutilforge.com/ai-voice-tts-cost-calculator/</link>
+      <guid>https://getutilforge.com/ai-voice-tts-cost-calculator/</guid>
+      <description>Free AI Voice &amp; Speech API pricing calculator. Compare monthly bills and cost per minute across ElevenLabs, OpenAI Realtime Voice, Deepgram Aura, Cartesia Sonic, and Whisper STT.</description>
+    </item>
+    <item>
       <title>ShipStack Pro — Next.js 15 + Stripe + Supabase AI SaaS Boilerplate ($199 Lifetime)</title>
-      <link>https://utilforge.pages.dev/marketplace/shipfast-nextjs-saas/</link>
-      <guid>https://utilforge.pages.dev/marketplace/shipfast-nextjs-saas/</guid>
+      <link>https://getutilforge.com/marketplace/shipfast-nextjs-saas/</link>
+      <guid>https://getutilforge.com/marketplace/shipfast-nextjs-saas/</guid>
       <description>Production-ready authentication, Stripe Checkout &amp; Webhooks, Lemon Squeezy MoR support, transactional emails, SEO blog, and multi-provider LLM streaming.</description>
     </item>
     <item>
       <title>EdgeFlare Kit — Cloudflare Workers + D1 + R2 Zero-Server Bill Boilerplate ($149 Lifetime)</title>
-      <link>https://utilforge.pages.dev/marketplace/cloudflare-edge-saas-kit/</link>
-      <guid>https://utilforge.pages.dev/marketplace/cloudflare-edge-saas-kit/</guid>
+      <link>https://getutilforge.com/marketplace/cloudflare-edge-saas-kit/</link>
+      <guid>https://getutilforge.com/marketplace/cloudflare-edge-saas-kit/</guid>
       <description>Built on Hono, Drizzle ORM, Cloudflare D1 SQLite, R2 zero-egress object storage, and Queues for sub-10ms global response times.</description>
     </item>
     <item>
       <title>AgentForge — FastAPI + LangGraph + Next.js Multi-Agent SaaS Starter ($249 Lifetime)</title>
-      <link>https://utilforge.pages.dev/marketplace/fastapi-nextjs-ai-agent-starter/</link>
-      <guid>https://utilforge.pages.dev/marketplace/fastapi-nextjs-ai-agent-starter/</guid>
+      <link>https://getutilforge.com/marketplace/fastapi-nextjs-ai-agent-starter/</link>
+      <guid>https://getutilforge.com/marketplace/fastapi-nextjs-ai-agent-starter/</guid>
       <description>Combines async Python FastAPI, Celery/Redis background workers, PostgreSQL pgvector hybrid search, and a streaming React chat UI.</description>
     </item>
     <item>
       <title>ExtPay Studio — Manifest V3 Chrome Extension + Stripe Licensing Kit ($129 Lifetime)</title>
-      <link>https://utilforge.pages.dev/marketplace/chrome-extension-monetization-kit/</link>
-      <guid>https://utilforge.pages.dev/marketplace/chrome-extension-monetization-kit/</guid>
+      <link>https://getutilforge.com/marketplace/chrome-extension-monetization-kit/</link>
+      <guid>https://getutilforge.com/marketplace/chrome-extension-monetization-kit/</guid>
       <description>Includes Shadow-DOM content script injection, side-panel UI, background service worker messaging, and serverless license key verification.</description>
     </item>
     <item>
       <title>DirectoryEngine — Astro 5 Programmatic SEO Directory &amp; Job Board Starter ($119 Lifetime)</title>
-      <link>https://utilforge.pages.dev/marketplace/astro-programmatic-seo-directory-kit/</link>
-      <guid>https://utilforge.pages.dev/marketplace/astro-programmatic-seo-directory-kit/</guid>
+      <link>https://getutilforge.com/marketplace/astro-programmatic-seo-directory-kit/</link>
+      <guid>https://getutilforge.com/marketplace/astro-programmatic-seo-directory-kit/</guid>
       <description>100/100 Lighthouse performance, automatic category/location combination pages, Sponsored Pin badges, and Stripe paid submission webhooks.</description>
     </item>
     <item>
       <title>PocketSaaS — SvelteKit 5 + PocketBase Single-Binary SaaS Starter ($99 Lifetime)</title>
-      <link>https://utilforge.pages.dev/marketplace/sveltekit-pocketbase-micro-saas/</link>
-      <guid>https://utilforge.pages.dev/marketplace/sveltekit-pocketbase-micro-saas/</guid>
+      <link>https://getutilforge.com/marketplace/sveltekit-pocketbase-micro-saas/</link>
+      <guid>https://getutilforge.com/marketplace/sveltekit-pocketbase-micro-saas/</guid>
       <description>Zero complex cloud bills. Single Go binary with embedded SQLite in WAL mode, realtime subscriptions, S3 backups, and Stripe Checkout.</description>
     </item>
     <item>
       <title>PgGuard MCP — Safe Read-Only PostgreSQL &amp; Schema Introspection MCP Server (Free OSS / $49 Pro Cloud)</title>
-      <link>https://utilforge.pages.dev/marketplace/postgres-readonly-audit-mcp/</link>
-      <guid>https://utilforge.pages.dev/marketplace/postgres-readonly-audit-mcp/</guid>
+      <link>https://getutilforge.com/marketplace/postgres-readonly-audit-mcp/</link>
+      <guid>https://getutilforge.com/marketplace/postgres-readonly-audit-mcp/</guid>
       <description>Enforces read-only transactions, row-count caps, PII column masking, and automatic ER-diagram schema discovery over stdio or SSE.</description>
     </item>
     <item>
       <title>StripePulse MCP — MRR, Churn, Cohort &amp; Refund Triage MCP Server ($59 Pro License)</title>
-      <link>https://utilforge.pages.dev/marketplace/stripe-revenue-analytics-mcp/</link>
-      <guid>https://utilforge.pages.dev/marketplace/stripe-revenue-analytics-mcp/</guid>
+      <link>https://getutilforge.com/marketplace/stripe-revenue-analytics-mcp/</link>
+      <guid>https://getutilforge.com/marketplace/stripe-revenue-analytics-mcp/</guid>
       <description>Scoped to restricted read-only Stripe API keys (`rk_live_*`). Ask your AI agent to diagnose involuntary churn or audit webhook failures.</description>
     </item>
     <item>
       <title>CloudflareOps MCP — Workers, DNS, KV, D1 &amp; WAF Log Inspector Server (Free OSS / $49 Team Pack)</title>
-      <link>https://utilforge.pages.dev/marketplace/cloudflare-ops-wrangler-mcp/</link>
-      <guid>https://utilforge.pages.dev/marketplace/cloudflare-ops-wrangler-mcp/</guid>
+      <link>https://getutilforge.com/marketplace/cloudflare-ops-wrangler-mcp/</link>
+      <guid>https://getutilforge.com/marketplace/cloudflare-ops-wrangler-mcp/</guid>
       <description>Connect your coding agent directly to Cloudflare’s GraphQL Analytics API, D1 databases, and DNS records with granular API token scopes.</description>
     </item>
     <item>
       <title>VisualQA MCP — Headless Playwright Accessibility, Console &amp; CLS Auditor ($69 Pro Suite)</title>
-      <link>https://utilforge.pages.dev/marketplace/playwright-visual-qa-mcp/</link>
-      <guid>https://utilforge.pages.dev/marketplace/playwright-visual-qa-mcp/</guid>
+      <link>https://getutilforge.com/marketplace/playwright-visual-qa-mcp/</link>
+      <guid>https://getutilforge.com/marketplace/playwright-visual-qa-mcp/</guid>
       <description>Captures 375px, 768px, and 1440px DOM snapshots, extracts console errors, measures Cumulative Layout Shift, and runs axe-core WCAG 2.1 checks.</description>
     </item>
     <item>
       <title>SecReview Skill Pack — OWASP Top 10, Secret Leak &amp; SQLi Agent Ruleset ($39 Team License)</title>
-      <link>https://utilforge.pages.dev/marketplace/github-pr-security-review-skill/</link>
-      <guid>https://utilforge.pages.dev/marketplace/github-pr-security-review-skill/</guid>
+      <link>https://getutilforge.com/marketplace/github-pr-security-review-skill/</link>
+      <guid>https://getutilforge.com/marketplace/github-pr-security-review-skill/</guid>
       <description>Structured SKILL.md + .cursorrules bundle that trains coding agents to catch IDOR, SSRF, unescaped SQL, and missing webhook signature checks.</description>
     </item>
     <item>
       <title>QueryGuard MCP — BigQuery Dry-Run Cost Estimator &amp; Local DuckDB Bridge ($79 Enterprise Seat)</title>
-      <link>https://utilforge.pages.dev/marketplace/bigquery-duckdb-finops-mcp/</link>
-      <guid>https://utilforge.pages.dev/marketplace/bigquery-duckdb-finops-mcp/</guid>
+      <link>https://getutilforge.com/marketplace/bigquery-duckdb-finops-mcp/</link>
+      <guid>https://getutilforge.com/marketplace/bigquery-duckdb-finops-mcp/</guid>
       <description>Runs a mandatory dry-run byte estimate before executing any warehouse query, blocks full-table scans above your threshold, and caches results in DuckDB.</description>
     </item>
     <item>
       <title>AutoRank n8n Blueprint — Search Console Low-Hanging Keyword → Fact-Checked PR ($79 Workflow Pack)</title>
-      <link>https://utilforge.pages.dev/marketplace/n8n-programmatic-seo-content-pipeline/</link>
-      <guid>https://utilforge.pages.dev/marketplace/n8n-programmatic-seo-content-pipeline/</guid>
+      <link>https://getutilforge.com/marketplace/n8n-programmatic-seo-content-pipeline/</link>
+      <guid>https://getutilforge.com/marketplace/n8n-programmatic-seo-content-pipeline/</guid>
       <description>Weekly n8n workflow that queries Google Search Console for high-impression striking-distance keywords, enriches data, and opens a reviewable GitHub PR.</description>
     </item>
     <item>
       <title>ChurnShield n8n — Failed Payment &amp; Cancellation Recovery Automation ($69 Workflow Pack)</title>
-      <link>https://utilforge.pages.dev/marketplace/n8n-stripe-churn-recovery-concierge/</link>
-      <guid>https://utilforge.pages.dev/marketplace/n8n-stripe-churn-recovery-concierge/</guid>
+      <link>https://getutilforge.com/marketplace/n8n-stripe-churn-recovery-concierge/</link>
+      <guid>https://getutilforge.com/marketplace/n8n-stripe-churn-recovery-concierge/</guid>
       <description>Self-hosted n8n workflow triggered by `invoice.payment_failed` and `customer.subscription.Updated` with personalized 1-click pause or discount links.</description>
     </item>
     <item>
       <title>LeadPulse n8n — Zero-Clearbit Signup Enrichment, Scoring &amp; CRM Router ($59 Workflow Pack)</title>
-      <link>https://utilforge.pages.dev/marketplace/n8n-b2b-lead-enrichment-router/</link>
-      <guid>https://utilforge.pages.dev/marketplace/n8n-b2b-lead-enrichment-router/</guid>
+      <link>https://getutilforge.com/marketplace/n8n-b2b-lead-enrichment-router/</link>
+      <guid>https://getutilforge.com/marketplace/n8n-b2b-lead-enrichment-router/</guid>
       <description>Replaces $800/mo enrichment subscriptions by combining lightweight domain metadata, public company pages, and structured LLM extraction.</description>
     </item>
     <item>
       <title>ClipCast Make + n8n — Long-Form Video/Podcast to 12 Social &amp; Blog Assets ($49 Blueprint Bundle)</title>
-      <link>https://utilforge.pages.dev/marketplace/make-youtube-podcast-repurposing-engine/</link>
-      <guid>https://utilforge.pages.dev/marketplace/make-youtube-podcast-repurposing-engine/</guid>
+      <link>https://getutilforge.com/marketplace/make-youtube-podcast-repurposing-engine/</link>
+      <guid>https://getutilforge.com/marketplace/make-youtube-podcast-repurposing-engine/</guid>
       <description>Extracts timestamped chapters, key quotes, Markdown blog posts with FAQ schema, and LinkedIn/X threads automatically.</description>
     </item>
     <item>
       <title>ShipNotes n8n — Git Commits &amp; Merged PRs to Customer Changelog &amp; Email ($39 Workflow Pack)</title>
-      <link>https://utilforge.pages.dev/marketplace/n8n-github-release-changelog-publisher/</link>
-      <guid>https://utilforge.pages.dev/marketplace/n8n-github-release-changelog-publisher/</guid>
+      <link>https://getutilforge.com/marketplace/n8n-github-release-changelog-publisher/</link>
+      <guid>https://getutilforge.com/marketplace/n8n-github-release-changelog-publisher/</guid>
       <description>Groups merged PRs into New Features, Performance Improvements, and Bug Fixes, strips internal jargon, and creates a draft newsletter.</description>
     </item>
     <item>
       <title>LedgerBot n8n — Email Receipt &amp; PDF Invoice Extractor to Google Sheets / CSV ($59 Workflow Pack)</title>
-      <link>https://utilforge.pages.dev/marketplace/n8n-invoice-receipt-ocr-bookkeeper/</link>
-      <guid>https://utilforge.pages.dev/marketplace/n8n-invoice-receipt-ocr-bookkeeper/</guid>
+      <link>https://getutilforge.com/marketplace/n8n-invoice-receipt-ocr-bookkeeper/</link>
+      <guid>https://getutilforge.com/marketplace/n8n-invoice-receipt-ocr-bookkeeper/</guid>
       <description>Watches your `billing@` or `receipts@` inbox, extracts structured JSON from PDF attachments, normalizes FX rates, and appends to your tax spreadsheet.</description>
     </item>
     <item>
       <title>SwissGrid UI — High-Contrast Editorial &amp; Technical Tool Component Library ($89 Unlimited Sites)</title>
-      <link>https://utilforge.pages.dev/marketplace/swiss-utility-design-system-pro/</link>
-      <guid>https://utilforge.pages.dev/marketplace/swiss-utility-design-system-pro/</guid>
+      <link>https://getutilforge.com/marketplace/swiss-utility-design-system-pro/</link>
+      <guid>https://getutilforge.com/marketplace/swiss-utility-design-system-pro/</guid>
       <description>Designed specifically for high-viewability utility sites: split-pane code workbenches, interactive sliders, comparison matrices, and zero-CLS ad containers.</description>
     </item>
     <item>
       <title>PriceConvert Pro — 18 Interactive SaaS Pricing Tables, Sliders &amp; ROI Calculators ($69 Lifetime)</title>
-      <link>https://utilforge.pages.dev/marketplace/b2b-pricing-page-conversion-kit/</link>
-      <guid>https://utilforge.pages.dev/marketplace/b2b-pricing-page-conversion-kit/</guid>
+      <link>https://getutilforge.com/marketplace/b2b-pricing-page-conversion-kit/</link>
+      <guid>https://getutilforge.com/marketplace/b2b-pricing-page-conversion-kit/</guid>
       <description>Includes monthly/annual billing toggles, multi-currency switchers, seat/token usage sliders, feature comparison matrices, and enterprise quote drawers.</description>
     </item>
     <item>
       <title>MetricCanvas — Lightweight Zero-ChartJS SVG Sparklines, Heatmaps &amp; Scorecards ($79 Unlimited License)</title>
-      <link>https://utilforge.pages.dev/marketplace/data-story-chart-components/</link>
-      <guid>https://utilforge.pages.dev/marketplace/data-story-chart-components/</guid>
+      <link>https://getutilforge.com/marketplace/data-story-chart-components/</link>
+      <guid>https://getutilforge.com/marketplace/data-story-chart-components/</guid>
       <description>Pure SVG and Canvas Web Components (`&lt;metric-sparkline&gt;`, `&lt;metric-waterfall&gt;`, `&lt;metric-heatmap&gt;`) that render instantaneously with zero layout shift.</description>
     </item>
     <item>
       <title>ApiDocs Studio — Static OpenAPI 3.1 Reference &amp; Interactive cURL/SDK Playground ($99 Unlimited APIs)</title>
-      <link>https://utilforge.pages.dev/marketplace/docs-openapi-interactive-portal/</link>
-      <guid>https://utilforge.pages.dev/marketplace/docs-openapi-interactive-portal/</guid>
+      <link>https://getutilforge.com/marketplace/docs-openapi-interactive-portal/</link>
+      <guid>https://getutilforge.com/marketplace/docs-openapi-interactive-portal/</guid>
       <description>Zero recurring SaaS fees. Generates a lightning-fast static API reference with live request builder and copy-paste snippets in cURL, TypeScript, Python, Go, and Rust.</description>
     </item>
     <item>
       <title>LaunchLoop — Viral Referral Waitlist, Milestone Rewards &amp; Leaderboard Kit ($59 Lifetime)</title>
-      <link>https://utilforge.pages.dev/marketplace/waitlist-viral-referral-kit/</link>
-      <guid>https://utilforge.pages.dev/marketplace/waitlist-viral-referral-kit/</guid>
+      <link>https://getutilforge.com/marketplace/waitlist-viral-referral-kit/</link>
+      <guid>https://getutilforge.com/marketplace/waitlist-viral-referral-kit/</guid>
       <description>Unique referral codes, anti-fraud email verification, position-jump leaderboard, and automated milestone reward unlocks.</description>
     </item>
     <item>
       <title>PulseBoard — Embeddable Public Roadmap, Upvote Board &amp; Changelog Widget ($69 Lifetime)</title>
-      <link>https://utilforge.pages.dev/marketplace/changelog-roadmap-feedback-board/</link>
-      <guid>https://utilforge.pages.dev/marketplace/changelog-roadmap-feedback-board/</guid>
+      <link>https://getutilforge.com/marketplace/changelog-roadmap-feedback-board/</link>
+      <guid>https://getutilforge.com/marketplace/changelog-roadmap-feedback-board/</guid>
       <description>Collect user feature requests, let paying customers vote weighted by MRR, and announce shipped releases with an in-app notification badge.</description>
     </item>
     <item>
       <title>UtilForge Factory — 300-Page Zero-Server Programmatic SEO &amp; Micro-Tool Compiler ($149 Lifetime)</title>
-      <link>https://utilforge.pages.dev/marketplace/utilforge-programmatic-seo-factory/</link>
-      <guid>https://utilforge.pages.dev/marketplace/utilforge-programmatic-seo-factory/</guid>
+      <link>https://getutilforge.com/marketplace/utilforge-programmatic-seo-factory/</link>
+      <guid>https://getutilforge.com/marketplace/utilforge-programmatic-seo-factory/</guid>
       <description>The exact zero-dependency compiler powering UtilForge: declarative tool registries, combinatorial C(N,2) comparison calculators, zero-CLS AdSense slots, IndexNow auto-pinger, and Cloudflare KV telemetry.</description>
     </item>
     <item>
       <title>R2FinOps MCP — AWS S3 to Cloudflare R2 Zero-Egress Migrator &amp; Cost Auditor ($49 One-Time)</title>
-      <link>https://utilforge.pages.dev/marketplace/cloudflare-r2-zero-egress-migrator-mcp/</link>
-      <guid>https://utilforge.pages.dev/marketplace/cloudflare-r2-zero-egress-migrator-mcp/</guid>
+      <link>https://getutilforge.com/marketplace/cloudflare-r2-zero-egress-migrator-mcp/</link>
+      <guid>https://getutilforge.com/marketplace/cloudflare-r2-zero-egress-migrator-mcp/</guid>
       <description>Connects directly to AWS Cost Explorer and S3 bucket metrics to quantify egress waste, provision Cloudflare R2 buckets, and configure zero-downtime Sippy incremental sync.</description>
     </item>
   </channel>

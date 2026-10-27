@@ -11,7 +11,7 @@
 export const SITE_CONFIG = {
   brandName: 'UtilForge',
   tagline: 'Zero-Server Client-Side Data & File Utilities',
-  domain: (typeof process !== 'undefined' && process.env?.SITE_DOMAIN) || 'https://utilforge.pages.dev',
+  domain: (typeof process !== 'undefined' && process.env?.SITE_DOMAIN) || 'https://getutilforge.com',
   contactEmail: 'zainmasri123@gmail.com',
   googleSiteVerification:
     (typeof process !== 'undefined' && process.env?.GOOGLE_SITE_VERIFICATION) ||
@@ -3014,6 +3014,167 @@ server: cloudflare`,
       {
         q: 'What is the difference between Community Cloud and Secure Cloud on RunPod?',
         a: 'RunPod Community Cloud uses crowd-sourced, decentralized data centers at discounted prices (e.g. ~$0.44/hr for RTX 4090), ideal for non-sensitive research and batch jobs. Secure Cloud runs in Tier 3/4 enterprise data centers with strict SOC2/ISO compliance, higher redundancy, and guaranteed uptime for production APIs.',
+      },
+    ],
+  },
+  {
+    id: 'llm-prompt-caching-cost-calculator',
+    slug: 'llm-prompt-caching-cost-calculator',
+    name: 'Prompt Caching & Context Window Cost Calculator (Claude 3.7/3.5 vs GPT-4o vs DeepSeek vs Gemini)',
+    shortName: 'Prompt Caching Cost Calculator',
+    category: 'Fintech & Business',
+    partnerSlug: 'openrouter-ai',
+    engine: 'promptCachingCostEngine',
+    primaryKeyword: 'prompt caching cost calculator claude gpt-4o deepseek',
+    secondaryKeywords: [
+      'anthropic claude prompt caching savings calculator',
+      'openai cached tokens pricing calculator',
+      'deepseek prompt caching cost',
+      'context window caching roi calculator',
+    ],
+    estMonthlySearches: '125,000',
+    estRpmUsd: '$54 – $92',
+    competitionLevel: 'Low',
+    headline: 'Simulate Prompt Caching Savings, Cache Write Premiums & Cache Read Discounts Across Claude, GPT-4o, DeepSeek & Gemini',
+    subtitle:
+      'Model multi-turn agent context caching, 5-minute TTL write/read economics, and break-even thresholds across Anthropic Claude 3.5/3.7 Sonnet, OpenAI GPT-4o, DeepSeek V3/R1, and Google Gemini 1.5/2.0 Pro.',
+    metaDescription:
+      'Free Prompt Caching & LLM context cost calculator. Simulate 50%–90% token discounts, cache write premiums, and multi-turn agent savings for Claude 3.5 Sonnet, GPT-4o, DeepSeek, and Gemini.',
+    badge: 'AI Prompt FinOps & Context Cache Benchmark',
+    options: [
+      {
+        id: 'baseModel',
+        label: 'LLM Architecture & Model',
+        type: 'select',
+        value: 'claude_3_5_sonnet',
+        choices: [
+          { value: 'claude_3_5_sonnet', label: 'Anthropic Claude 3.5/3.7 Sonnet ($3.00/M base, $0.30/M read -90%, $3.75 write)' },
+          { value: 'gpt_4o', label: 'OpenAI GPT-4o ($2.50/M base, $1.25/M cached -50%, $10.00/M output)' },
+          { value: 'deepseek_v3', label: 'DeepSeek V3 / R1 ($0.14/M base, $0.014/M cached -90%, $0.28/M output)' },
+          { value: 'gemini_1_5_pro', label: 'Google Gemini 1.5 Pro ($3.50/M base, $0.875/M cached -75%, $10.50/M output)' },
+        ],
+      },
+      {
+        id: 'cacheHitRate',
+        label: 'Average Cache Hit Rate',
+        type: 'select',
+        value: 'hit_75',
+        choices: [
+          { value: 'hit_90', label: '90% High Hit Rate (Long System Prompts / Repetitive Documents / RAG)' },
+          { value: 'hit_75', label: '75% Typical Hit Rate (Multi-Turn Chat / Coding Assistant / Agents)' },
+          { value: 'hit_50', label: '50% Moderate Hit Rate (Mixed Dynamic Queries)' },
+          { value: 'hit_25', label: '25% Low Hit Rate (High Cache Invalidation / Spiky Traffic)' },
+        ],
+      },
+    ],
+    sampleInput: JSON.stringify(
+      {
+        monthlyTotalInputTokensM: 50,
+        monthlyOutputTokensM: 12,
+        promptContextTokensPerCall: 32000,
+        cachedTokensRatioPercent: 80,
+        requestsPerMonth: 1562,
+      },
+      null,
+      2
+    ),
+    howToSteps: [
+      'Select your LLM provider and model (Claude 3.5/3.7 Sonnet, OpenAI GPT-4o, DeepSeek V3/R1, or Gemini 1.5 Pro).',
+      'Select your expected cache hit rate (50%, 75%, or 90% based on request repetition within TTL).',
+      'Enter your monthly total input tokens (Millions), monthly output tokens (Millions), and percentage of tokens eligible for caching.',
+      'Review side-by-side total monthly costs without caching vs with caching, net dollar savings, percentage saved, and cross-model comparison.',
+    ],
+    faqs: [
+      {
+        q: 'How does prompt caching pricing differ between Anthropic Claude and OpenAI GPT-4o?',
+        a: 'Anthropic Claude applies an explicit 5-minute TTL cache: writing to the cache costs 25% extra ($3.75/M vs $3.00/M base), but reading from the cache gives a massive 90% discount ($0.30/M). OpenAI automatically caches repeated prompt prefixes longer than 1,024 tokens with no write surcharge and applies a flat 50% discount on cached input tokens ($1.25/M vs $2.50/M base).',
+      },
+      {
+        q: 'What is the break-even threshold for Anthropic Claude prompt caching?',
+        a: 'Because Anthropic charges a 25% premium on cache write ($3.75/M vs $3.00/M), you break even on the very second request using that cached prefix within 5 minutes ($3.75 write + $0.30 read = $4.05 for 2 calls vs $6.00 uncached, saving 32.5%). Every subsequent cache read delivers pure 90% savings.',
+      },
+      {
+        q: 'Does DeepSeek support prompt caching?',
+        a: 'Yes, DeepSeek natively supports prompt caching on their official API and through OpenRouter. DeepSeek cache hits cost an ultra-low $0.014 per 1M tokens (90% discount off the already low $0.14/M base rate), making context caching virtually free for heavy agentic workflows.',
+      },
+    ],
+  },
+  {
+    id: 'ai-voice-tts-cost-calculator',
+    slug: 'ai-voice-tts-cost-calculator',
+    name: 'AI Voice & Speech API Cost Calculator (ElevenLabs vs OpenAI Realtime vs Deepgram vs Cartesia vs Whisper)',
+    shortName: 'AI Voice & Speech Cost Calc',
+    category: 'DevOps & Cloud',
+    partnerSlug: 'openrouter-ai',
+    engine: 'aiVoiceTtsCostEngine',
+    primaryKeyword: 'ai voice api cost calculator elevenlabs openai realtime deepgram cartesia',
+    secondaryKeywords: [
+      'elevenlabs pricing calculator per minute',
+      'openai realtime audio cost calculator',
+      'deepgram aura nova-2 pricing',
+      'conversational voice agent api cost calculator',
+    ],
+    estMonthlySearches: '95,000',
+    estRpmUsd: '$46 – $84',
+    competitionLevel: 'Low',
+    headline: 'Estimate Conversational Voice Agent, Realtime WebSocket & Text-to-Speech (TTS) Costs Across ElevenLabs, OpenAI, Deepgram & Cartesia',
+    subtitle:
+      'Model monthly API expenses for conversational voice bots, podcast narration, and automated customer support. Benchmark ElevenLabs, OpenAI Realtime, Cartesia Sonic, and Deepgram Aura across audio minutes, character volume, and streaming concurrency.',
+    metaDescription:
+      'Free AI Voice & Speech API pricing calculator. Compare monthly bills and cost per minute across ElevenLabs, OpenAI Realtime Voice, Deepgram Aura, Cartesia Sonic, and Whisper STT.',
+    badge: 'Voice AI FinOps & Audio Benchmark',
+    options: [
+      {
+        id: 'voiceMode',
+        label: 'Application Workload Type',
+        type: 'select',
+        value: 'conversational_agent',
+        choices: [
+          { value: 'conversational_agent', label: 'Realtime Conversational Voice Agent (Sub-200ms Two-Way Voice)' },
+          { value: 'text_to_speech_standard', label: 'Batch Text-to-Speech (TTS) Narration & Content Generation' },
+          { value: 'speech_to_text_transcription', label: 'Speech-to-Text (STT) Audio Transcription & Call Logs' },
+        ],
+      },
+      {
+        id: 'audioQualityTier',
+        label: 'Voice Quality & Latency Tier',
+        type: 'select',
+        value: 'ultra_low_latency',
+        choices: [
+          { value: 'ultra_low_latency', label: 'Ultra-Low Latency (<150ms TTFT / Cartesia Sonic / Deepgram Aura)' },
+          { value: 'high_fidelity_expressive', label: 'High-Fidelity Expressive Voices (ElevenLabs Turbo v2.5 / Multilingual v2)' },
+          { value: 'multimodal_realtime', label: 'End-to-End Multimodal WebRTC (OpenAI Realtime Voice API)' },
+        ],
+      },
+    ],
+    sampleInput: JSON.stringify(
+      {
+        monthlyAudioMinutes: 12000,
+        avgCharactersPerMinute: 900,
+        monthlyTotalCharactersMillion: 10.8,
+        concurrentStreams: 5,
+      },
+      null,
+      2
+    ),
+    howToSteps: [
+      'Select your voice application workload (Conversational Agent, Batch TTS Narration, or Speech-to-Text).',
+      'Choose your latency and voice realism requirements (Ultra-Low Latency <150ms vs Expressive Voices vs End-to-End Realtime).',
+      'Enter your expected monthly audio minutes (e.g. 12,000 mins = 200 hours) and average characters per minute.',
+      'Review side-by-side total monthly costs, cost per minute, latency benchmarks, and the lowest-cost provider recommendation.',
+    ],
+    faqs: [
+      {
+        q: 'How does character-based billing compare to minute-based voice billing?',
+        a: 'Providers like ElevenLabs and Cartesia charge per 1,000 characters synthesized (e.g. $0.04 to $0.18 per 1K chars). At standard conversational pacing (~900 characters/minute, or ~150 words/minute), 1,000 characters represents roughly 1.1 minutes of speech. In contrast, Deepgram Nova-2 and OpenAI Realtime bill directly per audio minute (~$0.0043/min for Deepgram STT, or ~$0.15/min blended for OpenAI Realtime Voice).',
+      },
+      {
+        q: 'What is the end-to-end cost to run an AI voice phone agent per minute?',
+        a: 'A modular conversational voice stack typically consists of: Deepgram Nova-2 for STT (~$0.0043/min) + DeepSeek V3/GPT-4o-mini for reasoning (~$0.003/min) + Cartesia Sonic for TTS (~$0.036/min), totaling ~$0.043/minute. OpenAI Realtime WebRTC costs ~$0.15 to $0.30/minute, offering simpler zero-pipeline integration but 3x–6x higher operating costs.',
+      },
+      {
+        q: 'Which voice provider provides the lowest latency for live customer service?',
+        a: 'Cartesia Sonic achieves the lowest time-to-first-audio (TTFT) at ~120ms–140ms, followed closely by Deepgram Aura at ~170ms. ElevenLabs Turbo v2.5 averages ~250ms–300ms, which sounds exceptionally natural but requires careful conversational turn-taking management.',
       },
     ],
   },

@@ -4805,6 +4805,369 @@
         summary: `${winner.name} delivers lowest GPU cost at $${winner.total.toFixed(2)}/mo ($${winner.hourlyRate.toFixed(2)}/hr) for ${spec.name} • Token API alternative: $${tokenApiTotal.toFixed(2)}/mo for ${tokensMillion}M tokens • Active runtime: ${activeHours} hrs/mo.`,
       };
     },
+
+    promptCachingCostEngine(input, opts) {
+      let data = {};
+      try {
+        data = JSON.parse(input);
+      } catch (_e) {
+        const num = parseFloat(String(input).replace(/[^0-9.]/g, ''));
+        data = { monthlyTotalInputTokensM: isNaN(num) || num <= 0 ? 50 : num };
+      }
+
+      const baseModel = opts.baseModel || 'claude_3_5_sonnet';
+      const cacheHitRateChoice = opts.cacheHitRate || 'hit_75';
+
+      const hitRates = {
+        hit_25: 0.25,
+        hit_50: 0.50,
+        hit_75: 0.75,
+        hit_90: 0.90,
+      };
+      const hitRate = hitRates[cacheHitRateChoice] ?? 0.75;
+
+      const modelSpecs = {
+        claude_3_5_sonnet: {
+          name: 'Anthropic Claude 3.5/3.7 Sonnet',
+          baseInputPerM: 3.00,
+          cacheWritePerM: 3.75,
+          cacheReadPerM: 0.30,
+          outputPerM: 15.00,
+          cacheReadDiscountPct: 90,
+        },
+        gpt_4o: {
+          name: 'OpenAI GPT-4o',
+          baseInputPerM: 2.50,
+          cacheWritePerM: 2.50,
+          cacheReadPerM: 1.25,
+          outputPerM: 10.00,
+          cacheReadDiscountPct: 50,
+        },
+        deepseek_v3: {
+          name: 'DeepSeek V3 / R1',
+          baseInputPerM: 0.14,
+          cacheWritePerM: 0.14,
+          cacheReadPerM: 0.014,
+          outputPerM: 0.28,
+          cacheReadDiscountPct: 90,
+        },
+        gemini_1_5_pro: {
+          name: 'Google Gemini 1.5 Pro',
+          baseInputPerM: 3.50,
+          cacheWritePerM: 3.50,
+          cacheReadPerM: 0.875,
+          outputPerM: 10.50,
+          cacheReadDiscountPct: 75,
+        },
+      };
+
+      const spec = modelSpecs[baseModel] || modelSpecs.claude_3_5_sonnet;
+      const inputM = Math.max(1, Number(data.monthlyTotalInputTokensM ?? 50));
+      const outputM = Math.max(0.5, Number(data.monthlyOutputTokensM ?? 12));
+      const cachedRatio = Math.min(100, Math.max(10, Number(data.cachedTokensRatioPercent ?? 80))) / 100;
+
+      const uncachedInputCost = inputM * spec.baseInputPerM;
+      const outputCost = outputM * spec.outputPerM;
+      const uncachedTotal = uncachedInputCost + outputCost;
+
+      const eligibleCachedM = inputM * cachedRatio;
+      const nonCachedM = inputM * (1 - cachedRatio);
+      const cacheHitM = eligibleCachedM * hitRate;
+      const cacheMissM = eligibleCachedM * (1 - hitRate);
+
+      const costCacheHits = cacheHitM * spec.cacheReadPerM;
+      const costCacheMisses = cacheMissM * spec.cacheWritePerM;
+      const costNonCached = nonCachedM * spec.baseInputPerM;
+
+      const cachedInputCost = costCacheHits + costCacheMisses + costNonCached;
+      const cachedTotal = cachedInputCost + outputCost;
+
+      const monthlySavings = Math.max(0, uncachedTotal - cachedTotal);
+      const annualSavings = monthlySavings * 12;
+      const savingsPct = uncachedTotal > 0 ? ((monthlySavings / uncachedTotal) * 100).toFixed(1) : '0';
+
+      const crossModels = Object.entries(modelSpecs).map(([key, m]) => {
+        const uIn = inputM * m.baseInputPerM;
+        const uOut = outputM * m.outputPerM;
+        const uTot = uIn + uOut;
+
+        const cHits = (inputM * cachedRatio * hitRate) * m.cacheReadPerM;
+        const cMiss = (inputM * cachedRatio * (1 - hitRate)) * m.cacheWritePerM;
+        const cNon = (inputM * (1 - cachedRatio)) * m.baseInputPerM;
+        const cTot = cHits + cMiss + cNon + uOut;
+        const sav = Math.max(0, uTot - cTot);
+        const sPct = uTot > 0 ? ((sav / uTot) * 100).toFixed(1) : '0';
+
+        return {
+          id: key,
+          name: m.name,
+          baseRate: `$${m.baseInputPerM.toFixed(2)}/M`,
+          cachedRate: `$${m.cacheReadPerM.toFixed(3)}/M (-${m.cacheReadDiscountPct}%)`,
+          uncachedMonthly: Number(uTot.toFixed(2)),
+          cachedMonthly: Number(cTot.toFixed(2)),
+          monthlySavings: Number(sav.toFixed(2)),
+          savingsPct: sPct,
+        };
+      });
+
+      const report = {
+        modelArchitecture: spec.name,
+        monthlyTotalInputTokensM: inputM,
+        monthlyOutputTokensM: outputM,
+        cacheHitRatePercent: Math.round(hitRate * 100),
+        cachedTokensRatioPercent: Math.round(cachedRatio * 100),
+        uncachedExecution: {
+          inputTokensCostUsd: Number(uncachedInputCost.toFixed(2)),
+          outputTokensCostUsd: Number(outputCost.toFixed(2)),
+          totalMonthlyBillUsd: Number(uncachedTotal.toFixed(2)),
+        },
+        cachedExecution: {
+          cacheHitTokensM: Number(cacheHitM.toFixed(2)),
+          cacheMissTokensM: Number(cacheMissM.toFixed(2)),
+          costCacheHitsUsd: Number(costCacheHits.toFixed(2)),
+          costCacheMissesUsd: Number(costCacheMisses.toFixed(2)),
+          costNonCachedInputUsd: Number(costNonCached.toFixed(2)),
+          outputTokensCostUsd: Number(outputCost.toFixed(2)),
+          totalMonthlyBillUsd: Number(cachedTotal.toFixed(2)),
+        },
+        financialImpact: {
+          netMonthlySavingsUsd: Number(monthlySavings.toFixed(2)),
+          netAnnualSavingsUsd: Number(annualSavings.toFixed(2)),
+          percentCostReduction: `${savingsPct}%`,
+          breakEvenTurns: spec.cacheWritePerM > spec.baseInputPerM ? 2 : 1,
+        },
+        crossModelBenchmark: crossModels,
+      };
+
+      const extraHtml = `
+        <div style="margin-top:1.25rem;">
+          <div style="font-size:0.8rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:0.6rem;letter-spacing:0.04em;">
+            Prompt Caching ROI: ${escapeHtml(spec.name)} (${inputM}M in / ${outputM}M out • ${Math.round(hitRate * 100)}% Cache Hits)
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(210px, 1fr));gap:0.75rem;margin-bottom:1.25rem;">
+            <div class="kpi-tile" style="background:var(--bg-elevated);border-left:4px solid var(--accent-emerald);">
+              <div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;font-weight:700;">Net Monthly Savings</div>
+              <div style="font-size:1.6rem;font-weight:800;font-family:var(--font-mono);color:var(--accent-emerald);">$${monthlySavings.toFixed(2)}/mo</div>
+              <div style="font-size:0.72rem;color:var(--accent-emerald);font-weight:700;">-${savingsPct}% off total token bill</div>
+            </div>
+            <div class="kpi-tile" style="background:var(--bg-elevated);border-left:4px solid var(--accent-primary);">
+              <div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;font-weight:700;">Cached Monthly Bill</div>
+              <div style="font-size:1.6rem;font-weight:800;font-family:var(--font-mono);color:var(--accent-primary);">$${cachedTotal.toFixed(2)}/mo</div>
+              <div style="font-size:0.72rem;color:var(--text-secondary);">vs $${uncachedTotal.toFixed(2)}/mo uncached</div>
+            </div>
+            <div class="kpi-tile" style="background:var(--bg-elevated);border-left:4px solid var(--accent-amber);">
+              <div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;font-weight:700;">Annualized Cash ROI</div>
+              <div style="font-size:1.6rem;font-weight:800;font-family:var(--font-mono);color:var(--text-primary);">$${annualSavings.toLocaleString(undefined, { maximumFractionDigits: 0 })}/yr</div>
+              <div style="font-size:0.72rem;color:var(--text-muted);">Cumulative 12-month margin boost</div>
+            </div>
+          </div>
+
+          <div style="overflow-x:auto;">
+            <table class="matrix-table" style="width:100%;font-size:0.86rem;border-collapse:collapse;">
+              <thead>
+                <tr style="background:var(--bg-subtle);border-bottom:2px solid var(--border-strong);">
+                  <th style="padding:0.65rem 0.75rem;text-align:left;">Model</th>
+                  <th style="padding:0.65rem 0.75rem;text-align:right;">Base Input</th>
+                  <th style="padding:0.65rem 0.75rem;text-align:right;">Cached Read Rate</th>
+                  <th style="padding:0.65rem 0.75rem;text-align:right;">Uncached Bill</th>
+                  <th style="padding:0.65rem 0.75rem;text-align:right;">Cached Bill</th>
+                  <th style="padding:0.65rem 0.75rem;text-align:right;color:var(--accent-emerald);">Monthly Savings</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${crossModels
+                  .map(
+                    (m) => `
+                  <tr style="border-bottom:1px solid var(--border-subtle);${m.id === baseModel ? 'background:rgba(16,185,129,0.06);font-weight:700;' : ''}">
+                    <td style="padding:0.65rem 0.75rem;">
+                      ${escapeHtml(m.name)}
+                      ${m.id === baseModel ? '<span class="tool-cat-tag" style="margin-left:0.4rem;font-size:0.65rem;">Active</span>' : ''}
+                    </td>
+                    <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);">${m.baseRate}</td>
+                    <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);color:var(--accent-emerald);">${m.cachedRate}</td>
+                    <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);">$${m.uncachedMonthly.toFixed(2)}</td>
+                    <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);font-weight:700;color:var(--accent-primary);">$${m.cachedMonthly.toFixed(2)}</td>
+                    <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);font-weight:700;color:var(--accent-emerald);">$${m.monthlySavings.toFixed(2)} (-${m.savingsPct}%)</td>
+                  </tr>`
+                  )
+                  .join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>`;
+
+      return {
+        output: JSON.stringify(report, null, 2),
+        extraHtml,
+        downloadExt: 'json',
+        downloadMime: 'application/json',
+        summary: `Prompt Caching saves $${monthlySavings.toFixed(2)}/mo ($${annualSavings.toLocaleString(undefined, { maximumFractionDigits: 0 })}/year, -${savingsPct}%) on ${spec.name} • Cached monthly bill: $${cachedTotal.toFixed(2)}/mo vs $${uncachedTotal.toFixed(2)}/mo uncached.`,
+      };
+    },
+
+    aiVoiceTtsCostEngine(input, opts) {
+      let data = {};
+      try {
+        data = JSON.parse(input);
+      } catch (_e) {
+        const num = parseFloat(String(input).replace(/[^0-9.]/g, ''));
+        data = { monthlyAudioMinutes: isNaN(num) || num <= 0 ? 12000 : num };
+      }
+
+      const voiceMode = opts.voiceMode || 'conversational_agent';
+      const audioQualityTier = opts.audioQualityTier || 'ultra_low_latency';
+
+      const minutes = Math.max(10, Number(data.monthlyAudioMinutes ?? 12000));
+      const charsPerMin = Math.max(100, Number(data.avgCharactersPerMinute ?? 900));
+      const totalChars = Number(data.monthlyTotalCharactersMillion ? data.monthlyTotalCharactersMillion * 1000000 : minutes * charsPerMin);
+      const totalCharsM = totalChars / 1000000;
+      const concurrentStreams = Math.max(1, Number(data.concurrentStreams ?? 5));
+
+      const providers = [
+        {
+          id: 'cartesia',
+          name: 'Cartesia Sonic',
+          latency: '<135ms TTFT',
+          rateDesc: '$0.040 per 1K chars',
+          totalMonthly: (totalChars / 1000) * 0.04,
+          badge: 'Lowest Latency (<135ms)',
+          bestFor: 'Realtime Conversational Voice Agents',
+        },
+        {
+          id: 'deepgram',
+          name: 'Deepgram Aura (TTS) + Nova-2 (STT)',
+          latency: '<175ms TTFT',
+          rateDesc: '$0.015 per 1K chars + $0.0043/min STT',
+          totalMonthly: (totalChars / 1000) * 0.015 + (minutes * 0.0043),
+          badge: 'Best Value Scale',
+          bestFor: 'High-Volume Call Centers & Voice Bots',
+        },
+        {
+          id: 'elevenlabs',
+          name: 'ElevenLabs Turbo v2.5',
+          latency: '~250ms TTFT',
+          rateDesc: '$0.180 per 1K chars (Scale)',
+          totalMonthly: (totalChars / 1000) * 0.18,
+          badge: 'Highest Human Realism',
+          bestFor: 'Audiobooks, Creators & Studio Narration',
+        },
+        {
+          id: 'openai_realtime',
+          name: 'OpenAI Realtime Voice API',
+          latency: '~280ms end-to-end',
+          rateDesc: '~$0.150 per audio minute blended',
+          totalMonthly: minutes * 0.15,
+          badge: 'End-to-End Multimodal',
+          bestFor: 'Zero-Pipeline Voice-to-Voice GPT-4o',
+        },
+      ];
+
+      providers.forEach((p) => {
+        p.costPerMinute = p.totalMonthly / minutes;
+      });
+
+      providers.sort((a, b) => a.totalMonthly - b.totalMonthly);
+      const winner = providers[0];
+      const maxProvider = providers[providers.length - 1];
+      const monthlySavingsVsMax = maxProvider.totalMonthly - winner.totalMonthly;
+      const annualSavingsVsMax = monthlySavingsVsMax * 12;
+
+      const report = {
+        workloadType: voiceMode,
+        audioQualityTier,
+        monthlyAudioMinutes: minutes,
+        monthlyAudioHours: Number((minutes / 60).toFixed(1)),
+        avgCharactersPerMinute: charsPerMin,
+        totalCharactersMillion: Number(totalCharsM.toFixed(2)),
+        concurrentStreams,
+        lowestCostProvider: {
+          name: winner.name,
+          totalMonthlyCostUsd: Number(winner.totalMonthly.toFixed(2)),
+          costPerAudioMinuteUsd: Number(winner.costPerMinute.toFixed(4)),
+          latencyBenchmark: winner.latency,
+        },
+        costSpreadVsHighestProvider: {
+          highestProviderName: maxProvider.name,
+          highestMonthlyCostUsd: Number(maxProvider.totalMonthly.toFixed(2)),
+          monthlySavingsUsd: Number(monthlySavingsVsMax.toFixed(2)),
+          annualSavingsUsd: Number(annualSavingsVsMax.toFixed(2)),
+        },
+        allProviders: providers.map((p) => ({
+          provider: p.name,
+          ratePricing: p.rateDesc,
+          latency: p.latency,
+          totalMonthlyCostUsd: Number(p.totalMonthly.toFixed(2)),
+          costPerMinuteUsd: Number(p.costPerMinute.toFixed(4)),
+          badge: p.badge,
+          bestFor: p.bestFor,
+        })),
+      };
+
+      const extraHtml = `
+        <div style="margin-top:1.25rem;">
+          <div style="font-size:0.8rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:0.6rem;letter-spacing:0.04em;">
+            AI Voice Benchmark: ${minutes.toLocaleString()} Audio Mins (${(minutes / 60).toFixed(0)} hrs • ${totalCharsM.toFixed(1)}M chars)
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(210px, 1fr));gap:0.75rem;margin-bottom:1.25rem;">
+            <div class="kpi-tile" style="background:var(--bg-elevated);border-left:4px solid var(--accent-emerald);">
+              <div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;font-weight:700;">Lowest Total Cost</div>
+              <div style="font-size:1.6rem;font-weight:800;font-family:var(--font-mono);color:var(--accent-emerald);">$${winner.totalMonthly.toFixed(2)}/mo</div>
+              <div style="font-size:0.72rem;color:var(--text-secondary);">${escapeHtml(winner.name)} ($${winner.costPerMinute.toFixed(3)}/min)</div>
+            </div>
+            <div class="kpi-tile" style="background:var(--bg-elevated);border-left:4px solid var(--accent-primary);">
+              <div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;font-weight:700;">Voice Cost Spread</div>
+              <div style="font-size:1.6rem;font-weight:800;font-family:var(--font-mono);color:var(--accent-primary);">$${monthlySavingsVsMax.toFixed(2)}/mo</div>
+              <div style="font-size:0.72rem;color:var(--text-secondary);">Save $${annualSavingsVsMax.toLocaleString(undefined, { maximumFractionDigits: 0 })}/yr vs ${escapeHtml(maxProvider.name)}</div>
+            </div>
+            <div class="kpi-tile" style="background:var(--bg-elevated);border-left:4px solid var(--accent-amber);">
+              <div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;font-weight:700;">Speed &amp; Latency Leader</div>
+              <div style="font-size:1.6rem;font-weight:800;font-family:var(--font-mono);color:var(--text-primary);">&lt;135ms</div>
+              <div style="font-size:0.72rem;color:var(--text-muted);">Cartesia Sonic (Sub-150ms TTFT)</div>
+            </div>
+          </div>
+
+          <div style="overflow-x:auto;">
+            <table class="matrix-table" style="width:100%;font-size:0.86rem;border-collapse:collapse;">
+              <thead>
+                <tr style="background:var(--bg-subtle);border-bottom:2px solid var(--border-strong);">
+                  <th style="padding:0.65rem 0.75rem;text-align:left;">Voice Provider</th>
+                  <th style="padding:0.65rem 0.75rem;text-align:left;">Rate Structure</th>
+                  <th style="padding:0.65rem 0.75rem;text-align:center;">Latency (TTFT)</th>
+                  <th style="padding:0.65rem 0.75rem;text-align:right;">Cost / Minute</th>
+                  <th style="padding:0.65rem 0.75rem;text-align:right;">Total Monthly</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${providers
+                  .map(
+                    (p, idx) => `
+                  <tr style="border-bottom:1px solid var(--border-subtle);${idx === 0 ? 'background:rgba(16,185,129,0.06);font-weight:700;' : ''}">
+                    <td style="padding:0.65rem 0.75rem;">
+                      ${escapeHtml(p.name)}
+                      <span class="tool-cat-tag" style="margin-left:0.4rem;font-size:0.65rem;">${escapeHtml(p.badge)}</span>
+                    </td>
+                    <td style="padding:0.65rem 0.75rem;font-size:0.8rem;color:var(--text-secondary);">${escapeHtml(p.rateDesc)}</td>
+                    <td style="padding:0.65rem 0.75rem;text-align:center;font-family:var(--font-mono);font-size:0.82rem;">${escapeHtml(p.latency)}</td>
+                    <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);">$${p.costPerMinute.toFixed(4)}</td>
+                    <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);font-weight:700;${idx === 0 ? 'color:var(--accent-emerald);' : ''}">$${p.totalMonthly.toFixed(2)}</td>
+                  </tr>`
+                  )
+                  .join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>`;
+
+      return {
+        output: JSON.stringify(report, null, 2),
+        extraHtml,
+        downloadExt: 'json',
+        downloadMime: 'application/json',
+        summary: `${winner.name} delivers lowest voice cost at $${winner.totalMonthly.toFixed(2)}/mo ($${winner.costPerMinute.toFixed(4)}/min) for ${minutes.toLocaleString()} minutes (${totalCharsM.toFixed(1)}M chars) • Saves $${monthlySavingsVsMax.toFixed(2)}/mo ($${annualSavingsVsMax.toLocaleString(undefined, { maximumFractionDigits: 0 })}/yr) vs ${maxProvider.name}.`,
+      };
+    },
   };
 
   /* ========================================================================
@@ -5453,7 +5816,7 @@
 
     if (shareMatrixBtn) {
       shareMatrixBtn.addEventListener('click', async () => {
-        const u = new URL('https://utilforge.pages.dev' + window.location.pathname);
+        const u = new URL('https://getutilforge.com' + window.location.pathname);
         const v1 = Number(s1 ? s1.value : 50);
         const v2 = Number(s2 ? s2.value : 30);
         if (s1) u.searchParams.set('s1', s1.value);
@@ -5491,9 +5854,10 @@
   function initRevenueTelemetry() {
     const pagePath = (window.location.pathname || '/').replace(/^\/utilforge\//, '/');
     const telemetryEndpoint =
+      window.location.hostname === 'getutilforge.com' ||
       window.location.hostname === 'utilforge.pages.dev'
         ? '/api/telemetry'
-        : 'https://utilforge.pages.dev/api/telemetry';
+        : 'https://getutilforge.com/api/telemetry';
 
     function sendTelemetry(payload) {
       try {
@@ -5807,7 +6171,7 @@
         '&item_name=' + encodeURIComponent(cleanItem) +
         '&amount=' + encodeURIComponent(amount) +
         '&currency_code=USD&no_shipping=1' +
-        '&return=' + encodeURIComponent('https://utilforge.pages.dev/marketplace/?checkout=success')
+        '&return=' + encodeURIComponent('https://getutilforge.com/marketplace/?checkout=success')
       );
     }
 

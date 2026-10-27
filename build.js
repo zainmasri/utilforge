@@ -103,7 +103,7 @@ function buildDirectPayPalUrl(itemName, amountUsd = 19) {
     '&item_name=' + encodeURIComponent(`UtilForge — ${itemName}`) +
     '&amount=' + encodeURIComponent(amt) +
     '&currency_code=USD&no_shipping=1' +
-    '&return=' + encodeURIComponent('https://utilforge.pages.dev/marketplace/?checkout=success')
+    '&return=' + encodeURIComponent('https://getutilforge.com/marketplace/?checkout=success')
   );
 }
 
