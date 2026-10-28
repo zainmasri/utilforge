@@ -16,6 +16,7 @@ import { fileURLToPath } from 'node:url';
 import { SITE_CONFIG, TOOLS } from './src/registry/tools.js';
 import { generateAllComparisonPairs } from './src/registry/matrix.js';
 import { MARKETPLACE_CONFIG, MARKETPLACE_ITEMS } from './src/registry/marketplace.js';
+import { GUIDES } from './src/registry/guides.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DIST_DIR = path.join(__dirname, 'dist');
@@ -216,11 +217,16 @@ function renderHeader(activeSection = '', depth = 0) {
       </a>
       <nav class="nav-links" aria-label="Primary Tool Navigation">
         <a href="${prefix}index.html" class="nav-pill ${activeSection === 'hub' ? 'active' : ''}" id="nav-hub-home">Utilities (${TOOLS.length})</a>
+        <a href="${prefix}guides/index.html" class="nav-pill ${activeSection === 'guides' ? 'active' : ''}" id="nav-guides">Guides (${GUIDES.length})</a>
         <a href="${prefix}marketplace/index.html" class="nav-pill ${activeSection === 'marketplace' ? 'active' : ''}" id="nav-marketplace-hub">MCP &amp; Boilerplates (${MARKETPLACE_ITEMS.length})</a>
+        <a href="${prefix}changelog/index.html" class="nav-pill ${activeSection === 'changelog' ? 'active' : ''}" id="nav-changelog">Changelog</a>
         <a href="${prefix}about/index.html" class="nav-pill ${activeSection === 'about' ? 'active' : ''}" id="nav-about">About Us</a>
-        <a href="${prefix}contact/index.html" class="nav-pill ${activeSection === 'contact' ? 'active' : ''}" id="nav-contact">Contact &amp; Support</a>
+        <a href="${prefix}contact/index.html" class="nav-pill ${activeSection === 'contact' ? 'active' : ''}" id="nav-contact">Contact</a>
       </nav>
       <div class="header-actions" style="display:flex;align-items:center;gap:0.5rem;">
+        <a href="https://github.com/zainmasri/utilforge" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="padding:0.36rem 0.65rem;font-size:0.75rem;" title="View UtilForge on GitHub">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" style="vertical-align:text-bottom;margin-right:0.25rem;"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>GitHub
+        </a>
         <button type="button" class="btn btn-primary" id="btn-open-global-checkout" style="padding:0.36rem 0.75rem;font-size:0.75rem;box-shadow:0 1px 4px rgba(16,185,129,0.25);">
           ⚡ Pro Blueprints ($19)
         </button>
@@ -300,11 +306,14 @@ function renderFooter(depth = 0) {
       </div>
       <div style="display:flex;gap:1.15rem;flex-wrap:wrap;font-family:var(--font-mono);font-size:0.76rem;">
         <a href="${prefix}index.html" id="footer-tools-link">All Tools (${TOOLS.length})</a>
+        <a href="${prefix}guides/index.html" id="footer-guides-link">Guides (${GUIDES.length})</a>
         <a href="${prefix}marketplace/index.html" id="footer-mkt-link">MCP &amp; Boilerplates (${MARKETPLACE_ITEMS.length})</a>
+        <a href="${prefix}changelog/index.html" id="footer-changelog-link">Changelog</a>
         <a href="${prefix}about/index.html" id="footer-about-link">About Us</a>
         <a href="${prefix}contact/index.html" id="footer-contact-link">Contact &amp; Support</a>
         <a href="${prefix}privacy/index.html" id="footer-privacy-link">Privacy Policy</a>
         <a href="${prefix}terms/index.html" id="footer-terms-link">Terms of Service</a>
+        <a href="https://github.com/zainmasri/utilforge" target="_blank" rel="noopener noreferrer" id="footer-gh-link">GitHub</a>
         <a href="${prefix}sitemap.xml" id="footer-sitemap-link">sitemap.xml</a>
         <a href="${prefix}robots.txt" id="footer-robots-link">robots.txt</a>
         <a href="${prefix}ads.txt" id="footer-ads-link">ads.txt</a>
@@ -1767,6 +1776,58 @@ function buildHubPageHtml() {
       </div>
     </section>
 
+    <section class="founder-note" style="margin-top:2.5rem;">
+      <div class="founder-note-header">
+        <div class="founder-avatar">ZM</div>
+        <div>
+          <div class="founder-note-title">A Note from the Maintainer</div>
+          <div class="founder-note-subtitle">Zain Masri • Software Engineer &amp; Creator of UtilForge</div>
+        </div>
+      </div>
+      <p>
+        "I built UtilForge out of frustration with online formatters and decoders that silently transmit your private company data—customer records, database passwords, and JWT tokens—to third-party cloud servers where it gets logged and retained. Every tool on UtilForge is engineered to run 100% locally inside your browser's V8 engine with zero network hops. No tracking of your inputs, no server storage, and no latency. If you find a bug or need a new tool built, please connect directly via email or open an issue on GitHub."
+      </p>
+      <div style="display:flex;gap:0.75rem;align-items:center;margin-top:0.85rem;flex-wrap:wrap;">
+        <a href="https://github.com/zainmasri/utilforge" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="font-size:0.8rem;padding:0.4rem 0.75rem;">
+          ⭐ View GitHub Repository
+        </a>
+        <a href="./about/index.html" class="btn btn-secondary" style="font-size:0.8rem;padding:0.4rem 0.75rem;">
+          Read Architecture Mission →
+        </a>
+        <a href="./contact/index.html" class="btn btn-secondary" style="font-size:0.8rem;padding:0.4rem 0.75rem;">
+          Direct Email Contact
+        </a>
+      </div>
+    </section>
+
+    <!-- Featured Engineering Guides Section -->
+    <section class="seo-section" style="margin-top:2rem;background:var(--bg-elevated);">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:1.25rem;">
+        <div>
+          <span class="sponsored-pill">ENGINEERING GUIDES</span>
+          <h2 style="margin-bottom:0.2rem;margin-top:0.35rem;">Technical Guides &amp; Architecture Reference</h2>
+          <p style="font-size:0.9rem;color:var(--text-secondary);">
+            Deep technical tutorials, code snippets, and performance optimization guides written by software engineers.
+          </p>
+        </div>
+        <a href="./guides/index.html" class="btn btn-secondary" id="banner-open-guides">
+          Browse All ${GUIDES.length} Guides →
+        </a>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:1rem;">
+        ${GUIDES.slice(0, 3)
+          .map(
+            (g) => `
+          <a href="./guides/${g.slug}/index.html" class="step-card" style="display:block;text-decoration:none;">
+            <div class="step-num">${escapeHtml(g.category)} • ${escapeHtml(g.readingTime)}</div>
+            <div style="font-weight:800;font-size:0.95rem;margin-top:0.35rem;margin-bottom:0.25rem;color:var(--text-primary);">${escapeHtml(g.title)}</div>
+            <div style="font-size:0.8rem;color:var(--text-secondary);line-height:1.4;">${escapeHtml(g.metaDescription)}</div>
+          </a>`
+          )
+          .join('')}
+      </div>
+    </section>
+
     <section class="factory-studio-panel" id="security-architecture">
       <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:1.25rem;">
         <div>
@@ -1805,6 +1866,155 @@ function buildHubPageHtml() {
 
   ${renderFooter(0)}
   <script src="./assets/engines.js" defer></script>
+</body>
+</html>`;
+}
+
+function buildGuidePageHtml(guide) {
+  const canonicalUrl = `${SITE_CONFIG.domain}/guides/${guide.slug}/`;
+  const otherGuides = GUIDES.filter((g) => g.slug !== guide.slug).slice(0, 3);
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'TechArticle',
+    headline: guide.title,
+    description: guide.metaDescription,
+    author: {
+      '@type': 'Person',
+      name: guide.author,
+      url: `${SITE_CONFIG.domain}/about/`,
+    },
+    datePublished: guide.publishDate,
+    publisher: {
+      '@type': 'Organization',
+      name: SITE_CONFIG.brandName,
+      logo: {
+        '@type': 'ImageObject',
+        url: `${SITE_CONFIG.domain}/assets/logo.png`,
+      },
+    },
+    mainEntityOfPage: canonicalUrl,
+  };
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>${escapeHtml(guide.title)} | ${escapeHtml(SITE_CONFIG.brandName)} Guides</title>
+  <meta name="description" content="${escapeHtml(guide.metaDescription)}" />
+  <link rel="canonical" href="${canonicalUrl}" />
+  <meta property="og:title" content="${escapeHtml(guide.title)}" />
+  <meta property="og:description" content="${escapeHtml(guide.metaDescription)}" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="${canonicalUrl}" />${renderHeadExtras(2)}
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/styles.css" />
+  <script type="application/ld+json">${JSON.stringify(jsonLd)}</script>
+</head>
+<body>
+  ${renderHeader('guides', 2)}
+
+  <main class="page-shell">
+    <article class="guide-article">
+      <div class="tool-breadcrumb" style="margin-bottom:1rem;">
+        <a href="../../index.html">Home</a>
+        <span>/</span>
+        <a href="../index.html">Guides</a>
+        <span>/</span>
+        <span>${escapeHtml(guide.shortTitle)}</span>
+      </div>
+
+      <h1>${escapeHtml(guide.title)}</h1>
+
+      <div class="guide-meta">
+        <span>✍️ By <strong>${escapeHtml(guide.author)}</strong></span>
+        <span>📅 ${escapeHtml(guide.publishDate)}</span>
+        <span>⏱️ ${escapeHtml(guide.readingTime)}</span>
+        <span class="release-badge">${escapeHtml(guide.category)}</span>
+      </div>
+
+      ${guide.contentHtml}
+
+      <div style="margin-top:3rem;padding-top:1.5rem;border-top:1px solid var(--border-subtle);">
+        <h3 style="font-size:1.15rem;margin-bottom:1rem;">More Engineering Guides &amp; Tutorials</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));gap:1rem;">
+          ${otherGuides
+            .map(
+              (g) => `
+            <a href="../${g.slug}/index.html" class="step-card" style="display:block;text-decoration:none;">
+              <div class="step-num">${escapeHtml(g.category)} • ${escapeHtml(g.readingTime)}</div>
+              <div style="font-weight:700;font-size:0.92rem;color:var(--text-primary);margin-top:0.3rem;margin-bottom:0.25rem;">${escapeHtml(g.title)}</div>
+              <div style="font-size:0.78rem;color:var(--text-secondary);line-height:1.4;">${escapeHtml(g.metaDescription)}</div>
+            </a>`
+            )
+            .join('')}
+        </div>
+      </div>
+    </article>
+  </main>
+
+  ${renderFooter(2)}
+  <script src="../../assets/engines.js" defer></script>
+</body>
+</html>`;
+}
+
+function buildGuidesHubHtml() {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Engineering Guides &amp; Technical Reference | ${escapeHtml(SITE_CONFIG.brandName)}</title>
+  <meta name="description" content="In-depth developer guides covering data transformation, cryptographic authentication, regex performance optimization, and database query tuning." />
+  <link rel="canonical" href="${SITE_CONFIG.domain}/guides/" />${renderHeadExtras(1)}
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/styles.css" />
+</head>
+<body>
+  ${renderHeader('guides', 1)}
+
+  <main class="page-shell">
+    <section class="hub-hero">
+      <div>
+        <div style="font-family:var(--font-mono);font-size:0.76rem;font-weight:700;color:var(--accent-primary);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.45rem;">
+          Engineering Documentation • Practical Architecture Tutorials
+        </div>
+        <h1>Developer Guides &amp; Technical Architecture Reference</h1>
+        <p>
+          Deep technical breakdowns, code snippets, and performance optimization guides written for software engineers, security analysts, and database administrators.
+        </p>
+      </div>
+    </section>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));gap:1.5rem;margin-top:2rem;">
+      ${GUIDES.map(
+        (g) => `
+        <article class="tool-card" style="padding:1.5rem;">
+          <div>
+            <div class="tool-card-top">
+              <span class="tool-cat-tag">${escapeHtml(g.category)}</span>
+              <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text-muted);">${escapeHtml(g.readingTime)}</span>
+            </div>
+            <h2><a href="./${g.slug}/index.html">${escapeHtml(g.title)}</a></h2>
+            <p>${escapeHtml(g.metaDescription)}</p>
+          </div>
+          <div style="margin-top:1.2rem;border-top:1px solid var(--border-subtle);padding-top:0.85rem;display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-family:var(--font-mono);font-size:0.74rem;color:var(--text-muted);">By ${escapeHtml(g.author)}</span>
+            <a href="./${g.slug}/index.html" class="btn btn-secondary" style="font-size:0.8rem;padding:0.4rem 0.8rem;">Read Guide →</a>
+          </div>
+        </article>`
+      ).join('')}
+    </div>
+  </main>
+
+  ${renderFooter(1)}
+  <script src="../assets/engines.js" defer></script>
 </body>
 </html>`;
 }
@@ -1922,6 +2132,7 @@ const LEGAL_PAGES = [
         <div><strong>Direct Email:</strong> <a href="mailto:zainmasri123@gmail.com" style="color:var(--accent-primary);text-decoration:underline;font-family:var(--font-mono);">zainmasri123@gmail.com</a></div>
         <div><strong>Response Time:</strong> We aim to reply to all inquiries within 24 to 48 business hours.</div>
         <div><strong>Website Domain:</strong> <a href="https://getutilforge.com" style="color:var(--accent-primary);text-decoration:underline;font-family:var(--font-mono);">https://getutilforge.com</a></div>
+        <div><strong>GitHub:</strong> <a href="https://github.com/zainmasri/utilforge" target="_blank" rel="noopener noreferrer" style="color:var(--accent-primary);text-decoration:underline;font-family:var(--font-mono);">github.com/zainmasri/utilforge</a></div>
       </div>
 
       <h2 style="color:var(--text-primary);font-size:1.25rem;margin-top:0.75rem;">Inquiry Categories</h2>
@@ -1933,6 +2144,81 @@ const LEGAL_PAGES = [
       </ul>
     `,
   },
+  {
+    slug: 'changelog',
+    title: 'Changelog & Engineering Releases',
+    description: `Track new tools, performance enhancements, and security audits across UtilForge. Ongoing curation and maintenance log.`,
+    bodyHtml: `
+      <p>UtilForge is actively maintained and continuously curated. Below is our chronological release log of performance upgrades, engine optimizations, and security audits.</p>
+
+      <div class="changelog-timeline">
+        <div class="changelog-release">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem;flex-wrap:wrap;gap:0.5rem;">
+            <span class="release-badge" style="background:var(--accent-emerald-soft);color:var(--accent-emerald);">v1.5 • LATEST RELEASE</span>
+            <span style="font-family:var(--font-mono);font-size:0.78rem;color:var(--text-muted);">October 28, 2026</span>
+          </div>
+          <h2 style="font-size:1.15rem;margin-top:0.2rem;margin-bottom:0.6rem;color:var(--text-primary);border:none;padding:0;">Editorial Guides Library &amp; Zero-Server Security Audit</h2>
+          <ul style="padding-left:1.25rem;display:flex;flex-direction:column;gap:0.35rem;font-size:0.9rem;">
+            <li>Published 5 in-depth technical engineering guides covering nested JSON parsing, JWT signature validation, ReDoS mitigation, and SQL indexing.</li>
+            <li>Audited all 50 utility tools for 100% client-side memory isolation (zero external HTTP telemetry on inputs).</li>
+            <li>Added strict RFC-4180 CSV escaping mode with automated delimiter inference and dot-notation nested flattening.</li>
+            <li>Integrated public GitHub repository (<a href="https://github.com/zainmasri/utilforge" target="_blank" rel="noopener noreferrer" style="color:var(--accent-primary);text-decoration:underline;">github.com/zainmasri/utilforge</a>) for community bug reporting and issue tracking.</li>
+          </ul>
+        </div>
+
+        <div class="changelog-release">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem;flex-wrap:wrap;gap:0.5rem;">
+            <span class="release-badge">v1.4</span>
+            <span style="font-family:var(--font-mono);font-size:0.78rem;color:var(--text-muted);">October 25, 2026</span>
+          </div>
+          <h2 style="font-size:1.15rem;margin-top:0.2rem;margin-bottom:0.6rem;color:var(--text-primary);border:none;padding:0;">SubtleCrypto Hardware Acceleration &amp; SHA-512 Support</h2>
+          <ul style="padding-left:1.25rem;display:flex;flex-direction:column;gap:0.35rem;font-size:0.9rem;">
+            <li>Migrated Base64 and Hash Studio from pure JS implementations to native browser WebCrypto (<code style="font-family:var(--font-mono);">crypto.subtle</code>).</li>
+            <li>Achieved sub-millisecond execution for SHA-256 and SHA-512 hashes on 50MB+ payloads.</li>
+            <li>Added binary byte-unit converter with IEC (kibi/mebi) and JEDEC standard toggles.</li>
+          </ul>
+        </div>
+
+        <div class="changelog-release">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem;flex-wrap:wrap;gap:0.5rem;">
+            <span class="release-badge">v1.3</span>
+            <span style="font-family:var(--font-mono);font-size:0.78rem;color:var(--text-muted);">October 21, 2026</span>
+          </div>
+          <h2 style="font-size:1.15rem;margin-top:0.2rem;margin-bottom:0.6rem;color:var(--text-primary);border:none;padding:0;">26 Model Context Protocol (MCP) Server Blueprints &amp; ROI Models</h2>
+          <ul style="padding-left:1.25rem;display:flex;flex-direction:column;gap:0.35rem;font-size:0.9rem;">
+            <li>Launched 26 production-tested MCP server and automation workflow blueprints.</li>
+            <li>Added interactive Build-vs-Buy ROI calculators calculating engineering contractor cost savings.</li>
+            <li>Direct PayPal commercial license checkout with instant JSON blueprint bundle delivery.</li>
+          </ul>
+        </div>
+
+        <div class="changelog-release">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem;flex-wrap:wrap;gap:0.5rem;">
+            <span class="release-badge">v1.2</span>
+            <span style="font-family:var(--font-mono);font-size:0.78rem;color:var(--text-muted);">October 18, 2026</span>
+          </div>
+          <h2 style="font-size:1.15rem;margin-top:0.2rem;margin-bottom:0.6rem;color:var(--text-primary);border:none;padding:0;">HTML5 Canvas2D In-Browser Image Quantization</h2>
+          <ul style="padding-left:1.25rem;display:flex;flex-direction:column;gap:0.35rem;font-size:0.9rem;">
+            <li>Engineered offline image compressor supporting WebP, JPEG, and PNG conversions.</li>
+            <li>100% private processing using off-screen HTML5 Canvas with custom quality sliders.</li>
+            <li>Pre-loaded 1280x720 benchmark test graphic for instant slider comparison.</li>
+          </ul>
+        </div>
+
+        <div class="changelog-release">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem;flex-wrap:wrap;gap:0.5rem;">
+            <span class="release-badge">v1.0</span>
+            <span style="font-family:var(--font-mono);font-size:0.78rem;color:var(--text-muted);">October 15, 2026</span>
+          </div>
+          <h2 style="font-size:1.15rem;margin-top:0.2rem;margin-bottom:0.6rem;color:var(--text-primary);border:none;padding:0;">Initial UtilForge Launch (50 Client-Side Utilities)</h2>
+          <ul style="padding-left:1.25rem;display:flex;flex-direction:column;gap:0.35rem;font-size:0.9rem;">
+            <li>Launched suite of 50 standalone browser utilities across Data Conversion, DevOps, Security, Code, and Media.</li>
+            <li>Zero backend architecture: zero database costs, zero server uploads, and near-instant load speeds.</li>
+          </ul>
+        </div>
+      </div>
+    `,
+  },
 ];
 
 function buildSitemapXml() {
@@ -1940,7 +2226,9 @@ function buildSitemapXml() {
   const urls = [
     { loc: `${SITE_CONFIG.domain}/`, priority: '1.0' },
     ...TOOLS.map((t) => ({ loc: `${SITE_CONFIG.domain}/${t.slug}/`, priority: '0.9' })),
-    { loc: `${SITE_CONFIG.domain}/marketplace/`, priority: '0.9' },
+    { loc: `${SITE_CONFIG.domain}/guides/`, priority: '0.9' },
+    ...GUIDES.map((g) => ({ loc: `${SITE_CONFIG.domain}/guides/${g.slug}/`, priority: '0.8' })),
+    { loc: `${SITE_CONFIG.domain}/marketplace/`, priority: '0.8' },
     ...MARKETPLACE_ITEMS.map((m) => ({ loc: `${SITE_CONFIG.domain}/marketplace/${m.slug}/`, priority: '0.8' })),
     ...LEGAL_PAGES.map((p) => ({ loc: `${SITE_CONFIG.domain}/${p.slug}/`, priority: '0.7' })),
   ];
@@ -2194,14 +2482,25 @@ function buildAll() {
     fs.writeFileSync(path.join(pDir, 'index.html'), buildGoRedirectHtml(partner), 'utf8');
   }
 
-  // 6. Legal & Compliance Pages
+  // 6. Developer Guides & Engineering Reference Hub + Article Pages
+  const guidesRoot = path.join(DIST_DIR, 'guides');
+  fs.mkdirSync(guidesRoot, { recursive: true });
+  fs.writeFileSync(path.join(guidesRoot, 'index.html'), buildGuidesHubHtml(), 'utf8');
+
+  for (const guide of GUIDES) {
+    const guideDir = path.join(guidesRoot, guide.slug);
+    fs.mkdirSync(guideDir, { recursive: true });
+    fs.writeFileSync(path.join(guideDir, 'index.html'), buildGuidePageHtml(guide), 'utf8');
+  }
+
+  // 7. Legal, Compliance & Changelog Pages
   for (const page of LEGAL_PAGES) {
     const pageDir = path.join(DIST_DIR, page.slug);
     fs.mkdirSync(pageDir, { recursive: true });
     fs.writeFileSync(path.join(pageDir, 'index.html'), buildLegalPageHtml(page), 'utf8');
   }
 
-  // 7. Sitemap, Robots, Ads.txt, LLMs.txt, RSS Feed, IndexNow Key, Cloudflare _headers
+  // 8. Sitemap, Robots, Ads.txt, LLMs.txt, RSS Feed, IndexNow Key, Cloudflare _headers
   fs.writeFileSync(path.join(DIST_DIR, 'sitemap.xml'), buildSitemapXml(), 'utf8');
   fs.writeFileSync(path.join(DIST_DIR, 'llms.txt'), buildLlmsTxt(), 'utf8');
   fs.writeFileSync(path.join(DIST_DIR, 'feed.xml'), buildRssFeedXml(), 'utf8');

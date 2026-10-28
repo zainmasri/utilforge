@@ -307,10 +307,46 @@
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://getutilforge.com/marketplace/</loc>
+    <loc>https://getutilforge.com/guides/</loc>
     <lastmod>2026-10-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://getutilforge.com/guides/flatten-nested-json-python-node/</loc>
+    <lastmod>2026-10-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://getutilforge.com/guides/jwt-security-signature-verification-guide/</loc>
+    <lastmod>2026-10-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://getutilforge.com/guides/regex-catastrophic-backtracking-optimization/</loc>
+    <lastmod>2026-10-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://getutilforge.com/guides/client-side-browser-security-data-privacy/</loc>
+    <lastmod>2026-10-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://getutilforge.com/guides/sql-formatting-index-performance-guide/</loc>
+    <lastmod>2026-10-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://getutilforge.com/marketplace/</loc>
+    <lastmod>2026-10-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://getutilforge.com/marketplace/shipfast-nextjs-saas/</loc>
@@ -488,6 +524,12 @@
   </url>
   <url>
     <loc>https://getutilforge.com/contact/</loc>
+    <lastmod>2026-10-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://getutilforge.com/changelog/</loc>
     <lastmod>2026-10-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
