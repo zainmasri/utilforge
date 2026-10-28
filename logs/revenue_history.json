@@ -1055,17 +1055,17 @@
     }
   },
   {
-    "checkedAt": "2026-10-27T10:17:28.455Z",
+    "checkedAt": "2026-10-27T10:51:19.361Z",
     "date": "2026-10-27",
     "siteHealth": {
-      "domain": "https://utilforge.pages.dev",
+      "domain": "https://getutilforge.com",
       "homeStatus": 200,
-      "homeLatencyMs": 355,
+      "homeLatencyMs": 113,
       "totalStaticPages": 383,
       "utilityToolsCount": 50,
       "comparisonCalculatorsCount": 292,
       "marketplaceListingsCount": 26,
-      "sitemapUrlsCount": 372
+      "sitemapUrlsCount": 374
     },
     "monetizationHealth": {
       "publisherId": "ca-pub-3462180264458803",
@@ -1082,8 +1082,8 @@
     },
     "revenueMetrics": {
       "today": {
-        "pageviews": 0,
-        "adImpressionsFilled": 0,
+        "pageviews": 4,
+        "adImpressionsFilled": 2,
         "adsenseClicks": 0,
         "affiliateClicks": 0,
         "estAdsenseRevenueUsd": 0,
@@ -1091,8 +1091,8 @@
         "totalRevenueUsd": 0
       },
       "allTime": {
-        "pageviews": 31,
-        "adImpressionsFilled": 0,
+        "pageviews": 35,
+        "adImpressionsFilled": 2,
         "adsenseClicks": 0,
         "affiliateClicks": 3,
         "estAdsenseRevenueUsd": 0,
@@ -1106,9 +1106,9 @@
       "topPages": [
         {
           "page": "/",
-          "pageviews": 20,
+          "pageviews": 24,
           "toolUses": 0,
-          "adFilled": 0,
+          "adFilled": 2,
           "affiliateClicks": 0,
           "verifiedAdsenseRevenueUsd": 0
         },

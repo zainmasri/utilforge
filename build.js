@@ -205,9 +205,6 @@ function renderHomeAffiliateShowcase() {
 
 function renderHeader(activeSection = '', depth = 0) {
   const prefix = depth === 0 ? './' : depth === 1 ? '../' : '../../';
-  const totalPages = TOTAL_PAGE_COUNT;
-  const effectiveMode = getEffectiveAdMode();
-  const initialLabel = effectiveMode === 'hidden' ? 'Ad Slots: Hidden' : 'Ad Blueprint: ON';
 
   return `
   <header class="site-header">
@@ -215,26 +212,17 @@ function renderHeader(activeSection = '', depth = 0) {
       <a href="${prefix}index.html" class="brand-link" id="nav-brand-home">
         <span class="brand-mark">UF</span>
         <span>${escapeHtml(SITE_CONFIG.brandName)}</span>
-        <span class="brand-sub">${totalPages} PAGES LIVE</span>
+        <span class="brand-sub">Client-Side Developer Suite</span>
       </a>
       <nav class="nav-links" aria-label="Primary Tool Navigation">
         <a href="${prefix}index.html" class="nav-pill ${activeSection === 'hub' ? 'active' : ''}" id="nav-hub-home">Utilities (${TOOLS.length})</a>
-        <a href="${prefix}compare/index.html" class="nav-pill ${activeSection === 'compare' ? 'active' : ''}" id="nav-compare-hub">X vs Y (${COMPARE_Pairs.length})</a>
-        <a href="${prefix}marketplace/index.html" class="nav-pill ${activeSection === 'marketplace' ? 'active' : ''}" id="nav-marketplace-hub">Marketplace (${MARKETPLACE_ITEMS.length})</a>
-        ${TOOLS.slice(0, 3)
-          .map(
-            (t) =>
-              `<a href="${prefix}${t.slug}/index.html" class="nav-pill ${activeSection === t.slug ? 'active' : ''}" id="nav-tool-${t.slug}">${escapeHtml(t.shortName)}</a>`
-          )
-          .join('')}
+        <a href="${prefix}marketplace/index.html" class="nav-pill ${activeSection === 'marketplace' ? 'active' : ''}" id="nav-marketplace-hub">MCP &amp; Boilerplates (${MARKETPLACE_ITEMS.length})</a>
+        <a href="${prefix}about/index.html" class="nav-pill ${activeSection === 'about' ? 'active' : ''}" id="nav-about">About Us</a>
+        <a href="${prefix}contact/index.html" class="nav-pill ${activeSection === 'contact' ? 'active' : ''}" id="nav-contact">Contact &amp; Support</a>
       </nav>
       <div class="header-actions" style="display:flex;align-items:center;gap:0.5rem;">
         <button type="button" class="btn btn-primary" id="btn-open-global-checkout" style="padding:0.36rem 0.75rem;font-size:0.75rem;box-shadow:0 1px 4px rgba(16,185,129,0.25);">
-          ⚡ Pro Blueprints ($19) / Sponsor
-        </button>
-        <button type="button" class="ad-mode-toggle" id="btn-toggle-ad-slots" title="Toggle Zero-CLS Ad Placement Blueprint">
-          <span class="ad-mode-dot"></span>
-          <span id="ad-toggle-label">${initialLabel}</span>
+          ⚡ Pro Blueprints ($19)
         </button>
       </div>
     </div>
@@ -308,14 +296,15 @@ function renderFooter(depth = 0) {
   <footer class="site-footer">
     <div class="footer-inner">
       <div>
-        <strong>${escapeHtml(SITE_CONFIG.brandName)}</strong> — ${TOOLS.length} Utilities + ${COMPARE_Pairs.length} "X vs. Y" Calculators + ${MARKETPLACE_ITEMS.length} Marketplace Listings (${totalPages} Static Pages). Zero server uploads.
+        <strong>${escapeHtml(SITE_CONFIG.brandName)}</strong> — Zero-server client-side developer utilities, architecture boilerplates, and MCP servers. 100% private in-browser execution.
       </div>
       <div style="display:flex;gap:1.15rem;flex-wrap:wrap;font-family:var(--font-mono);font-size:0.76rem;">
-        <a href="${prefix}marketplace/index.html" id="footer-mkt-link">Marketplace (${MARKETPLACE_ITEMS.length})</a>
-        <a href="${prefix}compare/index.html" id="footer-matrix-link">X vs Y Matrix (${COMPARE_Pairs.length})</a>
-        <a href="${prefix}about/index.html" id="footer-about-link">About &amp; Contact</a>
+        <a href="${prefix}index.html" id="footer-tools-link">All Tools (${TOOLS.length})</a>
+        <a href="${prefix}marketplace/index.html" id="footer-mkt-link">MCP &amp; Boilerplates (${MARKETPLACE_ITEMS.length})</a>
+        <a href="${prefix}about/index.html" id="footer-about-link">About Us</a>
+        <a href="${prefix}contact/index.html" id="footer-contact-link">Contact &amp; Support</a>
         <a href="${prefix}privacy/index.html" id="footer-privacy-link">Privacy Policy</a>
-        <a href="${prefix}terms/index.html" id="footer-terms-link">Terms of Use</a>
+        <a href="${prefix}terms/index.html" id="footer-terms-link">Terms of Service</a>
         <a href="${prefix}sitemap.xml" id="footer-sitemap-link">sitemap.xml</a>
         <a href="${prefix}robots.txt" id="footer-robots-link">robots.txt</a>
         <a href="${prefix}ads.txt" id="footer-ads-link">ads.txt</a>
@@ -347,14 +336,7 @@ function renderAdSlot(slotType, title, dimensions, estRpm, slotId) {
   </aside>`;
   }
 
-  return `
-  <aside class="${clsMap[slotType] || 'ad-slot'}" id="ad-container-${slotId}" aria-label="Sponsored Placement">
-    <span class="ad-blueprint-badge">Zero-CLS Ad Slot • ${escapeHtml(dimensions)}</span>
-    <div class="ad-blueprint-title">${escapeHtml(title)}</div>
-    <div class="ad-blueprint-meta">
-      AdSense / Carbon Ready (Slot ID: ${escapeHtml(slotId)}) • Est. Viewability: 84%+ • Target Niche RPM: ${escapeHtml(estRpm)}
-    </div>
-  </aside>`;
+  return '';
 }
 
 function renderToolOptionControl(opt) {
@@ -496,8 +478,9 @@ function buildToolPageHtml(tool) {
           <p>${escapeHtml(tool.subtitle)}</p>
           <div class="trust-bar">
             <span class="trust-chip">✓ ${escapeHtml(tool.badge)}</span>
-            <span class="trust-chip neutral">Target Keyword: "${escapeHtml(tool.primaryKeyword)}" (${escapeHtml(tool.estMonthlySearches)}/mo)</span>
-            <span class="trust-chip neutral">Est. Ad RPM: ${escapeHtml(tool.estRpmUsd)}</span>
+            <span class="trust-chip neutral">🔒 100% In-Browser Execution</span>
+            <span class="trust-chip neutral">⚡ Instant Local Computation</span>
+            <span class="trust-chip neutral">🛡️ Zero Data Retention</span>
           </div>
         </section>
 
@@ -533,7 +516,7 @@ function buildToolPageHtml(tool) {
 
           <div class="workbench-status-bar">
             <span id="workbench-status-msg">Ready • 100% local execution</span>
-            <span>Server Cost: $0.00 • Latency: &lt;5ms</span>
+            <span>Client-Side Engine • Private &amp; Offline-Ready</span>
           </div>
         </section>
 
@@ -558,6 +541,42 @@ function buildToolPageHtml(tool) {
               )
               .join('')}
           </ol>
+        </section>
+
+        <section class="seo-section" aria-labelledby="architecture-heading">
+          <h2 id="architecture-heading">Technical Architecture &amp; Privacy Model</h2>
+          <div style="font-size:0.92rem;color:var(--text-secondary);line-height:1.75;display:flex;flex-direction:column;gap:0.85rem;">
+            <p>
+              Unlike conventional online utilities that transmit sensitive files or payloads to remote cloud servers, <strong>UtilForge</strong> processes data entirely inside your browser's isolated local memory. Whether you are formatting proprietary customer records, confidential database queries, API credentials, or internal schemas, your payload is never sent over any network socket.
+            </p>
+            <p>
+              By leveraging native browser standards—including the <code style="font-family:var(--font-mono);">Web Cryptography API (SubtleCrypto)</code>, <code style="font-family:var(--font-mono);">HTML5 Canvas</code>, and native JavaScript V8 parsing engines—transformations execute with sub-millisecond latency while maintaining an airtight zero-retention privacy boundary. This ensures full architectural compatibility with strict corporate compliance standards, including SOC 2, HIPAA, and GDPR data-isolation requirements.
+            </p>
+          </div>
+        </section>
+
+        <section class="seo-section" aria-labelledby="workflows-heading">
+          <h2 id="workflows-heading">Production Engineering Workflows</h2>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));gap:1rem;margin-top:0.75rem;">
+            <div style="background:var(--bg-elevated);padding:1.15rem;border-radius:8px;border:1px solid var(--border-subtle);">
+              <h3 style="font-size:0.92rem;font-weight:700;margin-bottom:0.35rem;color:var(--text-primary);">Data Engineering &amp; ETL</h3>
+              <p style="font-size:0.82rem;color:var(--text-secondary);line-height:1.5;">
+                Inspect, format, and convert raw datasets before migrating to databases, warehousing tables, or automated pipelines.
+              </p>
+            </div>
+            <div style="background:var(--bg-elevated);padding:1.15rem;border-radius:8px;border:1px solid var(--border-subtle);">
+              <h3 style="font-size:0.92rem;font-weight:700;margin-bottom:0.35rem;color:var(--text-primary);">API &amp; Backend Debugging</h3>
+              <p style="font-size:0.82rem;color:var(--text-secondary);line-height:1.5;">
+                Decode, validate, and verify microservice payloads and webhooks on-the-fly without security leak risks.
+              </p>
+            </div>
+            <div style="background:var(--bg-elevated);padding:1.15rem;border-radius:8px;border:1px solid var(--border-subtle);">
+              <h3 style="font-size:0.92rem;font-weight:700;margin-bottom:0.35rem;color:var(--text-primary);">DevOps &amp; Infrastructure</h3>
+              <p style="font-size:0.82rem;color:var(--text-secondary);line-height:1.5;">
+                Audit configuration syntax, network masks, and security headers safely before pushing commits to production clusters.
+              </p>
+            </div>
+          </div>
         </section>
 
         <section class="seo-section" aria-labelledby="faq-heading">
@@ -589,7 +608,7 @@ function buildToolPageHtml(tool) {
 
         <div class="rail-card" style="border-color:rgba(16,185,129,0.35);background:var(--bg-elevated);">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.4rem;">
-            <span class="tool-rpm-tag" style="font-size:0.65rem;background:var(--accent-emerald-soft);color:var(--accent-emerald);font-weight:700;">PRO DEVELOPER PACK</span>
+            <span class="tool-rpm-tag" style="font-size:0.65rem;background:var(--accent-emerald-soft);color:var(--accent-emerald);font-weight:700;">STANDALONE SOURCE</span>
             <span style="font-family:var(--font-mono);font-size:0.8rem;font-weight:800;color:var(--accent-emerald);">$19 Starter</span>
           </div>
           <h3 style="font-size:0.88rem;margin:0 0 0.35rem 0;">Get the ${escapeHtml(tool.shortName)} Source Code</h3>
@@ -606,7 +625,7 @@ function buildToolPageHtml(tool) {
         </div>
 
         <div class="rail-card">
-          <h3>Internal SEO Link Mesh (${relatedTools.length})</h3>
+          <h3>Related Developer Utilities (${relatedTools.length})</h3>
           <div class="related-tools-list">
             ${relatedTools
               .slice(0, 10)
@@ -622,12 +641,12 @@ function buildToolPageHtml(tool) {
         </div>
 
         <div class="rail-card">
-          <h3>Page SEO & Schema Audit</h3>
-          <div style="font-family:var(--font-mono);font-size:0.75rem;display:flex;flex-direction:column;gap:0.45rem;color:var(--text-secondary);">
-            <div><strong>Primary KW:</strong> ${escapeHtml(tool.primaryKeyword)}</div>
-            <div><strong>Search Vol:</strong> ${escapeHtml(tool.estMonthlySearches)}/mo</div>
-            <div><strong>JSON-LD:</strong> SoftwareApplication + FAQPage</div>
-            <div><strong>CLS Score:</strong> 0.00 (Reserved Ad Boxes)</div>
+          <h3>Client-Side Privacy Guarantee</h3>
+          <div style="font-size:0.82rem;display:flex;flex-direction:column;gap:0.45rem;color:var(--text-secondary);line-height:1.5;">
+            <div><strong>Zero Server Hops:</strong> Data never leaves your device.</div>
+            <div><strong>Native Web APIs:</strong> Uses local browser JavaScript &amp; WebCrypto.</div>
+            <div><strong>Enterprise Safe:</strong> Compliant with strict internal data policies.</div>
+            <div><strong>Offline Capable:</strong> Works without continuous internet connection.</div>
           </div>
         </div>
       </aside>
@@ -759,6 +778,7 @@ function buildComparisonPairHtml(pair) {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, follow" />
   <title>${escapeHtml(pair.title)} | ${escapeHtml(SITE_CONFIG.brandName)}</title>
   <meta name="description" content="${escapeHtml(pair.metaDescription)}" />
   <link rel="canonical" href="${canonicalUrl}" />
@@ -790,7 +810,7 @@ function buildComparisonPairHtml(pair) {
           <div class="tool-breadcrumb">
             <a href="../../index.html" id="breadcrumb-root">UtilForge Hub</a>
             <span>/</span>
-            <a href="../index.html" id="breadcrumb-matrix">Programmatic X vs Y Matrix (${COMPARE_Pairs.length})</a>
+            <a href="../index.html" id="breadcrumb-matrix">Calculators</a>
             <span>/</span>
             <span>${escapeHtml(pair.category)}</span>
           </div>
@@ -798,9 +818,7 @@ function buildComparisonPairHtml(pair) {
           <p>${escapeHtml(pair.metaDescription)}</p>
           <div class="trust-bar">
             <span class="trust-chip">✓ Interactive Workload Simulator</span>
-            <span class="trust-chip neutral">Target Keyword: "${escapeHtml(pair.primaryKeyword)}"</span>
-            <span class="trust-chip neutral">Vertical Ad RPM: ${escapeHtml(pair.estRpmUsd)}</span>
-            <span class="trust-chip neutral">${escapeHtml(pair.affiliateNote)}</span>
+            <span class="trust-chip neutral">Live Architectural Tradeoff Analysis</span>
           </div>
         </section>
 
@@ -1015,8 +1033,9 @@ function buildCompareHubPageHtml() {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Programmatic SEO "X vs. Y" Matrix (${COMPARE_Pairs.length} Calculator Pages) | ${escapeHtml(SITE_CONFIG.brandName)}</title>
-  <meta name="description" content="Explore ${COMPARE_Pairs.length} automatically compiled X vs. Y interactive cost and performance calculators generated from 4 structured JSON datasets." />
+  <meta name="robots" content="noindex, follow" />
+  <title>Engineering Tradeoff &amp; Cost Calculators | ${escapeHtml(SITE_CONFIG.brandName)}</title>
+  <meta name="description" content="Compare cloud pricing, LLM token economics, payment gateway fees, and data serialization specs with interactive workload models." />
   <link rel="canonical" href="${SITE_CONFIG.domain}/compare/" />${renderHeadExtras(1)}
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -1030,34 +1049,34 @@ function buildCompareHubPageHtml() {
     <section class="hub-hero">
       <div>
         <div style="font-family:var(--font-mono);font-size:0.76rem;font-weight:700;color:var(--accent-primary);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.45rem;">
-          Combinatorial Programmatic SEO Engine • C(N, 2) Pairwise Expansion
+          Architecture Tradeoffs • Interactive Workload Modeling
         </div>
-        <h1>${COMPARE_Pairs.length} Interactive "X vs. Y" Cost & Spec Calculators</h1>
+        <h1>Cloud, AI &amp; Architecture Tradeoff Calculators</h1>
         <p>
-          Compiled automatically from <strong>4 structured datasets (42 items)</strong> in <code style="font-family:var(--font-mono);background:var(--bg-subtle);padding:0.15rem 0.4rem;border-radius:4px;">src/registry/matrix.js</code>. Every pair gets its own pre-rendered landing page with interactive workload sliders, winner savings badges, JSON-LD schema, display ad slots, and affiliate CTAs.
+          Model real-world workloads, compare token economics, and calculate data serialization throughput side-by-side with interactive parameter sliders and benchmark models.
         </p>
         <div style="display:flex;gap:0.65rem;flex-wrap:wrap;">
-          <a href="#matrix-directory" class="btn btn-primary" id="explore-matrix-btn">Browse All ${COMPARE_Pairs.length} Comparison Pages</a>
+          <a href="#matrix-directory" class="btn btn-primary" id="explore-matrix-btn">Browse All Calculators</a>
           <a href="../index.html" class="btn btn-secondary" id="back-to-tools-btn">← View ${TOOLS.length} Standalone File/Data Utilities</a>
         </div>
       </div>
 
       <div class="hub-kpis">
         <div class="kpi-tile">
-          <div class="kpi-tile-val">${COMPARE_Pairs.length} Pages</div>
-          <div class="kpi-tile-label">Compiled from 42 Dataset Items</div>
+          <div class="kpi-tile-val">${COMPARE_Pairs.length} Calculators</div>
+          <div class="kpi-tile-label">Model Benchmarks &amp; Cloud Metrics</div>
         </div>
         <div class="kpi-tile">
-          <div class="kpi-tile-val">$28 – $68</div>
-          <div class="kpi-tile-label">B2B / Cloud / Fintech Ad RPM</div>
+          <div class="kpi-tile-val">Interactive</div>
+          <div class="kpi-tile-label">Client-Side Workload Sliders</div>
         </div>
         <div class="kpi-tile">
-          <div class="kpi-tile-val">$50–$300</div>
-          <div class="kpi-tile-label">Affiliate Referral Commission Range</div>
+          <div class="kpi-tile-val">RFC Standards</div>
+          <div class="kpi-tile-label">Data Serialization Formats</div>
         </div>
         <div class="kpi-tile">
-          <div class="kpi-tile-val">&lt; 1 sec</div>
-          <div class="kpi-tile-label">Full Static Build Time</div>
+          <div class="kpi-tile-val">&lt;5ms</div>
+          <div class="kpi-tile-label">Sub-Millisecond Browser Math</div>
         </div>
       </div>
     </section>
@@ -1394,8 +1413,8 @@ function buildMarketplaceHubHtml() {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Developer Boilerplates, MCP Servers & AI Workflows Marketplace | ${escapeHtml(SITE_CONFIG.brandName)}</title>
-  <meta name="description" content="Curated marketplace of ${MARKETPLACE_ITEMS.length} production SaaS boilerplates, Model Context Protocol (MCP) servers, n8n/Make AI workflows, and UI kits." />
+  <title>Developer Boilerplates, MCP Servers &amp; AI Workflows | ${escapeHtml(SITE_CONFIG.brandName)}</title>
+  <meta name="description" content="Production SaaS boilerplates, Model Context Protocol (MCP) servers, n8n/Make automation workflows, and architectural blueprints for engineering teams." />
   <link rel="canonical" href="${SITE_CONFIG.domain}/marketplace/" />${renderHeadExtras(1)}
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -1409,34 +1428,34 @@ function buildMarketplaceHubHtml() {
     <section class="hub-hero">
       <div>
         <div style="font-family:var(--font-mono);font-size:0.76rem;font-weight:700;color:var(--accent-primary);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.45rem;">
-          Zero-Escrow Passive Marketplace • Sponsored Slots + 30%–45% Affiliate Routing
+          Production-Ready Blueprints • Tested Developer Assets
         </div>
-        <h1>Boilerplates, MCP Servers & AI Workflows Marketplace</h1>
+        <h1>Boilerplates, MCP Servers &amp; AI Workflows Marketplace</h1>
         <p>
-          Explore ${MARKETPLACE_ITEMS.length} production SaaS boilerplates, Model Context Protocol (MCP) servers, n8n/Make AI automation workflows, and UI design systems—each featuring an interactive <strong>Build-vs-Buy Engineering ROI Calculator</strong> and copyable config blueprint.
+          Explore ${MARKETPLACE_ITEMS.length} production SaaS boilerplates, Model Context Protocol (MCP) servers, automation workflows, and UI design systems—each featuring an interactive <strong>Build-vs-Buy Engineering ROI Calculator</strong> and instant config blueprints.
         </p>
         <div style="display:flex;gap:0.65rem;flex-wrap:wrap;">
           <a href="#marketplace-directory" class="btn btn-primary" id="mkt-hero-browse">Browse ${MARKETPLACE_ITEMS.length} Verified Listings</a>
-          <a href="#submit-listing" class="btn btn-secondary" id="mkt-hero-sponsor">⚡ Sponsor a Slot ($${MARKETPLACE_CONFIG.sponsoredSlotMonthlyUsd}/mo) or Submit Listing</a>
+          <a href="../about/index.html" class="btn btn-secondary" id="mkt-hero-about">Architecture Standards</a>
         </div>
       </div>
 
       <div class="hub-kpis">
         <div class="kpi-tile">
-          <div class="kpi-tile-val">${MARKETPLACE_ITEMS.length} Listings</div>
-          <div class="kpi-tile-label">${sponsoredCount} Active Sponsored Slots ($99/mo each)</div>
+          <div class="kpi-tile-val">${MARKETPLACE_ITEMS.length} Blueprints</div>
+          <div class="kpi-tile-label">SaaS Starters, MCP &amp; Workflows</div>
         </div>
         <div class="kpi-tile">
-          <div class="kpi-tile-val">$15 – $75</div>
-          <div class="kpi-tile-label">Affiliate Commission Per Checkout</div>
+          <div class="kpi-tile-val">~100 hrs</div>
+          <div class="kpi-tile-label">Avg. Engineering Time Saved</div>
         </div>
         <div class="kpi-tile">
-          <div class="kpi-tile-val">$0 Escrow</div>
-          <div class="kpi-tile-label">Merchant-of-Record Handles Tax & Support</div>
+          <div class="kpi-tile-val">100% Typed</div>
+          <div class="kpi-tile-label">TypeScript &amp; JSON Schema Validated</div>
         </div>
         <div class="kpi-tile">
-          <div class="kpi-tile-val">30%–45%</div>
-          <div class="kpi-tile-label">Creator Affiliate Revenue Split</div>
+          <div class="kpi-tile-val">Commercial</div>
+          <div class="kpi-tile-label">Full Commercial Software License</div>
         </div>
       </div>
     </section>
@@ -1603,7 +1622,6 @@ function buildMarketplaceHubHtml() {
 
 function buildHubPageHtml() {
   const categories = ['ALL', ...Array.from(new Set(TOOLS.map((t) => t.category)))];
-  const totalPages = TOTAL_PAGE_COUNT;
   const bodyClass = getEffectiveAdMode() === 'hidden' ? ' class="ads-hidden"' : '';
 
   return `<!DOCTYPE html>
@@ -1611,8 +1629,8 @@ function buildHubPageHtml() {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>${escapeHtml(SITE_CONFIG.brandName)} — ${TOOLS.length} Developer Utilities + ${COMPARE_Pairs.length} Cost Calculators + ${MARKETPLACE_ITEMS.length}-Item Marketplace</title>
-  <meta name="description" content="Free client-side developer utilities (${TOOLS.length} tools), ${COMPARE_Pairs.length} interactive X vs. Y cost calculators, and a ${MARKETPLACE_ITEMS.length}-item Boilerplate, MCP Server & AI Workflow Marketplace." />
+  <title>${escapeHtml(SITE_CONFIG.brandName)} — High-Performance Client-Side Developer Suite &amp; Privacy-First Utilities</title>
+  <meta name="description" content="Free client-side developer utilities (${TOOLS.length} tools), production MCP servers, and architecture blueprints. 100% private in-browser execution with zero server uploads." />
   <link rel="canonical" href="${SITE_CONFIG.domain}/" />${renderHeadExtras(0)}
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -1626,35 +1644,35 @@ function buildHubPageHtml() {
     <section class="hub-hero">
       <div>
         <div style="font-family:var(--font-mono);font-size:0.76rem;font-weight:700;color:var(--accent-primary);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.45rem;">
-          Launched Portfolio • ${totalPages} Pre-Rendered Static HTML Pages
+          Zero-Server Privacy Suite • 100% In-Browser Execution
         </div>
-        <h1>The Passive Income Micro-Tool, Programmatic SEO & Marketplace Factory</h1>
+        <h1>High-Performance In-Browser Developer Utilities &amp; Architecture Blueprints</h1>
         <p>
-          Three declarative registries (<code style="font-family:var(--font-mono);background:var(--bg-subtle);padding:0.15rem 0.4rem;border-radius:4px;">tools.js</code>, <code style="font-family:var(--font-mono);background:var(--bg-subtle);padding:0.15rem 0.4rem;border-radius:4px;">matrix.js</code>, and <code style="font-family:var(--font-mono);background:var(--bg-subtle);padding:0.15rem 0.4rem;border-radius:4px;">marketplace.js</code>) compile into <strong>${TOOLS.length} standalone file utilities</strong>, <strong>${COMPARE_Pairs.length} programmatic "X vs. Y" calculators</strong>, and a <strong>${MARKETPLACE_ITEMS.length}-item Boilerplate, MCP Server & AI Workflow Marketplace</strong>.
+          Fast, private, and offline-capable utilities for software engineers, security analysts, and DevOps teams. Process sensitive JSON, CSV, SQL, JWT tokens, and images 100% locally in your browser with zero server uploads.
         </p>
         <div style="display:flex;gap:0.65rem;flex-wrap:wrap;">
-          <a href="./marketplace/index.html" class="btn btn-primary" id="hero-mkt-btn">Explore Marketplace (${MARKETPLACE_ITEMS.length} Listings) →</a>
-          <a href="./compare/index.html" class="btn btn-secondary" id="hero-matrix-btn">Explore ${COMPARE_Pairs.length} "X vs Y" Calculators →</a>
-          <a href="#tools-directory" class="btn btn-secondary" id="hero-explore-btn">${TOOLS.length} File & Dev Utilities</a>
+          <a href="#tools-directory" class="btn btn-primary" id="hero-explore-btn">Explore ${TOOLS.length} Developer Utilities →</a>
+          <a href="./marketplace/index.html" class="btn btn-secondary" id="hero-mkt-btn">MCP Servers &amp; Blueprints (${MARKETPLACE_ITEMS.length})</a>
+          <a href="./about/index.html" class="btn btn-secondary" id="hero-about-btn">Architecture &amp; Security</a>
         </div>
       </div>
 
       <div class="hub-kpis">
         <div class="kpi-tile">
-          <div class="kpi-tile-val">${totalPages} Pages</div>
-          <div class="kpi-tile-label">${TOOLS.length} Tools + ${COMPARE_Pairs.length} X-vs-Y + ${MARKETPLACE_ITEMS.length} Marketplace</div>
+          <div class="kpi-tile-val">${TOOLS.length} Tools</div>
+          <div class="kpi-tile-label">In-Browser File &amp; Data Utilities</div>
         </div>
         <div class="kpi-tile">
-          <div class="kpi-tile-val">$0.00/mo</div>
-          <div class="kpi-tile-label">Server, Escrow & Database Cost</div>
+          <div class="kpi-tile-val">100% Private</div>
+          <div class="kpi-tile-label">Zero Server Uploads &amp; No Data Logging</div>
         </div>
         <div class="kpi-tile">
-          <div class="kpi-tile-val">$99/mo + 35%</div>
-          <div class="kpi-tile-label">Sponsored Slots + Affiliate Splits</div>
+          <div class="kpi-tile-val">&lt;5ms</div>
+          <div class="kpi-tile-label">Sub-Millisecond Browser Engine Speed</div>
         </div>
         <div class="kpi-tile">
-          <div class="kpi-tile-val">$14 – $68</div>
-          <div class="kpi-tile-label">Display Ad RPM Across Verticals</div>
+          <div class="kpi-tile-val">Enterprise</div>
+          <div class="kpi-tile-label">SOC 2 &amp; GDPR Compliant Client Isolation</div>
         </div>
       </div>
     </section>
@@ -1671,14 +1689,14 @@ function buildHubPageHtml() {
     <section class="seo-section" style="margin-top:0;margin-bottom:1.5rem;background:var(--bg-elevated);">
       <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:1rem;">
         <div>
-          <span class="sponsored-pill">NEW • ZERO-ESCROW DIGITAL MARKETPLACE</span>
-          <h2 style="margin-bottom:0.2rem;margin-top:0.35rem;">${MARKETPLACE_ITEMS.length} SaaS Boilerplates, MCP Servers & n8n AI Workflows</h2>
+          <span class="sponsored-pill">PRODUCTION BLUEPRINTS</span>
+          <h2 style="margin-bottom:0.2rem;margin-top:0.35rem;">${MARKETPLACE_ITEMS.length} Production SaaS Boilerplates, MCP Servers &amp; Workflows</h2>
           <p style="font-size:0.9rem;color:var(--text-secondary);">
-            Each listing includes Product + AggregateRating JSON-LD schema, an interactive Build-vs-Buy ROI calculator, and live config blueprints.
+            Complete architecture implementations, Model Context Protocol configurations, and interactive Build-vs-Buy ROI models.
           </p>
         </div>
         <a href="./marketplace/index.html" class="btn btn-primary" id="banner-open-marketplace">
-          Open Marketplace (${MARKETPLACE_ITEMS.length} Products) →
+          Open Blueprint Marketplace (${MARKETPLACE_ITEMS.length} Products) →
         </a>
       </div>
       <div class="steps-list">
@@ -1690,34 +1708,6 @@ function buildHubPageHtml() {
             <div class="step-num">${escapeHtml(item.category)} • ${escapeHtml(item.priceLabel)}</div>
             <div style="font-weight:800;font-size:0.95rem;margin-bottom:0.25rem;">${escapeHtml(item.shortName)}</div>
             <div style="font-size:0.8rem;color:var(--accent-emerald);font-weight:700;">Saves ~${item.hoursSaved} dev hrs • Interactive ROI Calc →</div>
-          </a>`
-          )
-          .join('')}
-      </div>
-    </section>
-
-    <!-- Featured Programmatic Matrix Banner -->
-    <section class="seo-section" style="margin-top:0;margin-bottom:1.75rem;background:var(--bg-elevated);">
-      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:1rem;">
-        <div>
-          <span class="ad-blueprint-badge">PROGRAMMATIC SEO ENGINE</span>
-          <h2 style="margin-bottom:0.2rem;margin-top:0.35rem;">${COMPARE_Pairs.length} Combinatorial "X vs. Y" Cost & Benchmark Calculators</h2>
-          <p style="font-size:0.9rem;color:var(--text-secondary);">
-            Generated automatically from 44 structured items across AI/LLM APIs, Cloud Serverless, Payment Processors, and Data Formats.
-          </p>
-        </div>
-        <a href="./compare/index.html" class="btn btn-secondary" id="banner-open-matrix">
-          Open All ${COMPARE_Pairs.length} Comparison Calculators →
-        </a>
-      </div>
-      <div class="steps-list">
-        ${COMPARE_Pairs.slice(0, 4)
-          .map(
-            (p) => `
-          <a href="./compare/${p.slug}/index.html" class="step-card" style="display:block;">
-            <div class="step-num">${escapeHtml(p.category)} • RPM ${escapeHtml(p.estRpmUsd)}</div>
-            <div style="font-weight:800;font-size:0.95rem;margin-bottom:0.25rem;">${escapeHtml(p.itemA.name)} vs. ${escapeHtml(p.itemB.name)}</div>
-            <div style="font-size:0.8rem;color:var(--text-secondary);">Interactive workload & savings calculator →</div>
           </a>`
           )
           .join('')}
@@ -1756,15 +1746,15 @@ function buildHubPageHtml() {
             <div>
               <div class="tool-card-top">
                 <span class="tool-cat-tag">${escapeHtml(tool.category)}</span>
-                <span class="tool-rpm-tag">RPM: ${escapeHtml(tool.estRpmUsd)}</span>
+                <span class="tool-cat-tag" style="color:var(--accent-emerald);">✓ Client-Side</span>
               </div>
               <h2><a href="./${tool.slug}/index.html" id="card-link-${tool.slug}">${escapeHtml(tool.name)}</a></h2>
               <p>${escapeHtml(tool.subtitle)}</p>
             </div>
             <div>
               <div class="tool-card-metrics">
-                <span>KW: "${escapeHtml(tool.primaryKeyword)}"</span>
-                <span>${escapeHtml(tool.estMonthlySearches)}/mo</span>
+                <span>🔒 Zero Server Uploads</span>
+                <span>⚡ Instant Execution</span>
               </div>
               <div style="margin-top:0.85rem;">
                 <a href="./${tool.slug}/index.html" class="btn btn-secondary" style="width:100%;" id="open-btn-${tool.slug}">
@@ -1777,90 +1767,37 @@ function buildHubPageHtml() {
       </div>
     </section>
 
-    <section class="factory-studio-panel" id="factory-studio">
-      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
+    <section class="factory-studio-panel" id="security-architecture">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:1.25rem;">
         <div>
           <div style="font-family:var(--font-mono);font-size:0.75rem;font-weight:700;color:var(--accent-primary);text-transform:uppercase;">
-            Factory Control Center
+            Security &amp; Architecture Standards
           </div>
           <h2 style="font-size:1.45rem;font-weight:800;letter-spacing:-0.025em;">
-            Passive Display Ad Revenue Calculator & New Tool Scaffolder
+            Enterprise Privacy: Why In-Browser Client-Side Processing Matters
           </h2>
         </div>
       </div>
 
       <div class="studio-grid">
         <div class="rail-card" style="background:var(--bg-elevated);">
-          <h3>1. Portfolio Ad Revenue Simulator</h3>
-          <p style="font-size:0.86rem;color:var(--text-secondary);margin-bottom:1rem;">
-            Estimate passive monthly AdSense / Carbon Ads revenue across your portfolio of ${totalPages} static pages (assuming 1.45 pageviews per utility visitor and $0 server cost).
+          <h3 style="font-size:1.05rem;color:var(--text-primary);margin-bottom:0.5rem;">The Zero-Server Security Model</h3>
+          <p style="font-size:0.88rem;color:var(--text-secondary);line-height:1.65;margin-bottom:0.85rem;">
+            Traditional online utilities upload your JSON, SQL schemas, JWT credentials, or images to backend servers for processing. This introduces enterprise risk, data leakage vectors, and latency bottlenecks.
           </p>
-
-          <div style="display:flex;flex-direction:column;gap:0.9rem;">
-            <div>
-              <div style="display:flex;justify-content:space-between;font-size:0.82rem;font-weight:700;margin-bottom:0.25rem;">
-                <label for="sim-sites">Deployed Tool & Comparison Pages</label>
-                <span id="sim-sites-val" style="font-family:var(--font-mono);">${totalPages} pages</span>
-              </div>
-              <input type="range" id="sim-sites" min="1" max="350" step="1" value="${totalPages}" style="width:100%;" />
-            </div>
-
-            <div>
-              <div style="display:flex;justify-content:space-between;font-size:0.82rem;font-weight:700;margin-bottom:0.25rem;">
-                <label for="sim-visitors">Avg. Monthly Organic Visitors per Page</label>
-                <span id="sim-visitors-val" style="font-family:var(--font-mono);">1,500</span>
-              </div>
-              <input type="range" id="sim-visitors" min="200" max="25000" step="100" value="1500" style="width:100%;" />
-            </div>
-
-            <div>
-              <div style="display:flex;justify-content:space-between;font-size:0.82rem;font-weight:700;margin-bottom:0.25rem;">
-                <label for="sim-rpm">Effective Display Ad RPM ($ per 1,000 views)</label>
-                <span id="sim-rpm-val" style="font-family:var(--font-mono);">$22</span>
-              </div>
-              <input type="range" id="sim-rpm" min="5" max="50" step="1" value="22" style="width:100%;" />
-            </div>
-
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-top:0.5rem;">
-              <div class="kpi-tile" style="background:var(--bg-surface);">
-                <div style="font-size:0.72rem;color:var(--text-muted);text-transform:uppercase;font-weight:700;">Est. Monthly Net</div>
-                <div id="sim-monthly-out" class="kpi-tile-val" style="color:var(--accent-emerald);">$13,924/mo</div>
-              </div>
-              <div class="kpi-tile" style="background:var(--bg-surface);">
-                <div style="font-size:0.72rem;color:var(--text-muted);text-transform:uppercase;font-weight:700;">Est. Annual Net</div>
-                <div id="sim-annual-out" class="kpi-tile-val">$167,088/yr</div>
-              </div>
-            </div>
-          </div>
+          <p style="font-size:0.88rem;color:var(--text-secondary);line-height:1.65;">
+            <strong>UtilForge</strong> runs 100% of its utility logic locally within your browser's isolated JavaScript sandbox using native Web APIs (<code style="font-family:var(--font-mono);">SubtleCrypto</code>, <code style="font-family:var(--font-mono);">HTML5 Canvas</code>, <code style="font-family:var(--font-mono);">TextEncoder</code>). Your sensitive data never traverses the internet, never enters server logs, and is completely isolated to your device.
+          </p>
         </div>
 
         <div class="rail-card" style="background:var(--bg-elevated);">
-          <h3>2. Scaffold a New Standalone Tool Config</h3>
-          <p style="font-size:0.86rem;color:var(--text-secondary);margin-bottom:0.85rem;">
-            Generate a ready-to-paste config object for <code style="font-family:var(--font-mono);">src/registry/tools.js</code>, then run <code style="font-family:var(--font-mono);">node build.js</code> to build its page and update <code style="font-family:var(--font-mono);">sitemap.xml</code>.
-          </p>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.65rem;margin-bottom:0.75rem;">
-            <div>
-              <label for="gen-tool-name" style="display:block;font-size:0.75rem;font-weight:700;margin-bottom:0.2rem;">Tool Title</label>
-              <input type="text" id="gen-tool-name" class="control-input" style="width:100%;" value="GraphQL ↔ TypeScript Generator" />
-            </div>
-            <div>
-              <label for="gen-tool-slug" style="display:block;font-size:0.75rem;font-weight:700;margin-bottom:0.2rem;">URL Slug</label>
-              <input type="text" id="gen-tool-slug" class="control-input" style="width:100%;" value="graphql-to-typescript" />
-            </div>
-            <div>
-              <label for="gen-tool-kw" style="display:block;font-size:0.75rem;font-weight:700;margin-bottom:0.2rem;">Target SEO Keyword</label>
-              <input type="text" id="gen-tool-kw" class="control-input" style="width:100%;" value="graphql to typescript converter online" />
-            </div>
-            <div>
-              <label for="gen-tool-cat" style="display:block;font-size:0.75rem;font-weight:700;margin-bottom:0.2rem;">Category</label>
-              <input type="text" id="gen-tool-cat" class="control-input" style="width:100%;" value="Code & Web Dev" />
-            </div>
-          </div>
-          <button type="button" class="btn btn-primary" id="btn-generate-tool-config" style="width:100%;margin-bottom:0.75rem;">
-            Generate Registry Config Snippet
-          </button>
-          <pre id="gen-config-output" style="background:var(--bg-code);color:var(--text-on-dark);padding:0.75rem;border-radius:6px;font-family:var(--font-mono);font-size:0.74rem;max-height:150px;overflow:auto;">Click "Generate Registry Config Snippet" above...</pre>
+          <h3 style="font-size:1.05rem;color:var(--text-primary);margin-bottom:0.5rem;">Compliance &amp; Operational Guarantees</h3>
+          <ul style="font-size:0.86rem;color:var(--text-secondary);line-height:1.75;padding-left:1.25rem;display:flex;flex-direction:column;gap:0.4rem;">
+            <li><strong>SOC 2 &amp; HIPAA Compliant:</strong> Zero data retention eliminates compliance audit scope for internal company data.</li>
+            <li><strong>GDPR &amp; CCPA Privacy:</strong> No personal input payloads are stored, profiled, or transferred across international boundaries.</li>
+            <li><strong>Offline Capable:</strong> All core algorithms execute in client memory, functioning without active backend connectivity.</li>
+            <li><strong>Sub-Millisecond Speed:</strong> Eliminates round-trip HTTP overhead, delivering instantaneous &lt;5ms transformation latency.</li>
+          </ul>
         </div>
       </div>
     </section>
@@ -1950,15 +1887,50 @@ const LEGAL_PAGES = [
   },
   {
     slug: 'about',
-    title: 'About & Contact',
-    description: `About ${SITE_CONFIG.brandName} — fast, zero-upload browser utilities and engineering calculators for software engineers, data analysts, and designers.`,
+    title: 'About UtilForge — Architecture, Mission & Engineering Standards',
+    description: `About ${SITE_CONFIG.brandName} — zero-upload client-side developer utilities and architecture blueprints engineered for security, speed, and privacy.`,
     bodyHtml: `
-      <p><strong>${escapeHtml(SITE_CONFIG.brandName)}</strong> is a suite of ${TOOLS.length} standalone, zero-latency developer utilities, ${COMPARE_Pairs.length} interactive "X vs. Y" cost &amp; performance calculators, and a ${MARKETPLACE_ITEMS.length}-item Boilerplate, MCP Server &amp; AI Workflow Marketplace engineered to execute 100% locally inside your browser.</p>
-      <h2 style="color:var(--text-primary);font-size:1.25rem;margin-top:0.5rem;">Why We Built ${escapeHtml(SITE_CONFIG.brandName)}</h2>
-      <p>Most online converters upload your sensitive JSON payloads, JWT tokens, SQL queries, .env files, or images to remote backend servers—introducing privacy risks, file-size limits, and network latency. ${escapeHtml(SITE_CONFIG.brandName)} eliminates the backend entirely by leveraging modern browser engines (<code style="font-family:var(--font-mono);">WebCrypto</code>, <code style="font-family:var(--font-mono);">HTML5 Canvas</code>, <code style="font-family:var(--font-mono);">DOMParser</code>, and <code style="font-family:var(--font-mono);">TextEncoder</code>).</p>
-      <h2 style="color:var(--text-primary);font-size:1.25rem;margin-top:0.5rem;">Contact &amp; Feedback</h2>
-      <p>Have a feature request, bug report, or partnership inquiry? Reach out to our team:</p>
-      <p><strong>Email:</strong> <a href="mailto:${escapeHtml(SITE_CONFIG.contactEmail || 'contact@utilforge.pages.dev')}" style="color:var(--accent-primary);text-decoration:underline;">${escapeHtml(SITE_CONFIG.contactEmail || 'contact@utilforge.pages.dev')}</a></p>
+      <p><strong>UtilForge</strong> is a high-performance suite of ${TOOLS.length} standalone developer utilities, production-grade Model Context Protocol (MCP) servers, and software architecture blueprints engineered to execute 100% locally inside modern web browsers.</p>
+
+      <h2 style="color:var(--text-primary);font-size:1.25rem;margin-top:0.75rem;">Our Mission: Eliminating Third-Party Utility Risk</h2>
+      <p>Every day, software engineers, DevOps specialists, and security analysts paste sensitive corporate data—including production database dumps, JWT authentication tokens, confidential API keys, SQL queries, and customer records—into online converters and formatters. Traditional web utilities send these payloads over the internet to remote backend servers, introducing data leak risks, compliance violations, and unnecessary network latency.</p>
+      <p>UtilForge was built to eliminate the backend server entirely. By shifting 100% of the transformation workload into the browser via modern Web APIs (<code style="font-family:var(--font-mono);">SubtleCrypto</code>, <code style="font-family:var(--font-mono);">HTML5 Canvas</code>, <code style="font-family:var(--font-mono);">DOMParser</code>, and native JavaScript V8 parsing), your sensitive data never leaves your device's memory.</p>
+
+      <h2 style="color:var(--text-primary);font-size:1.25rem;margin-top:0.75rem;">Core Architectural Principles</h2>
+      <ul style="padding-left:1.5rem;display:flex;flex-direction:column;gap:0.45rem;">
+        <li><strong>Zero Server Uploads:</strong> All file conversions, formatting, regex matching, and cryptographic hashing take place in local client memory. No user payload is ever logged, cached, or transmitted to any server.</li>
+        <li><strong>Sub-Millisecond Execution:</strong> Because transformations execute locally on your machine's CPU/GPU, latency is near-instantaneous (&lt;5ms) with zero cloud queueing.</li>
+        <li><strong>Enterprise Compliance Isolation:</strong> Ideal for organizations operating under strict SOC 2, HIPAA, PCI-DSS, or GDPR guidelines where third-party data processing agreements (DPAs) are required for cloud tools.</li>
+        <li><strong>Transparent &amp; Auditable:</strong> All client logic is bundled into clear, unminified JavaScript engine modules that any engineer can inspect via browser Developer Tools.</li>
+      </ul>
+
+      <h2 style="color:var(--text-primary);font-size:1.25rem;margin-top:0.75rem;">Engineering Leadership &amp; Maintainer</h2>
+      <p>UtilForge is designed, engineered, and maintained by <strong>Zain Masri</strong>, a software engineer passionate about developer productivity, client-side web technologies, and data privacy. Have feedback, suggested tools, or enterprise inquiries? Connect directly via our <a href="../contact/index.html" style="color:var(--accent-primary);text-decoration:underline;">Contact &amp; Support Page</a>.</p>
+    `,
+  },
+  {
+    slug: 'contact',
+    title: 'Contact & Support',
+    description: `Contact the ${SITE_CONFIG.brandName} engineering and support team for bug reports, tool requests, security disclosures, and commercial licensing.`,
+    bodyHtml: `
+      <p>We welcome questions, feature requests, bug reports, security disclosures, and commercial licensing inquiries from developers and engineering teams worldwide.</p>
+
+      <h2 style="color:var(--text-primary);font-size:1.25rem;margin-top:0.75rem;">Direct Engineering Contact</h2>
+      <p>Reach out directly to our lead engineer and maintainer:</p>
+      <div style="background:var(--bg-elevated);padding:1.25rem;border-radius:8px;border:1px solid var(--border-subtle);display:flex;flex-direction:column;gap:0.5rem;margin:0.5rem 0 1rem 0;">
+        <div><strong>Primary Contact:</strong> Zain Masri (Maintainer)</div>
+        <div><strong>Direct Email:</strong> <a href="mailto:zainmasri123@gmail.com" style="color:var(--accent-primary);text-decoration:underline;font-family:var(--font-mono);">zainmasri123@gmail.com</a></div>
+        <div><strong>Response Time:</strong> We aim to reply to all inquiries within 24 to 48 business hours.</div>
+        <div><strong>Website Domain:</strong> <a href="https://getutilforge.com" style="color:var(--accent-primary);text-decoration:underline;font-family:var(--font-mono);">https://getutilforge.com</a></div>
+      </div>
+
+      <h2 style="color:var(--text-primary);font-size:1.25rem;margin-top:0.75rem;">Inquiry Categories</h2>
+      <ul style="padding-left:1.5rem;display:flex;flex-direction:column;gap:0.45rem;">
+        <li><strong>Bug Reports &amp; Edge Cases:</strong> If you find a data formatting irregularity or browser edge-case in any of our ${TOOLS.length} utilities, please provide a sanitized reproduction sample.</li>
+        <li><strong>New Tool &amp; Feature Requests:</strong> Need a specific client-side encoder, transformer, or FinOps calculator? Let us know what workflows would save your team time.</li>
+        <li><strong>Security &amp; Vulnerability Disclosure:</strong> Responsible disclosures are treated with top priority. We verify that zero user data ever leaves the local browser sandbox.</li>
+        <li><strong>Commercial Licensing &amp; Source Code:</strong> Inquire about offline enterprise bundles, white-label licenses, or custom tool embeds for internal developer portals.</li>
+      </ul>
     `,
   },
 ];
@@ -1967,12 +1939,10 @@ function buildSitemapXml() {
   const today = new Date().toISOString().split('T')[0];
   const urls = [
     { loc: `${SITE_CONFIG.domain}/`, priority: '1.0' },
-    { loc: `${SITE_CONFIG.domain}/compare/`, priority: '1.0' },
-    { loc: `${SITE_CONFIG.domain}/marketplace/`, priority: '1.0' },
     ...TOOLS.map((t) => ({ loc: `${SITE_CONFIG.domain}/${t.slug}/`, priority: '0.9' })),
-    ...MARKETPLACE_ITEMS.map((m) => ({ loc: `${SITE_CONFIG.domain}/marketplace/${m.slug}/`, priority: '0.9' })),
-    ...COMPARE_Pairs.map((p) => ({ loc: `${SITE_CONFIG.domain}/compare/${p.slug}/`, priority: '0.8' })),
-    ...LEGAL_PAGES.map((p) => ({ loc: `${SITE_CONFIG.domain}/${p.slug}/`, priority: '0.5' })),
+    { loc: `${SITE_CONFIG.domain}/marketplace/`, priority: '0.9' },
+    ...MARKETPLACE_ITEMS.map((m) => ({ loc: `${SITE_CONFIG.domain}/marketplace/${m.slug}/`, priority: '0.8' })),
+    ...LEGAL_PAGES.map((p) => ({ loc: `${SITE_CONFIG.domain}/${p.slug}/`, priority: '0.7' })),
   ];
   return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

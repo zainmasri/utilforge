@@ -1007,7 +1007,7 @@ export const TOOLS = [
         value: true,
       },
     ],
-    sampleInput: 'How to Build a Portfolio of Zero-Maintenance Passive Income Web Tools in 2026!',
+    sampleInput: 'Building High-Performance Client-Side Web Utilities and Developer Tools in 2026!',
     howToSteps: [
       'Paste your headline, variable name, or article paragraph into the input editor.',
       'Toggle SEO stop-word stripping ("a", "the", "in", "of") for concise URL slugs.',

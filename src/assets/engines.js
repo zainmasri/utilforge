@@ -5545,7 +5545,7 @@
       });
     }
 
-    // Passive Income Ad Revenue Simulator
+    // Tool Revenue Simulator (if present)
     const visitorsSlider = document.getElementById('sim-visitors');
     const rpmSlider = document.getElementById('sim-rpm');
     const sitesSlider = document.getElementById('sim-sites');
@@ -5639,7 +5639,7 @@
       const isHidden = document.body.classList.contains('ads-hidden');
       const labelEl = document.getElementById('ad-toggle-label');
       if (labelEl) {
-        labelEl.textContent = isHidden ? 'Ad Slots: Hidden' : 'Ad Blueprint: ON';
+        labelEl.textContent = isHidden ? 'Ad Slots: Hidden' : 'Ad Placement Active';
       }
     }
     syncLabel();

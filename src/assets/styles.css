@@ -211,17 +211,19 @@ a {
   position: relative;
   width: 100%;
   border-radius: var(--radius-md);
-  background: var(--bg-subtle);
-  border: 1px dashed var(--border-strong);
+  background: transparent;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 0.75rem 1rem;
   margin-bottom: 1.5rem;
   overflow: hidden;
-  transition: background-color 0.2s ease, border-color 0.2s ease;
   contain: layout style;
+}
+
+.ad-slot:empty,
+.ad-slot:has(ins.adsbygoogle[data-ad-status="unfilled"]) {
+  display: none !important;
 }
 
 .ad-slot-leaderboard {
@@ -249,7 +251,6 @@ a {
 @media (max-width: 768px) {
   .ad-slot-leaderboard {
     min-height: 100px;
-    padding: 0.5rem 0.25rem;
   }
   .ad-slot-native {
     min-height: 140px;
