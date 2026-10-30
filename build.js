@@ -335,6 +335,7 @@ function renderAdSlot(slotType, title, dimensions, estRpm, slotId) {
     const format = slotType === 'native' ? 'fluid' : 'auto';
     return `
   <aside class="${clsMap[slotType] || 'ad-slot'}" id="ad-container-${slotId}" aria-label="Advertisement">
+    <div class="ad-label-bar">ADVERTISEMENT</div>
     <ins class="adsbygoogle"
          style="display:block;width:100%;"
          data-ad-client="${pubId}"
@@ -465,14 +466,6 @@ function buildToolPageHtml(tool) {
   ${renderHeader(tool.slug, 1)}
 
   <main class="page-shell">
-    ${renderAdSlot(
-      'leaderboard',
-      'Top Above-the-Fold Responsive Leaderboard (728×90 / 320×100)',
-      '728×90 Desktop / 320×100 Mobile',
-      tool.estRpmUsd,
-      SITE_CONFIG.monetization.adsenseSlots.topLeaderboard
-    )}
-
     <div class="tool-layout-grid">
       <div class="tool-main-col">
         <section class="tool-hero">
@@ -492,6 +485,14 @@ function buildToolPageHtml(tool) {
             <span class="trust-chip neutral">🛡️ Zero Data Retention</span>
           </div>
         </section>
+
+        ${renderAdSlot(
+          'leaderboard',
+          'Top Above-the-Fold Responsive Leaderboard (728×90 / 320×100)',
+          '728×90 Desktop / 320×100 Mobile',
+          tool.estRpmUsd,
+          SITE_CONFIG.monetization.adsenseSlots.topLeaderboard
+        )}
 
         <section class="workbench-card" id="tool-workbench" data-engine="${escapeHtml(tool.engine)}" data-slug="${escapeHtml(tool.slug)}">
           <div class="workbench-toolbar">
