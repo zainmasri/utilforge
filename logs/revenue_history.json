@@ -1188,17 +1188,17 @@
     }
   },
   {
-    "checkedAt": "2026-10-28T05:59:32.987Z",
+    "checkedAt": "2026-10-28T06:20:51.933Z",
     "date": "2026-10-28",
     "siteHealth": {
       "domain": "https://getutilforge.com",
       "homeStatus": 200,
-      "homeLatencyMs": 230,
+      "homeLatencyMs": 193,
       "totalStaticPages": 383,
       "utilityToolsCount": 50,
       "comparisonCalculatorsCount": 292,
       "marketplaceListingsCount": 26,
-      "sitemapUrlsCount": 82
+      "sitemapUrlsCount": 89
     },
     "monetizationHealth": {
       "publisherId": "ca-pub-3462180264458803",
@@ -1318,6 +1318,55 @@
           "verifiedAdsenseRevenueUsd": 0
         }
       ]
+    }
+  },
+  {
+    "checkedAt": "2026-11-01T06:32:35.711Z",
+    "date": "2026-11-01",
+    "siteHealth": {
+      "domain": "https://getutilforge.com",
+      "homeStatus": 200,
+      "homeLatencyMs": 744,
+      "totalStaticPages": 383,
+      "utilityToolsCount": 50,
+      "comparisonCalculatorsCount": 292,
+      "marketplaceListingsCount": 26,
+      "sitemapUrlsCount": 89
+    },
+    "monetizationHealth": {
+      "publisherId": "ca-pub-3462180264458803",
+      "adsTxtValid": true,
+      "allThreeSlotsVerifiedOnDom": true,
+      "slots": {
+        "topLeaderboard": "6685420663",
+        "inContentNative": "1032357475",
+        "stickySidebar": "5261667519"
+      },
+      "googleAdsenseServingStatus": "READY_NO_CREATIVE_FILL (HTTP 200 Blank — AdSense tags & ads.txt verified; 0 live auction fills yet)",
+      "adsenseReportingApiStatus": "NOT_AUTHENTICATED (Set ADSENSE_ACCESS_TOKEN or ADSENSE_REFRESH_TOKEN to pull official AdSense API earnings)",
+      "telemetryKvActive": false
+    },
+    "revenueMetrics": {
+      "today": {
+        "pageviews": 0,
+        "adImpressionsFilled": 0,
+        "adsenseClicks": 0,
+        "affiliateClicks": 0,
+        "estAdsenseRevenueUsd": 0,
+        "estAffiliateRevenueUsd": 0,
+        "totalRevenueUsd": 0
+      },
+      "allTime": {
+        "pageviews": 0,
+        "adImpressionsFilled": 0,
+        "adsenseClicks": 0,
+        "affiliateClicks": 0,
+        "estAdsenseRevenueUsd": 0,
+        "estAffiliateRevenueUsd": 0,
+        "totalRevenueUsd": 0,
+        "byPartner": {}
+      },
+      "topPages": []
     }
   }
 ]

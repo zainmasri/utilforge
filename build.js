@@ -2523,6 +2523,11 @@ function buildAll() {
     );
   }
   fs.writeFileSync(path.join(DIST_DIR, '_headers'), buildCloudflareHeaders(), 'utf8');
+  fs.writeFileSync(
+    path.join(DIST_DIR, '_routes.json'),
+    JSON.stringify({ version: 1, include: ['/api/*'], exclude: [] }, null, 2),
+    'utf8'
+  );
 
   console.log(
     `[UtilForge Builder] Compiled 3 Hubs + ${TOOLS.length} Utility Tools + ${COMPARE_Pairs.length} Programmatic Calculators + ${MARKETPLACE_ITEMS.length} Marketplace Listings + ${GO_PARTNERS.length} Affiliate Redirects + ${LEGAL_PAGES.length} Legal Pages (${TOTAL_PAGE_COUNT} total HTML pages) into ${DIST_DIR}`
