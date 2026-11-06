@@ -131,7 +131,8 @@
       "engine": "dbBranchingCostEngine",
       "estMonthlySearches": "76,000",
       "estRpmUsd": "$42 – $70",
-      "status": "queued"
+      "status": "deployed",
+      "deployedDate": "2026-10-24"
     },
     {
       "id": "cloud-gpu-inference-cost-calculator",
@@ -142,7 +143,32 @@
       "engine": "cloudGpuCostEngine",
       "estMonthlySearches": "108,000",
       "estRpmUsd": "$55 – $92",
-      "status": "queued"
+      "status": "deployed",
+      "deployedDate": "2026-10-25"
+    },
+    {
+      "id": "multi-cloud-egress-cost-calculator",
+      "slug": "multi-cloud-egress-cost-calculator",
+      "name": "Multi-Cloud Egress & Bandwidth Cost Calculator (AWS vs GCP vs Azure vs Cloudflare vs Hetzner vs DigitalOcean)",
+      "shortName": "Multi-Cloud Egress Calculator",
+      "category": "DevOps & Cloud",
+      "engine": "multiCloudEgressEngine",
+      "estMonthlySearches": "135,000",
+      "estRpmUsd": "$54 – $92",
+      "status": "deployed",
+      "deployedDate": "2026-11-06"
+    },
+    {
+      "id": "snowflake-vs-bigquery-vs-databricks-cost-calculator",
+      "slug": "snowflake-vs-bigquery-vs-databricks-cost-calculator",
+      "name": "Snowflake vs BigQuery vs Databricks Warehouse & Lakehouse Query Cost Calculator",
+      "shortName": "Data Warehouse Cost Calculator",
+      "category": "Data & Analytics",
+      "engine": "dataWarehouseCostEngine",
+      "estMonthlySearches": "118,000",
+      "estRpmUsd": "$72 – $135",
+      "status": "deployed",
+      "deployedDate": "2026-11-06"
     }
   ]
 }

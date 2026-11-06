@@ -5168,6 +5168,371 @@
         summary: `${winner.name} delivers lowest voice cost at $${winner.totalMonthly.toFixed(2)}/mo ($${winner.costPerMinute.toFixed(4)}/min) for ${minutes.toLocaleString()} minutes (${totalCharsM.toFixed(1)}M chars) • Saves $${monthlySavingsVsMax.toFixed(2)}/mo ($${annualSavingsVsMax.toLocaleString(undefined, { maximumFractionDigits: 0 })}/yr) vs ${maxProvider.name}.`,
       };
     },
+
+    multiCloudEgressEngine(input, opts) {
+      let data = {};
+      try {
+        data = JSON.parse(input);
+      } catch (_e) {
+        const num = parseFloat(String(input).replace(/[^0-9.]/g, ''));
+        data = { monthlyEgressTb: isNaN(num) || num <= 0 ? 25 : num };
+      }
+
+      const egressType = opts.egressType || 'internet_egress';
+      const trafficScale = opts.trafficScale || 'scale_medium';
+
+      const tb = Math.max(0.1, Number(data.monthlyEgressTb ?? (data.monthlyEgressGb ? data.monthlyEgressGb / 1000 : 25)));
+      const gb = tb * 1000;
+      const requestsM = Math.max(0.1, Number(data.monthlyRequestsMillion ?? 50));
+      const origin = String(data.originRegion || 'us-east');
+
+      let awsEgress = 0;
+      if (gb > 100) {
+        const billableGb = gb - 100;
+        if (billableGb <= 9900) {
+          awsEgress = billableGb * 0.09;
+        } else if (billableGb <= 49900) {
+          awsEgress = 9900 * 0.09 + (billableGb - 9900) * 0.085;
+        } else {
+          awsEgress = 9900 * 0.09 + 40000 * 0.085 + (billableGb - 49900) * 0.07;
+        }
+      }
+
+      let gcpEgress = 0;
+      if (gb > 200) {
+        const billableGb = gb - 200;
+        if (billableGb <= 10000) {
+          gcpEgress = billableGb * 0.085;
+        } else {
+          gcpEgress = 10000 * 0.085 + (billableGb - 10000) * 0.065;
+        }
+      }
+
+      let azureEgress = 0;
+      if (gb > 100) {
+        const billableGb = gb - 100;
+        if (billableGb <= 10000) {
+          azureEgress = billableGb * 0.087;
+        } else {
+          azureEgress = 10000 * 0.087 + (billableGb - 10000) * 0.083;
+        }
+      }
+
+      const doEgress = Math.max(0, (gb - 1000) * 0.01);
+      const hetznerEgress = Math.max(0, (tb - 20) * 1.10);
+      const cloudflareEgress = 0;
+
+      const providers = [
+        {
+          id: 'cloudflare',
+          name: 'Cloudflare Workers & R2',
+          totalMonthly: cloudflareEgress,
+          costPerGb: 0.00,
+          badge: '100% Zero-Egress Fees',
+          savingsVsAws: awsEgress - cloudflareEgress,
+          archNote: 'Zero-Egress Bandwidth Alliance; $0.00 data transfer out fee worldwide.',
+        },
+        {
+          id: 'hetzner',
+          name: 'Hetzner Cloud',
+          totalMonthly: hetznerEgress,
+          costPerGb: hetznerEgress / gb,
+          badge: '20TB Free / $1.10/TB',
+          savingsVsAws: awsEgress - hetznerEgress,
+          archNote: 'European & US cloud nodes with 20TB included traffic per VM.',
+        },
+        {
+          id: 'digitalocean',
+          name: 'DigitalOcean Bandwidth Pool',
+          totalMonthly: doEgress,
+          costPerGb: doEgress / gb,
+          badge: '$10.00 / TB ($0.01/GB)',
+          savingsVsAws: awsEgress - doEgress,
+          archNote: 'Pooled bandwidth across Droplets with predictable flat-rate overages.',
+        },
+        {
+          id: 'gcp',
+          name: 'Google Cloud (GCP) Internet Egress',
+          totalMonthly: gcpEgress,
+          costPerGb: gcpEgress / gb,
+          badge: 'Standard Tier ($0.085/GB)',
+          savingsVsAws: awsEgress - gcpEgress,
+          archNote: 'Tiered egress billing across Google Premium / Standard network.',
+        },
+        {
+          id: 'azure',
+          name: 'Microsoft Azure Data Transfer',
+          totalMonthly: azureEgress,
+          costPerGb: azureEgress / gb,
+          badge: 'Internet Egress ($0.087/GB)',
+          savingsVsAws: awsEgress - azureEgress,
+          archNote: 'Bandwidth charges for data leaving Azure datacenters to internet.',
+        },
+        {
+          id: 'aws',
+          name: 'Amazon Web Services (AWS EC2 / S3 Out)',
+          totalMonthly: awsEgress,
+          costPerGb: awsEgress / gb,
+          badge: 'Standard Egress ($0.090/GB)',
+          savingsVsAws: 0,
+          archNote: 'AWS Data Transfer Out to Internet ($0.09/GB for first 10 TB).',
+        },
+      ];
+
+      providers.sort((a, b) => a.totalMonthly - b.totalMonthly);
+      const awsSavingsMonthly = awsEgress - cloudflareEgress;
+      const awsSavingsAnnual = awsSavingsMonthly * 12;
+
+      const report = {
+        egressDestination: egressType,
+        trafficScaleTier: trafficScale,
+        monthlyEgressTb: tb,
+        monthlyEgressGb: gb,
+        monthlyRequestsMillion: requestsM,
+        originRegion: origin,
+        annualSavingsWithZeroEgressUsd: awsSavingsAnnual,
+        providerComparison: providers.map((p) => ({
+          provider: p.name,
+          monthlyBillUsd: Number(p.totalMonthly.toFixed(2)),
+          effectiveCostPerGbUsd: Number(p.costPerGb.toFixed(4)),
+          annualSavingsVsAwsUsd: Number((p.savingsVsAws * 12).toFixed(2)),
+          notes: p.archNote,
+        })),
+      };
+
+      const extraHtml = `
+        <div class="workbench-extra-card">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem;flex-wrap:wrap;gap:0.5rem;">
+            <div>
+              <span class="tool-cat-tag" style="background:var(--accent-emerald-soft);color:var(--accent-emerald);font-weight:700;">CLOUD FINOPS COMPARISON</span>
+              <h3 style="margin:0.25rem 0 0 0;font-size:1.05rem;">Multi-Cloud Egress &amp; Bandwidth Benchmark (${tb} TB / ${gb.toLocaleString()} GB)</h3>
+            </div>
+            <div style="text-align:right;">
+              <span style="font-size:0.72rem;color:var(--text-muted);display:block;">ZERO-EGRESS SAVINGS</span>
+              <strong style="color:var(--accent-emerald);font-size:1.15rem;font-family:var(--font-mono);">$${awsSavingsMonthly.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}/mo</strong>
+            </div>
+          </div>
+
+          <div style="overflow-x:auto;">
+            <table style="width:100%;border-collapse:collapse;font-size:0.84rem;text-align:left;">
+              <thead>
+                <tr style="border-bottom:2px solid var(--border-subtle);color:var(--text-secondary);font-size:0.75rem;text-transform:uppercase;">
+                  <th style="padding:0.6rem 0.75rem;">Cloud Provider</th>
+                  <th style="padding:0.6rem 0.75rem;">Pricing Model</th>
+                  <th style="padding:0.6rem 0.75rem;text-align:right;">Effective / GB</th>
+                  <th style="padding:0.6rem 0.75rem;text-align:right;">Monthly Bill</th>
+                  <th style="padding:0.6rem 0.75rem;text-align:right;">Annual Savings vs AWS</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${providers
+                  .map(
+                    (p, idx) => `
+                  <tr style="border-bottom:1px solid var(--border-subtle);${idx === 0 ? 'background:rgba(16,185,129,0.06);font-weight:700;' : ''}">
+                    <td style="padding:0.65rem 0.75rem;">
+                      ${escapeHtml(p.name)}
+                      <span class="tool-cat-tag" style="margin-left:0.4rem;font-size:0.65rem;">${escapeHtml(p.badge)}</span>
+                    </td>
+                    <td style="padding:0.65rem 0.75rem;font-size:0.8rem;color:var(--text-secondary);">${escapeHtml(p.archNote)}</td>
+                    <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);">$${p.costPerGb.toFixed(4)}</td>
+                    <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);font-weight:700;${idx === 0 ? 'color:var(--accent-emerald);' : ''}">$${p.totalMonthly.toFixed(2)}</td>
+                    <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);color:${p.savingsVsAws > 0 ? 'var(--accent-emerald)' : 'var(--text-muted)'};font-weight:700;">
+                      ${p.savingsVsAws > 0 ? `Save $${(p.savingsVsAws * 12).toLocaleString('en-US', { maximumFractionDigits: 0 })}/yr` : 'Baseline'}
+                    </td>
+                  </tr>`
+                  )
+                  .join('')}
+              </tbody>
+            </table>
+          </div>
+
+          <div style="margin-top:1.15rem;padding:0.9rem 1.15rem;background:var(--bg-elevated);border-left:4px solid var(--accent-primary);border-radius:6px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;">
+            <div>
+              <div style="font-size:0.85rem;font-weight:700;color:var(--text-primary);">Eliminate Outbound Cloud Bandwidth Bills with Cloudflare Workers &amp; R2</div>
+              <div style="font-size:0.78rem;color:var(--text-secondary);">Cache dynamic API payloads and host static media / object assets with zero egress fees worldwide.</div>
+            </div>
+            <a href="/go/cloudflare-workers/" target="_blank" rel="noopener sponsored" data-affiliate-partner="Cloudflare Workers &amp; Pages" class="btn btn-primary" style="padding:0.5rem 0.9rem;font-size:0.8rem;">
+              Deploy Zero-Egress Cloudflare Stack →
+            </a>
+          </div>
+        </div>`;
+
+      return {
+        output: JSON.stringify(report, null, 2),
+        extraHtml,
+        downloadExt: 'json',
+        downloadMime: 'application/json',
+        summary: `Cloudflare Workers & R2 provides 100% zero-egress bandwidth ($0.00/mo) • Saves $${awsSavingsMonthly.toFixed(2)}/mo ($${awsSavingsAnnual.toLocaleString(undefined, { maximumFractionDigits: 0 })}/year) vs AWS Data Transfer Out ($${awsEgress.toFixed(2)}/mo at ${tb} TB).`,
+      };
+    },
+
+    dataWarehouseCostEngine(input, opts) {
+      let data = {};
+      try {
+        data = JSON.parse(input);
+      } catch (_e) {
+        const num = parseFloat(String(input).replace(/[^0-9.]/g, ''));
+        data = { monthlyDataScannedTb: isNaN(num) || num <= 0 ? 80 : num };
+      }
+
+      const workloadProfile = opts.workloadProfile || 'interactive_bi';
+      const warehouseSize = opts.warehouseSize || 'medium';
+
+      const scannedTb = Math.max(1, Number(data.monthlyDataScannedTb ?? 80));
+      const hoursPerDay = Math.max(1, Math.min(24, Number(data.activeComputeHoursPerDay ?? 8)));
+      const workingDays = Math.max(1, Math.min(31, Number(data.workingDaysPerMonth ?? 22)));
+      const activeStorageTb = Math.max(0.1, Number(data.activeStorageTb ?? 15));
+      const longTermStorageTb = Math.max(0, Number(data.longTermStorageTb ?? 35));
+      const totalStorageTb = activeStorageTb + longTermStorageTb;
+      const totalActiveHours = hoursPerDay * workingDays;
+
+      const bqBillableTb = Math.max(0, scannedTb - 1);
+      const bqCompute = bqBillableTb * 6.25;
+      const bqStorage = activeStorageTb * 20 + longTermStorageTb * 10;
+      const bqTotal = bqCompute + bqStorage;
+
+      const sfCreditsPerHour = warehouseSize === 'small' ? 2 : warehouseSize === 'large' ? 8 : 4;
+      const sfCompute = totalActiveHours * sfCreditsPerHour * 3.00;
+      const sfStorage = totalStorageTb * 23;
+      const sfTotal = sfCompute + sfStorage;
+
+      const dbDbuPerHour = warehouseSize === 'small' ? 4 : warehouseSize === 'large' ? 16 : 8;
+      const dbCompute = totalActiveHours * dbDbuPerHour * 0.33;
+      const dbStorage = totalStorageTb * 20;
+      const dbTotal = dbCompute + dbStorage;
+
+      const duckCompute = 30;
+      const duckStorage = totalStorageTb * 15;
+      const duckTotal = duckCompute + duckStorage;
+
+      const platforms = [
+        {
+          id: 'duckdb',
+          name: 'DuckDB / Local Embedded / MotherDuck',
+          computeCost: duckCompute,
+          storageCost: duckStorage,
+          totalMonthly: duckTotal,
+          billingModel: 'Single Node / Serverless Parquet ($0/TB query fees)',
+          badge: 'Lowest TCO (<200GB)',
+          bestFit: 'Analytical queries on Parquet datasets with zero cloud scanning fees.',
+        },
+        {
+          id: 'bigquery',
+          name: 'Google BigQuery (On-Demand)',
+          computeCost: bqCompute,
+          storageCost: bqStorage,
+          totalMonthly: bqTotal,
+          billingModel: `$6.25 / TB scanned (${scannedTb} TB) + auto-partitioning`,
+          badge: 'Zero Idle Cost',
+          bestFit: 'Spiky or ad-hoc analytics where compute drops to $0 when idle.',
+        },
+        {
+          id: 'databricks',
+          name: 'Databricks Serverless SQL',
+          computeCost: dbCompute,
+          storageCost: dbStorage,
+          totalMonthly: dbTotal,
+          billingModel: `${totalActiveHours} hrs @ ${dbDbuPerHour} DBUs/hr (~$0.33/DBU-hr)`,
+          badge: 'Unified Data + AI',
+          bestFit: 'Complex Spark/SQL pipelines, feature engineering, and Delta Lake.',
+        },
+        {
+          id: 'snowflake',
+          name: 'Snowflake Enterprise Edition',
+          computeCost: sfCompute,
+          storageCost: sfStorage,
+          totalMonthly: sfTotal,
+          billingModel: `${totalActiveHours} hrs @ ${sfCreditsPerHour} credits/hr ($3.00/credit)`,
+          badge: 'Concurrency & Governance',
+          bestFit: 'High-concurrency BI dashboards, data sharing, and SQL transformations.',
+        },
+      ];
+
+      platforms.sort((a, b) => a.totalMonthly - b.totalMonthly);
+      const lowest = platforms[0];
+      const highest = platforms[platforms.length - 1];
+      const monthlySavings = highest.totalMonthly - lowest.totalMonthly;
+
+      const report = {
+        workloadProfile,
+        warehouseSize,
+        monthlyDataScannedTb: scannedTb,
+        activeComputeHours: totalActiveHours,
+        totalStorageTb,
+        lowestCostOption: lowest.name,
+        monthlyCostComparisonUsd: platforms.map((p) => ({
+          platform: p.name,
+          computeMonthlyUsd: Number(p.computeCost.toFixed(2)),
+          storageMonthlyUsd: Number(p.storageCost.toFixed(2)),
+          totalMonthlyBillUsd: Number(p.totalMonthly.toFixed(2)),
+          billingModel: p.billingModel,
+          bestFit: p.bestFit,
+        })),
+      };
+
+      const extraHtml = `
+        <div class="workbench-extra-card">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem;flex-wrap:wrap;gap:0.5rem;">
+            <div>
+              <span class="tool-cat-tag" style="background:var(--accent-emerald-soft);color:var(--accent-emerald);font-weight:700;">DATA WAREHOUSE FINOPS</span>
+              <h3 style="margin:0.25rem 0 0 0;font-size:1.05rem;">Analytics Warehouse Cost Benchmark (${scannedTb} TB Scanned • ${totalActiveHours} Compute Hrs • ${totalStorageTb} TB Storage)</h3>
+            </div>
+            <div style="text-align:right;">
+              <span style="font-size:0.72rem;color:var(--text-muted);display:block;">OPTIMIZED SPREAD</span>
+              <strong style="color:var(--accent-emerald);font-size:1.15rem;font-family:var(--font-mono);">Save $${monthlySavings.toFixed(2)}/mo</strong>
+            </div>
+          </div>
+
+          <div style="overflow-x:auto;">
+            <table style="width:100%;border-collapse:collapse;font-size:0.84rem;text-align:left;">
+              <thead>
+                <tr style="border-bottom:2px solid var(--border-subtle);color:var(--text-secondary);font-size:0.75rem;text-transform:uppercase;">
+                  <th style="padding:0.6rem 0.75rem;">Platform</th>
+                  <th style="padding:0.6rem 0.75rem;">Compute Billing Structure</th>
+                  <th style="padding:0.6rem 0.75rem;text-align:right;">Compute Bill</th>
+                  <th style="padding:0.6rem 0.75rem;text-align:right;">Storage Bill</th>
+                  <th style="padding:0.6rem 0.75rem;text-align:right;">Total Monthly</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${platforms
+                  .map(
+                    (p, idx) => `
+                  <tr style="border-bottom:1px solid var(--border-subtle);${idx === 0 ? 'background:rgba(16,185,129,0.06);font-weight:700;' : ''}">
+                    <td style="padding:0.65rem 0.75rem;">
+                      ${escapeHtml(p.name)}
+                      <span class="tool-cat-tag" style="margin-left:0.4rem;font-size:0.65rem;">${escapeHtml(p.badge)}</span>
+                    </td>
+                    <td style="padding:0.65rem 0.75rem;font-size:0.8rem;color:var(--text-secondary);">${escapeHtml(p.billingModel)}</td>
+                    <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);">$${p.computeCost.toFixed(2)}</td>
+                    <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);">$${p.storageCost.toFixed(2)}</td>
+                    <td style="padding:0.65rem 0.75rem;text-align:right;font-family:var(--font-mono);font-weight:700;${idx === 0 ? 'color:var(--accent-emerald);' : ''}">$${p.totalMonthly.toFixed(2)}</td>
+                  </tr>`
+                  )
+                  .join('')}
+              </tbody>
+            </table>
+          </div>
+
+          <div style="margin-top:1.15rem;padding:0.9rem 1.15rem;background:var(--bg-elevated);border-left:4px solid var(--accent-primary);border-radius:6px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;">
+            <div>
+              <div style="font-size:0.85rem;font-weight:700;color:var(--text-primary);">Slash Cloud Analytics &amp; Egress Costs with Edge D1 &amp; Workers</div>
+              <div style="font-size:0.78rem;color:var(--text-secondary);">Query SQLite &amp; Parquet datasets at sub-5ms latency across 330+ edge locations with Cloudflare D1 and zero egress.</div>
+            </div>
+            <a href="/go/cloudflare-workers/" target="_blank" rel="noopener sponsored" data-affiliate-partner="Cloudflare Workers &amp; Pages" class="btn btn-primary" style="padding:0.5rem 0.9rem;font-size:0.8rem;">
+              Deploy Cloudflare Edge Analytics →
+            </a>
+          </div>
+        </div>`;
+
+      return {
+        output: JSON.stringify(report, null, 2),
+        extraHtml,
+        downloadExt: 'json',
+        downloadMime: 'application/json',
+        summary: `${lowest.name} has lowest estimated monthly bill at $${lowest.totalMonthly.toFixed(2)}/mo ($${lowest.computeCost.toFixed(2)} compute + $${lowest.storageCost.toFixed(2)} storage) vs ${highest.name} at $${highest.totalMonthly.toFixed(2)}/mo • Saves $${monthlySavings.toFixed(2)}/month.`,
+      };
+    },
   };
 
   /* ========================================================================
@@ -5967,8 +6332,8 @@
           <div style="font-size:0.78rem;color:var(--text-secondary);line-height:1.4;">${offer.sub}</div>
           <a href="${offer.href}" target="_blank" rel="noopener sponsored" data-affiliate-partner="${offer.partner}" class="btn btn-primary" style="width:100%;text-align:center;padding:0.5rem 0.75rem;font-size:0.8rem;">${offer.cta}</a>
           <div style="border-top:1px dashed var(--border-subtle);padding-top:0.5rem;margin-top:0.15rem;display:flex;justify-content:space-between;align-items:center;font-size:0.74rem;">
-            <span style="color:var(--text-muted);">Want all 379 pages &amp; 46 engines?</span>
-            <button type="button" data-open-sponsor-modal="Full UtilForge 379-Page Factory + 46 Engines Source Code ($149 Lifetime)" style="background:none;border:none;font-weight:700;color:var(--accent-primary);cursor:pointer;padding:0;">Buy Factory ($149) →</button>
+            <span style="color:var(--text-muted);">Want all 400+ pages &amp; 52 engines?</span>
+            <button type="button" data-open-sponsor-modal="Full UtilForge Factory + 52 Engines Source Code ($149 Lifetime)" style="background:none;border:none;font-weight:700;color:var(--accent-primary);cursor:pointer;padding:0;">Buy Factory ($149) →</button>
           </div>
         `
         : `
@@ -6354,6 +6719,23 @@
             submitBtn.textContent = 'Send Instant Payment Link & Repo Access →';
           }
         }
+      });
+    }
+
+    // G. Sticky Floating Pro Blueprints Quick-Checkout Pill
+    const stickyConversionBar = document.getElementById('sticky-conversion-bar');
+    const closeStickyBtn = document.getElementById('btn-close-sticky-conversion');
+    if (stickyConversionBar && closeStickyBtn) {
+      try {
+        if (sessionStorage.getItem('uf_sticky_dismissed') === '1') {
+          stickyConversionBar.style.display = 'none';
+        }
+      } catch (_) {}
+      closeStickyBtn.addEventListener('click', () => {
+        stickyConversionBar.style.display = 'none';
+        try {
+          sessionStorage.setItem('uf_sticky_dismissed', '1');
+        } catch (_) {}
       });
     }
   }

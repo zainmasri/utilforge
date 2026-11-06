@@ -319,7 +319,21 @@ function renderFooter(depth = 0) {
         <a href="${prefix}ads.txt" id="footer-ads-link">ads.txt</a>
       </div>
     </div>
-  </footer>`;
+  </footer>
+  <div id="sticky-conversion-bar" style="position:fixed;bottom:1.25rem;right:1.25rem;z-index:998;display:flex;align-items:center;gap:0.5rem;background:var(--bg-surface);border:1px solid rgba(16,185,129,0.45);border-radius:50px;padding:0.4rem 0.75rem 0.4rem 1rem;box-shadow:0 8px 24px rgba(0,0,0,0.35);backdrop-filter:blur(8px);">
+    <span style="font-size:0.78rem;font-weight:700;color:var(--text-primary);display:flex;align-items:center;gap:0.35rem;">
+      <span style="color:var(--accent-emerald);">⚡</span> Pro Blueprints ($19)
+    </span>
+    <a href="${escapeHtml(buildDirectPayPalUrl('Starter MCP & FinOps Config Pack ($19)', 19))}"
+       target="_blank" rel="noopener"
+       data-affiliate-partner="PayPal Checkout: Floating Bar ($19)"
+       class="btn btn-primary"
+       id="floating-paypal-btn"
+       style="padding:0.32rem 0.75rem;font-size:0.76rem;font-weight:700;border-radius:50px;background:var(--accent-emerald);border-color:var(--accent-emerald);">
+      Instant PayPal →
+    </a>
+    <button type="button" id="btn-close-sticky-conversion" aria-label="Dismiss quick checkout bar" style="background:transparent;border:none;color:var(--text-muted);font-size:0.85rem;cursor:pointer;padding:0 0.2rem;line-height:1;">✕</button>
+  </div>`;
 }
 
 function renderAdSlot(slotType, title, dimensions, estRpm, slotId) {
@@ -527,6 +541,20 @@ function buildToolPageHtml(tool) {
           <div class="workbench-status-bar">
             <span id="workbench-status-msg">Ready • 100% local execution</span>
             <span>Client-Side Engine • Private &amp; Offline-Ready</span>
+          </div>
+
+          <div class="workbench-pro-upsell" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;padding:0.7rem 1rem;background:rgba(16,185,129,0.06);border-top:1px solid rgba(16,185,129,0.2);font-size:0.82rem;">
+            <div style="display:flex;align-items:center;gap:0.5rem;">
+              <span class="tool-rpm-tag" style="font-size:0.65rem;background:var(--accent-emerald-soft);color:var(--accent-emerald);font-weight:700;">PRO BLUEPRINT</span>
+              <span style="color:var(--text-primary);font-weight:600;">Deploy the standalone <strong>${escapeHtml(tool.shortName)}</strong> engine offline in your apps or CLI</span>
+            </div>
+            <a href="${escapeHtml(buildDirectPayPalUrl(`${tool.shortName} Starter Pack ($19)`, 19))}"
+               target="_blank" rel="noopener"
+               data-affiliate-partner="PayPal Checkout: ${escapeHtml(tool.shortName)} Post-Execution ($19)"
+               class="btn btn-primary"
+               style="padding:0.35rem 0.75rem;font-size:0.76rem;font-weight:700;">
+              💳 Buy Source ($19) →
+            </a>
           </div>
         </section>
 
@@ -1662,6 +1690,9 @@ function buildHubPageHtml() {
         </p>
         <div style="display:flex;gap:0.65rem;flex-wrap:wrap;">
           <a href="#tools-directory" class="btn btn-primary" id="hero-explore-btn">Explore ${TOOLS.length} Developer Utilities →</a>
+          <a href="${escapeHtml(buildDirectPayPalUrl('Starter MCP & FinOps Config Pack ($19)', 19))}" target="_blank" rel="noopener" data-affiliate-partner="PayPal Checkout: Starter Pack ($19)" class="btn btn-primary" id="hero-buy-starter-pack" style="background:linear-gradient(135deg, #10b981 0%, #059669 100%);border-color:#059669;font-weight:800;box-shadow:0 2px 10px rgba(16,185,129,0.35);">
+            ⚡ Pro Blueprints ($19) →
+          </a>
           <a href="./marketplace/index.html" class="btn btn-secondary" id="hero-mkt-btn">MCP Servers &amp; Blueprints (${MARKETPLACE_ITEMS.length})</a>
           <a href="./about/index.html" class="btn btn-secondary" id="hero-about-btn">Architecture &amp; Security</a>
         </div>
@@ -1721,6 +1752,53 @@ function buildHubPageHtml() {
           </a>`
           )
           .join('')}
+      </div>
+    </section>
+
+    <!-- Dedicated $19 Starter Blueprint & Commercial License Showcase -->
+    <section class="seo-section" style="margin-top:0;margin-bottom:1.5rem;background:linear-gradient(180deg, rgba(16,185,129,0.08) 0%, var(--bg-elevated) 100%);border:1px solid rgba(16,185,129,0.35);border-radius:12px;padding:1.5rem;">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:1rem;">
+        <div>
+          <span class="trust-chip" style="color:var(--accent-emerald);background:var(--accent-emerald-soft);font-weight:700;border:1px solid rgba(16,185,129,0.3);">
+            ⚡ 1-CLICK INSTANT DEVELOPER CHECKOUT • $19 STARTER BLUEPRINT TIER
+          </span>
+          <h2 style="margin-bottom:0.25rem;margin-top:0.45rem;">
+            Deploy All ${TOOLS.length} Client-Side Engines Offline &amp; Access All Production Blueprints
+          </h2>
+          <p style="font-size:0.9rem;color:var(--text-secondary);max-width:780px;margin-bottom:0;">
+            Immediate download of the complete standalone TypeScript source code for all ${TOOLS.length} browser utilities, production MCP server configurations, and commercial licensing rights.
+          </p>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:0.35rem;">
+          <a href="${escapeHtml(buildDirectPayPalUrl('Starter MCP & FinOps Config Pack ($19)', 19))}"
+             target="_blank" rel="noopener"
+             data-affiliate-partner="PayPal Checkout: Starter Pack ($19)"
+             class="btn btn-primary"
+             id="hub-starter-pack-cta"
+             style="padding:0.75rem 1.35rem;font-size:0.95rem;font-weight:800;background:linear-gradient(135deg, #10b981 0%, #059669 100%);border-color:#059669;box-shadow:0 4px 14px rgba(16,185,129,0.35);">
+            💳 Instant PayPal Checkout ($19) →
+          </a>
+          <span style="font-size:0.72rem;color:var(--text-muted);font-family:var(--font-mono);">
+            100% Commercial License • Instant GitHub / Zip Access
+          </span>
+        </div>
+      </div>
+      <div class="steps-list" style="display:grid;grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));gap:0.85rem;margin-top:1rem;">
+        <div style="background:var(--bg-surface);padding:0.95rem 1.1rem;border-radius:8px;border:1px solid var(--border-subtle);">
+          <div style="font-family:var(--font-mono);font-size:0.75rem;font-weight:700;color:var(--accent-emerald);margin-bottom:0.25rem;">01 • OFFLINE ENGINES</div>
+          <strong style="font-size:0.88rem;color:var(--text-primary);display:block;margin-bottom:0.25rem;">${TOOLS.length} Standalone TypeScript Engines</strong>
+          <p style="font-size:0.78rem;color:var(--text-secondary);margin:0;line-height:1.4;">Zero dependencies. Run JSON/CSV converters, JWT decoders, and FinOps calculators in your CLI or web apps.</p>
+        </div>
+        <div style="background:var(--bg-surface);padding:0.95rem 1.1rem;border-radius:8px;border:1px solid var(--border-subtle);">
+          <div style="font-family:var(--font-mono);font-size:0.75rem;font-weight:700;color:var(--accent-emerald);margin-bottom:0.25rem;">02 • MCP AGENT SUITE</div>
+          <strong style="font-size:0.88rem;color:var(--text-primary);display:block;margin-bottom:0.25rem;">Production MCP Server Configs</strong>
+          <p style="font-size:0.78rem;color:var(--text-secondary);margin:0;line-height:1.4;">Ready-to-use Model Context Protocol servers for Cursor, Claude Desktop, and autonomous coding agents.</p>
+        </div>
+        <div style="background:var(--bg-surface);padding:0.95rem 1.1rem;border-radius:8px;border:1px solid var(--border-subtle);">
+          <div style="font-family:var(--font-mono);font-size:0.75rem;font-weight:700;color:var(--accent-emerald);margin-bottom:0.25rem;">03 • LIFETIME UPDATES</div>
+          <strong style="font-size:0.88rem;color:var(--text-primary);display:block;margin-bottom:0.25rem;">Commercial License &amp; Git Pulls</strong>
+          <p style="font-size:0.78rem;color:var(--text-secondary);margin:0;line-height:1.4;">Full commercial rights for client projects and internal tools. Zero recurring subscription fees ever.</p>
+        </div>
       </div>
     </section>
 

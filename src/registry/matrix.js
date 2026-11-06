@@ -359,6 +359,18 @@ export const MATRIX_VERTICALS = [
         bestFor: 'Eliminating AWS S3 egress bills for media, AI weights & backups',
         affiliateUrl: '#affiliate-cloudflare',
       },
+      {
+        id: 'hetzner-cloud',
+        name: 'Hetzner Cloud VPS & Arm64',
+        provider: 'Hetzner',
+        baseMonthlyUsd: 4.5,
+        costPerMillionReqs: 0.05,
+        costPerGbStorage: 0.012,
+        coldStartMs: '0 ms (Dedicated KVM / Shared vCPU)',
+        freeTier: '20 TB Free Outbound Bandwidth included per server',
+        bestFor: 'Ultra-low cost high-compute Linux instances, Docker hosting & zero-egress workloads',
+        affiliateUrl: '#affiliate-cloudflare',
+      },
     ],
   },
   {

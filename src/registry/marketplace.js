@@ -1067,4 +1067,49 @@ export const MARKETPLACE_ITEMS = [
       2
     ),
   },
+  {
+    id: 'multi-cloud-finops-egress-auditor-mcp',
+    slug: 'multi-cloud-finops-egress-auditor-mcp',
+    name: 'MultiCloud FinOps MCP — AWS, GCP & Azure Cross-Cloud Bandwidth & Egress Anomaly Auditor',
+    shortName: 'MultiCloud Egress MCP Server',
+    category: 'MCP Servers & Agent Skills',
+    stack: 'TypeScript • MCP SDK • Multi-Cloud Billing APIs',
+    priceUsd: 49,
+    priceLabel: '$49 Pro License',
+    affiliateCommissionPct: 45,
+    estPayoutPerSaleUsd: 22.05,
+    isSponsored: true,
+    sponsoredBadge: 'FINOPS ESSENTIAL • Bandwidth Leak Detector',
+    rating: 5.0,
+    reviewsCount: 48,
+    hoursSaved: 36,
+    primaryKeyword: 'multi cloud bandwidth egress anomaly detection mcp server',
+    headline: 'Realtime Multi-Cloud Bandwidth & Egress Leak Detection MCP Server for Claude & Cursor',
+    subtitle:
+      'Instantly query multi-cloud egress spikes across AWS, GCP, and Azure directly inside your AI coding assistant. Pinpoint uncompressed assets, cross-AZ transfers, and misrouted storage endpoints.',
+    checkoutBaseUrl: '/go/cloudflare-workers/',
+    features: [
+      'Discovers uncompressed static assets and large JSON API responses leaking egress fees',
+      'Detects cross-AZ VPC peering and subnets incurring unneeded $0.02/GB inter-zone transfer',
+      'Provides actionable Terraform snippets to route outbound traffic through Cloudflare Workers & R2',
+    ],
+    previewType: 'mcp',
+    previewSnippet: JSON.stringify(
+      {
+        mcpServers: {
+          'multicloud-finops-egress': {
+            command: 'npx',
+            args: ['-y', '@utilforge/mcp-multicloud-finops'],
+            env: {
+              AWS_REGION: 'us-east-1',
+              GCP_PROJECT: 'production-analytics',
+              AZURE_SUBSCRIPTION_ID: 'sub-xxx-yyy',
+            },
+          },
+        },
+      },
+      null,
+      2
+    ),
+  },
 ];

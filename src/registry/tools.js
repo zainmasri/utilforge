@@ -3178,6 +3178,165 @@ server: cloudflare`,
       },
     ],
   },
+  {
+    id: 'multi-cloud-egress-cost-calculator',
+    slug: 'multi-cloud-egress-cost-calculator',
+    name: 'Multi-Cloud Egress & Bandwidth Cost Calculator (AWS vs GCP vs Azure vs Cloudflare vs Hetzner vs DigitalOcean)',
+    shortName: 'Multi-Cloud Egress Calculator',
+    category: 'DevOps & Cloud',
+    partnerSlug: 'cloudflare-workers',
+    engine: 'multiCloudEgressEngine',
+    primaryKeyword: 'multi cloud data transfer egress cost calculator aws gcp azure cloudflare',
+    secondaryKeywords: [
+      'aws data transfer out cost per gb',
+      'gcp internet egress pricing calculator',
+      'azure bandwidth egress cost',
+      'cloudflare zero egress fee vs aws',
+    ],
+    estMonthlySearches: '135,000',
+    estRpmUsd: '$54 – $92',
+    competitionLevel: 'Low',
+    headline: 'Calculate & Benchmark Multi-Cloud Egress & Outbound Data Transfer Costs Across AWS, GCP, Azure, Cloudflare, DigitalOcean & Hetzner',
+    subtitle:
+      'Model your monthly outbound bandwidth bill, compare regional cross-zone vs internet transfer rates, and calculate the exact zero-egress savings enabled by Cloudflare Workers & R2.',
+    metaDescription:
+      'Free multi-cloud egress cost calculator. Compare monthly outbound data transfer charges across AWS, Google Cloud, Microsoft Azure, Cloudflare, DigitalOcean, and Hetzner.',
+    badge: 'Cloud FinOps & Zero-Egress Benchmark',
+    options: [
+      {
+        id: 'egressType',
+        label: 'Transfer Destination',
+        type: 'select',
+        value: 'internet_egress',
+        choices: [
+          { value: 'internet_egress', label: 'Internet Egress to Public End-Users (Standard Web/API Traffic)' },
+          { value: 'inter_region', label: 'Inter-Region Multi-Cloud Transfer (Cross-Region Sync / DB Replication)' },
+          { value: 'cross_az', label: 'Cross-AZ / Same-Region Interconnect (VPC Peering / Private Subnets)' },
+        ],
+      },
+      {
+        id: 'trafficScale',
+        label: 'Monthly Bandwidth Scale',
+        type: 'select',
+        value: 'scale_medium',
+        choices: [
+          { value: 'scale_medium', label: 'Medium Scale (10 TB – 50 TB/month)' },
+          { value: 'scale_small', label: 'Early-Stage / Startup (1 TB – 10 TB/month)' },
+          { value: 'scale_enterprise', label: 'High-Volume Enterprise (100 TB – 500+ TB/month)' },
+        ],
+      },
+    ],
+    sampleInput: JSON.stringify(
+      {
+        monthlyEgressTb: 25,
+        avgPacketSizeKb: 128,
+        monthlyRequestsMillion: 50,
+        originRegion: 'us-east',
+      },
+      null,
+      2
+    ),
+    howToSteps: [
+      'Select your transfer destination (Public Internet Egress, Inter-Region Multi-Cloud, or Cross-AZ Private Subnet).',
+      'Select your monthly bandwidth scale tier.',
+      'Enter your monthly outbound egress in Terabytes (TB) and total monthly requests (Millions).',
+      'Review the itemized provider cost breakdown, effective cost per gigabyte, and total annual savings achieved with Cloudflare Workers & R2 zero-egress architecture.',
+    ],
+    faqs: [
+      {
+        q: 'Why do AWS, GCP, and Azure charge high egress fees?',
+        a: 'The "Big Three" hyperscalers use data egress pricing (typically $0.08 to $0.09 per GB to the public internet) to create vendor lock-in. While ingesting data is free, moving data out of their ecosystem incurs steep bandwidth markups. In contrast, providers like Cloudflare (via the Bandwidth Alliance and R2) offer 100% zero-egress fees, drastically slashing multi-cloud bills.',
+      },
+      {
+        q: 'How much can a company save by moving egress to Cloudflare R2 or Workers?',
+        a: 'For an engineering team transferring 25 TB of outbound traffic per month, AWS charges approximately $2,241/month ($26,892/year) purely for bandwidth. Routing object downloads through Cloudflare R2 or caching dynamic API responses via Cloudflare Workers reduces outbound transfer cost to $0.00, yielding near 100% bandwidth savings.',
+      },
+      {
+        q: 'What is the difference between Internet Egress and Cross-AZ Data Transfer?',
+        a: 'Internet Egress refers to data leaving cloud data centers to end-users or other clouds ($0.08–$0.09/GB on AWS/GCP). Cross-AZ transfer occurs between two subnets in different availability zones within the same cloud region (typically $0.01/GB in each direction, or $0.02/GB round-trip). Cross-AZ charges often surprise teams running microservices or multi-AZ Kubernetes clusters.',
+      },
+    ],
+  },
+  {
+    id: 'snowflake-vs-bigquery-vs-databricks-cost-calculator',
+    slug: 'snowflake-vs-bigquery-vs-databricks-cost-calculator',
+    name: 'Snowflake vs BigQuery vs Databricks Warehouse & Lakehouse Query Cost Calculator',
+    shortName: 'Data Warehouse Cost Calculator',
+    category: 'Data & Analytics',
+    partnerSlug: 'cloudflare-workers',
+    engine: 'dataWarehouseCostEngine',
+    primaryKeyword: 'snowflake vs bigquery vs databricks cost calculator query pricing',
+    secondaryKeywords: [
+      'snowflake credit cost calculator warehouse size',
+      'bigquery on-demand vs capacity slot pricing',
+      'databricks dbu compute cost calculator',
+      'cloud data warehouse finops benchmark',
+    ],
+    estMonthlySearches: '118,000',
+    estRpmUsd: '$72 – $135',
+    competitionLevel: 'Low',
+    headline: 'Estimate & Compare Monthly Query, Compute & Storage Expenses Across Snowflake, Google BigQuery & Databricks Lakehouse',
+    subtitle:
+      'Model enterprise analytics workloads across Snowflake compute credits, BigQuery on-demand TB scanning vs capacity slots, and Databricks All-Purpose & SQL DBUs.',
+    metaDescription:
+      'Free data warehouse cost calculator. Compare monthly analytics bills across Snowflake, Google BigQuery, Databricks SQL, and DuckDB serverless local engines.',
+    badge: 'Enterprise Data FinOps & Warehouse Benchmark',
+    options: [
+      {
+        id: 'workloadProfile',
+        label: 'Analytics Workload Profile',
+        type: 'select',
+        value: 'interactive_bi',
+        choices: [
+          { value: 'interactive_bi', label: 'Interactive BI Dashboards & Ad-Hoc Analytics (8 hrs/day, spiky queries)' },
+          { value: 'batch_etl', label: 'Scheduled Heavy Batch Transformations & dbt Pipelines (2–4 hrs/night)' },
+          { value: 'always_on', label: '24/7 Continuous Streaming & Near-Realtime Ingestion' },
+        ],
+      },
+      {
+        id: 'warehouseSize',
+        label: 'Compute Warehouse Scale',
+        type: 'select',
+        value: 'medium',
+        choices: [
+          { value: 'medium', label: 'Medium (Snowflake M / BigQuery ~100 Slots / Databricks Medium SQL)' },
+          { value: 'small', label: 'Small (Snowflake S / BigQuery On-Demand / Databricks Small SQL)' },
+          { value: 'large', label: 'Large / Multi-Cluster (Snowflake L / BigQuery Reservations / Databricks Large SQL)' },
+        ],
+      },
+    ],
+    sampleInput: JSON.stringify(
+      {
+        monthlyDataScannedTb: 80,
+        activeComputeHoursPerDay: 8,
+        workingDaysPerMonth: 22,
+        activeStorageTb: 15,
+        longTermStorageTb: 35,
+      },
+      null,
+      2
+    ),
+    howToSteps: [
+      'Select your primary analytics workload profile (Interactive BI, Scheduled Batch ETL, or 24/7 Always-On).',
+      'Choose your target compute warehouse size (Small, Medium, or Large).',
+      'Enter your monthly data scanned volume in Terabytes (TB) and total active/long-term storage in TB.',
+      'Compare total monthly compute, storage, and idle costs across Google BigQuery, Snowflake Enterprise, Databricks SQL, and local-first DuckDB.',
+    ],
+    faqs: [
+      {
+        q: 'How does BigQuery On-Demand compare to Snowflake Credit billing?',
+        a: 'Google BigQuery On-Demand bills strictly for the bytes scanned by each query at $6.25 per TB (with the first 1 TB per month free). There are zero idle costs—if no queries run, compute cost is $0. Snowflake bills by active warehouse uptime in credits per hour (e.g. Size M = 4 credits/hour @ ~$3.00/credit = $12/hr) regardless of how much data is scanned. For spiky or ad-hoc workloads, BigQuery is often more cost-effective; for predictable high-volume batch runs, sized Snowflake warehouses can be more economical.',
+      },
+      {
+        q: 'How does Databricks Serverless SQL Warehouse pricing work?',
+        a: 'Databricks Serverless SQL computes in Databricks Units (DBUs) at ~$0.22 to $0.44 per DBU-hour, with near-instant cold start (~5 seconds) and automated scale-down. Storage is retained in your cloud bucket (AWS S3, GCS, or Azure ADLS Gen2) at raw cloud object storage rates (~$20 to $23/TB/mo) using open formats like Delta Lake or Apache Parquet.',
+      },
+      {
+        q: 'Can DuckDB or local-first analytics replace cloud data warehouses?',
+        a: 'For datasets under 100–200 GB, embedded column-store engines like DuckDB running on a high-memory VM, local machine, or serverless worker can execute complex aggregations and window functions in milliseconds at zero per-query cloud compute cost, eliminating thousands of dollars in cloud warehouse fees.',
+      },
+    ],
+  },
 ];
 
 

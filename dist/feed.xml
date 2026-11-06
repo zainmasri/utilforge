@@ -4,7 +4,7 @@
     <title>UtilForge — Developer Utilities, Cloud Cost Calculators &amp; MCP Marketplace</title>
     <link>https://getutilforge.com/</link>
     <description>Zero-Server Client-Side Data &amp; File Utilities</description>
-    <lastBuildDate>Sun, 01 Nov 2026 06:38:01 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 06 Nov 2026 05:14:36 GMT</lastBuildDate>
     <item>
       <title>JSON ↔ CSV Converter &amp; Nested Flattener</title>
       <link>https://getutilforge.com/json-to-csv/</link>
@@ -306,6 +306,18 @@
       <description>Free AI Voice &amp; Speech API pricing calculator. Compare monthly bills and cost per minute across ElevenLabs, OpenAI Realtime Voice, Deepgram Aura, Cartesia Sonic, and Whisper STT.</description>
     </item>
     <item>
+      <title>Multi-Cloud Egress &amp; Bandwidth Cost Calculator (AWS vs GCP vs Azure vs Cloudflare vs Hetzner vs DigitalOcean)</title>
+      <link>https://getutilforge.com/multi-cloud-egress-cost-calculator/</link>
+      <guid>https://getutilforge.com/multi-cloud-egress-cost-calculator/</guid>
+      <description>Free multi-cloud egress cost calculator. Compare monthly outbound data transfer charges across AWS, Google Cloud, Microsoft Azure, Cloudflare, DigitalOcean, and Hetzner.</description>
+    </item>
+    <item>
+      <title>Snowflake vs BigQuery vs Databricks Warehouse &amp; Lakehouse Query Cost Calculator</title>
+      <link>https://getutilforge.com/snowflake-vs-bigquery-vs-databricks-cost-calculator/</link>
+      <guid>https://getutilforge.com/snowflake-vs-bigquery-vs-databricks-cost-calculator/</guid>
+      <description>Free data warehouse cost calculator. Compare monthly analytics bills across Snowflake, Google BigQuery, Databricks SQL, and DuckDB serverless local engines.</description>
+    </item>
+    <item>
       <title>ShipStack Pro — Next.js 15 + Stripe + Supabase AI SaaS Boilerplate ($199 Lifetime)</title>
       <link>https://getutilforge.com/marketplace/shipfast-nextjs-saas/</link>
       <guid>https://getutilforge.com/marketplace/shipfast-nextjs-saas/</guid>
@@ -460,6 +472,12 @@
       <link>https://getutilforge.com/marketplace/cloudflare-r2-zero-egress-migrator-mcp/</link>
       <guid>https://getutilforge.com/marketplace/cloudflare-r2-zero-egress-migrator-mcp/</guid>
       <description>Connects directly to AWS Cost Explorer and S3 bucket metrics to quantify egress waste, provision Cloudflare R2 buckets, and configure zero-downtime Sippy incremental sync.</description>
+    </item>
+    <item>
+      <title>MultiCloud FinOps MCP — AWS, GCP &amp; Azure Cross-Cloud Bandwidth &amp; Egress Anomaly Auditor ($49 Pro License)</title>
+      <link>https://getutilforge.com/marketplace/multi-cloud-finops-egress-auditor-mcp/</link>
+      <guid>https://getutilforge.com/marketplace/multi-cloud-finops-egress-auditor-mcp/</guid>
+      <description>Instantly query multi-cloud egress spikes across AWS, GCP, and Azure directly inside your AI coding assistant. Pinpoint uncompressed assets, cross-AZ transfers, and misrouted storage endpoints.</description>
     </item>
   </channel>
 </rss>

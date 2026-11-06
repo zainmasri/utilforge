@@ -1,6 +1,6 @@
 {
   "bundleName": "UtilForge Pro MCP, SaaS Boilerplate & FinOps Blueprint Pack",
-  "generatedAt": "2026-11-01T06:38:01.120Z",
+  "generatedAt": "2026-11-06T05:14:36.043Z",
   "repositoryUrl": "https://github.com/zainmasri/utilforge",
   "supportEmail": "zainmasri123@gmail.com",
   "items": [
@@ -328,6 +328,18 @@
         "Configures Cloudflare R2 Sippy on-demand migration with zero application downtime"
       ],
       "blueprint": "{\n  \"mcpServers\": {\n    \"r2-finops-migrator\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"@utilforge/mcp-r2-finops-migrator\"\n      ],\n      \"env\": {\n        \"AWS_PROFILE\": \"production-readonly\",\n        \"CLOUDFLARE_ACCOUNT_ID\": \"cf_acc_xxx\"\n      }\n    }\n  }\n}"
+    },
+    {
+      "slug": "multi-cloud-finops-egress-auditor-mcp",
+      "name": "MultiCloud FinOps MCP — AWS, GCP & Azure Cross-Cloud Bandwidth & Egress Anomaly Auditor",
+      "category": "MCP Servers & Agent Skills",
+      "stack": "TypeScript • MCP SDK • Multi-Cloud Billing APIs",
+      "features": [
+        "Discovers uncompressed static assets and large JSON API responses leaking egress fees",
+        "Detects cross-AZ VPC peering and subnets incurring unneeded $0.02/GB inter-zone transfer",
+        "Provides actionable Terraform snippets to route outbound traffic through Cloudflare Workers & R2"
+      ],
+      "blueprint": "{\n  \"mcpServers\": {\n    \"multicloud-finops-egress\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"@utilforge/mcp-multicloud-finops\"\n      ],\n      \"env\": {\n        \"AWS_REGION\": \"us-east-1\",\n        \"GCP_PROJECT\": \"production-analytics\",\n        \"AZURE_SUBSCRIPTION_ID\": \"sub-xxx-yyy\"\n      }\n    }\n  }\n}"
     }
   ]
 }
